@@ -16,10 +16,10 @@
   '';
 
   # Add trusted substituters
-  # I grabbed the public key from https://app.cachix.org/cache/zain#pull
+  # I grabbed the public key from https://app.cachix.org/cache/elijah#pull
   # Example: https://github.com/LnL7/nix-darwin/blob/0e6857fa1d632637488666c08e7b02c08e3178f8/modules/examples/lnl.nix#L97-L98
-  nix.settings.trusted-public-keys = [ "zain.cachix.org-1:BN70psyYfOc8wFoWbRhJo8C40bSejomRRci0BaNhCLE=" ];
-  nix.settings.trusted-substituters = [ https://zain.cachix.org ];
+  nix.settings.trusted-public-keys = [ "elijah.cachix.org-1:QnyHESYK6A8uvRdOYACY+0cUXKcj6GaEG8dWeD/F9g4=" ];
+  nix.settings.trusted-substituters = [ https://elijah.cachix.org ];
 
   # macOS system defaults configuration
   # https://daiderd.com/nix-darwin/manual/index.html#opt-system.defaults.dock.autohide
@@ -35,7 +35,7 @@
   # https://github.com/nix-community/home-manager/issues/4026#issuecomment-1565487545
   # https://github.com/nix-community/home-manager/issues/4026#issuecomment-1565974702
   # https://daiderd.com/nix-darwin/manual/index.html#opt-users.users._name_.home
-  users.users.zain.home = "/Users/zain";
+  users.users.elijah.home = "/Users/elw";
 
   # Fonts
   fonts = {

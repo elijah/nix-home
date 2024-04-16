@@ -12,6 +12,6 @@ arguments:
     description: Other long-living branches that should not be deleted
     default_value: qa|dev
 source_url: "https://www.tomchapin83.com/how-to-clean-up-git-branches-that-have-already-been-merged/"
-author: zainfathoni
-author_url: "https://github.com/zainfathoni"
+author: elijah
+author_url: "https://github.com/elijah"
 shells: []

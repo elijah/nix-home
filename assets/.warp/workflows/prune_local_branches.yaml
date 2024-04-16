@@ -9,6 +9,6 @@ arguments:
     description: The base branch to check out
     default_value: master
 source_url: "https://www.tomchapin83.com/how-to-clean-up-git-branches-that-have-already-been-merged/"
-author: zainfathoni
-author_url: "https://github.com/zainfathoni"
+author: elijah
+author_url: "https://github.com/elijah"
 shells: []

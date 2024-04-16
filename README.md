@@ -54,13 +54,13 @@ Clone this repository using HTTPS (because, at this point, we can't expect the
 new machine to have SSH set up).
 
 ```shell
-git clone https://github.com/zainfathoni/nix-home.git
+git clone https://github.com/elijah/nix-home.git
 ```
 
 ### 3. Build Nix stores
 
 ```shell
-nix build .#darwinConfigurations.zain.system
+nix build .#darwinConfigurations.elijah.system
 ```
 
 #### 3.1. Backup the existing `nix.conf` file
@@ -79,7 +79,7 @@ Running the build result would also run the `brew bundle` command, which will
 install Brew packages defined in this repository.
 
 ```shell
-./result/sw/bin/darwin-rebuild switch --flake .#zain
+./result/sw/bin/darwin-rebuild switch --flake .#elijah
 ```
 
 ### 5. Import GPG Keys
@@ -96,7 +96,7 @@ Once `yadm` is installed using the command above, we can use `yadm` to decrypt
 the secrets.
 
 ```shell
-yadm clone https://github.com/zainfathoni/yadm-home.git
+yadm clone https://github.com/elijah/yadm-home.git
 yadm decrypt
 # enter the passphrase (if prompted)
 ```

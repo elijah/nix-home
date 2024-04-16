@@ -8,17 +8,17 @@
     flakeup = "nix flake update ~/.config/nixpkgs/"; # equivalent to: nix build --recreate-lock-file
     nb = "nix build";
     sw = "./result/sw/bin/darwin-rebuild switch --flake";
-    nbsw = "nb .#darwinConfigurations.zain.system && sw .#zain";
+    nbsw = "nb .#darwinConfigurations.elijah.system && sw .#elijah";
     ncg = "nix-collect-garbage -d";
     nfs = "nix flake show";
-    npush = ''nix build .#darwinConfigurations.zain.system --json \
+    npush = ''nix build .#darwinConfigurations.elijah.system --json \
       | jq -r '.[].outputs | to_entries[].value' \
-      | cachix push zain'';
+      | cachix push elijah'';
 
     # Netlify URL Shorteners
-    zainf = "node $HOME/Code/GitHub/zainfathoni/shortener/node_modules/.bin/netlify-shortener";
-    rbagi = "node $HOME/Code/GitHub/zainfathoni/rbagi.id/node_modules/.bin/netlify-shortener";
-    imas = "node $HOME/Code/GitHub/zainfathoni/s.imas.sg/node_modules/.bin/netlify-shortener";
+    elijah = "node $HOME/Code/GitHub/elijah/shortener/node_modules/.bin/netlify-shortener";
+    rbagi = "node $HOME/Code/GitHub/elijah/rbagi.id/node_modules/.bin/netlify-shortener";
+    imas = "node $HOME/Code/GitHub/elijah/s.imas.sg/node_modules/.bin/netlify-shortener";
     kcovid = "node $HOME/Code/GitLab/kawalcovid19/website/kcov.id/node_modules/.bin/netlify-shortener";
     feid = "node $HOME/Code/GitHub/frontend-id/s.feid.dev/node_modules/.bin/netlify-shortener";
     react = "node $HOME/Code/GitHub/reactjs-id/shortlinks/node_modules/.bin/netlify-shortener";

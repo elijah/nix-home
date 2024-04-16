@@ -17,15 +17,15 @@ echo ""
 echo "=== URL shortener repositories ==="
 echo ""
 
-if [[ ! -d "$GITHUB/zainfathoni/shortener" ]] ; then
-  git clone git@github.com:zainfathoni/shortener.git $GITHUB/zainfathoni/shortener
-  cd $GITHUB/zainfathoni/shortener
+if [[ ! -d "$GITHUB/elijah/shortener" ]] ; then
+  git clone git@github.com:elijah/shortener.git $GITHUB/elijah/shortener
+  cd $GITHUB/elijah/shortener
   pnpm install
 fi
 
-if [[ ! -d "$GITHUB/zainfathoni/rbagi.id" ]] ; then
-  git clone git@github.com:zainfathoni/rbagi.id.git $GITHUB/zainfathoni/rbagi.id
-  cd $GITHUB/zainfathoni/rbagi.id
+if [[ ! -d "$GITHUB/elijah/rbagi.id" ]] ; then
+  git clone git@github.com:elijah/rbagi.id.git $GITHUB/elijah/rbagi.id
+  cd $GITHUB/elijah/rbagi.id
   pnpm install
 fi
 

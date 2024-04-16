@@ -20,7 +20,7 @@
 
     # We need a darwinConfigurations output to actually have a `nix-darwin` configuration.
     # https://github.com/LnL7/nix-darwin#flakes-experimental
-    darwinConfigurations.zain = darwin.lib.darwinSystem {
+    darwinConfigurations.elijah = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
         # Main `nix-darwin` configuration
@@ -37,7 +37,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.zain = import ./home;
+            home-manager.users.elijah = import ./home;
 
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix

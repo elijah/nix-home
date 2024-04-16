@@ -1,9 +1,9 @@
 { ... }:
 
 let
-  zain = {
-    name = "Zain Fathoni";
-    email = "me@zainf.dev";
+  elijah = {
+    name = "Elijah Wright";
+    email = "elw@stderr.org";
     signingKey = "67DDDCE82417961B";
   };
 in
@@ -11,11 +11,11 @@ in
   programs = {
     git = {
       enable = true;
-      userName = zain.name;
-      userEmail = zain.email;
+      userName = elijah.name;
+      userEmail = elijah.email;
 
       signing = {
-        key = zain.signingKey;
+        key = elijah.signingKey;
         signByDefault = true;
         gpgPath = "gpg";
       };

@@ -6,7 +6,7 @@ let
   # Local nixpkgs working directory
   # FIXME: Find a way to access the home directory without hardcoding it
   # Because we will need it once we want to serve WSL system
-  nixConfigDirectory = "/Users/zain/Code/GitHub/zainfathoni/nix-home";
+  nixConfigDirectory = "/Users/elw/Code/GitHub/elijah/nix-home";
 in
 {
   # Symlink scripts directory altogether
