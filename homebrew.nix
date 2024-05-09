@@ -52,7 +52,7 @@
     "gitkraken"
     "gpg-suite-no-mail"
     "karabiner-elements"
-    "microsoft-edge"
+    "microsoft-teams"
     "notion"
     "notion-calendar"
     "obsidian"
