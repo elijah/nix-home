@@ -1,5 +1,5 @@
 {
-  description = "Pejuang Kode flake";
+  description = "My nix-home flake";
 
   inputs = {
     # Package sets
@@ -20,7 +20,7 @@
 
     # We need a darwinConfigurations output to actually have a `nix-darwin` configuration.
     # https://github.com/LnL7/nix-darwin#flakes-experimental
-    darwinConfigurations.elijah = darwin.lib.darwinSystem {
+    darwinConfigurations.elw = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
         # Main `nix-darwin` configuration
@@ -37,7 +37,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.elijah = import ./home;
+            home-manager.users.elw = import ./home;
 
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
