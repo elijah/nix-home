@@ -35,7 +35,7 @@
   # https://github.com/nix-community/home-manager/issues/4026#issuecomment-1565487545
   # https://github.com/nix-community/home-manager/issues/4026#issuecomment-1565974702
   # https://daiderd.com/nix-darwin/manual/index.html#opt-users.users._name_.home
-  users.users.elijah.home = "/Users/elw";
+  users.users.elw.home = "/Users/elw";
 
   # Fonts
   fonts = {
