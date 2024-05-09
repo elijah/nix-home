@@ -60,7 +60,7 @@ git clone https://github.com/elijah/nix-home.git
 ### 3. Build Nix stores
 
 ```shell
-nix build .#darwinConfigurations.elijah.system
+nix build .#darwinConfigurations.elw.system
 ```
 
 #### 3.1. Backup the existing `nix.conf` file
@@ -79,7 +79,7 @@ Running the build result would also run the `brew bundle` command, which will
 install Brew packages defined in this repository.
 
 ```shell
-./result/sw/bin/darwin-rebuild switch --flake .#elijah
+./result/sw/bin/darwin-rebuild switch --flake .#elw
 ```
 
 ### 5. Import GPG Keys
