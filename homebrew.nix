@@ -51,6 +51,7 @@
     "docker"
     "gitkraken"
     "gpg-suite-no-mail"
+    "google-chrome"
     "karabiner-elements"
     "microsoft-teams"
     "notion"
