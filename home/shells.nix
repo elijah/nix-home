@@ -8,10 +8,10 @@
     flakeup = "nix flake update ~/.config/nixpkgs/"; # equivalent to: nix build --recreate-lock-file
     nb = "nix build";
     sw = "./result/sw/bin/darwin-rebuild switch --flake";
-    nbsw = "nb .#darwinConfigurations.elijah.system && sw .#elijah";
+    nbsw = "nb .#darwinConfigurations.elw.system && sw .#elijah";
     ncg = "nix-collect-garbage -d";
     nfs = "nix flake show";
-    npush = ''nix build .#darwinConfigurations.elijah.system --json \
+    npush = ''nix build .#darwinConfigurations.elw.system --json \
       | jq -r '.[].outputs | to_entries[].value' \
       | cachix push elijah'';
 
