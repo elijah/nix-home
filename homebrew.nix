@@ -16,6 +16,8 @@
     "homebrew/cask-versions"
     "homebrew/services"
     "oven-sh/bun"
+    "chef/homebrew-chef"
+    "cinc/homebrew-cinc"
   ];
 
   # List of Homebrew formulae to install.
@@ -44,6 +46,7 @@
   # https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.casks
   homebrew.casks = [
     "actual"
+    "alfred"
     "arc"
     "around"
     "daisydisk"
