@@ -4,7 +4,7 @@ let
   elijah = {
     name = "Elijah Wright";
     email = "elw@stderr.org";
-    signingKey = "67DDDCE82417961B";
+    signingKey = "DDA464DF734AD996C0C9C371A30CF61339FA6421";
   };
 in
 {
