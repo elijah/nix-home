@@ -26,9 +26,11 @@
     "awscli"
     "bun"
     "colima"
+    "commitizen"
     "deno"
     "gh"
     "mkcert"
+    "mise"
     "volta"
     "yadm"
   ];
