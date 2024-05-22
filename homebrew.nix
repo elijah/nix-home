@@ -24,6 +24,7 @@
   # https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.brews
   homebrew.brews = [
     "awscli"
+    "aws-iam-authenticator"
     "aws-vault"
     "bun"
     "colima"
