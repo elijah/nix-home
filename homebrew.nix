@@ -17,7 +17,6 @@
     "homebrew/services"
     "oven-sh/bun"
     "chef/homebrew-chef"
-    "cinc/homebrew-cinc"
   ];
 
   # List of Homebrew formulae to install.
