@@ -24,6 +24,7 @@
   # https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.brews
   homebrew.brews = [
     "awscli"
+    "aws-vault"
     "bun"
     "colima"
     "commitizen"
