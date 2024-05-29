@@ -17,6 +17,7 @@
     "homebrew/services"
     "oven-sh/bun"
     "chef/homebrew-chef"
+    "kubeshop/monokle"
   ];
 
   # List of Homebrew formulae to install.
@@ -32,6 +33,7 @@
     "gh"
     "mkcert"
     "mise"
+    "monokle-cli"
     "volta"
     "yadm"
   ];
