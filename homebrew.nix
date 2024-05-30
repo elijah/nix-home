@@ -34,6 +34,7 @@
     "mkcert"
     "mise"
     "monokle-cli"
+    "pipx"
     "volta"
     "yadm"
   ];
