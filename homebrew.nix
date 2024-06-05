@@ -16,6 +16,7 @@
     "homebrew/cask-versions"
     "homebrew/services"
     "oven-sh/bun"
+    "espanso/espanso"
     "chef/homebrew-chef"
     "kubeshop/monokle"
   ];
@@ -30,6 +31,7 @@
     "colima"
     "commitizen"
     "deno"
+    "espanso"
     "gh"
     "mkcert"
     "mise"
