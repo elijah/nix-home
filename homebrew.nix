@@ -63,6 +63,7 @@
     "gitkraken"
     "gpg-suite-no-mail"
     "google-chrome"
+    "jordanbaird-ice"
     "karabiner-elements"
     "microsoft-teams"
     "notion"
