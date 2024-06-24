@@ -53,6 +53,17 @@
     # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable
     zsh.enable = true;
 
+    zsh.initExtra = ''
+      bindkey '^ ' autosuggest-accept
+      AGKOZAK_CMD_EXEC_TIME=5
+      AGKOZAK_COLORS_CMD_EXEC_TIME='yellow'
+      AGKOZAK_COLORS_PROMPT_CHAR='magenta'
+      AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' )
+      AGKOZAK_MULTILINE=0
+      AGKOZAK_PROMPT_CHAR=( ❯ ❯ ❮ )
+      DOCKER_BUILDKIT = 0
+      eval "$(/opt/homebrew/bin/mise activate zsh)"
+                              '';
     # Z Shell plugins
     # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.plugins
     zsh.plugins = [
