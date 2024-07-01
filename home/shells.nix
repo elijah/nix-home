@@ -61,7 +61,10 @@
       AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' )
       AGKOZAK_MULTILINE=0
       AGKOZAK_PROMPT_CHAR=( ❯ ❯ ❮ )
-      DOCKER_BUILDKIT = 0
+      AWS_VAULT_BACKEND=file
+      AWS_VAULT_PROMPT=terminal
+      DOCKER_BUILDKIT=0
+      DOCKER_DEFAULT_PLATFORM=linux/amd64
       eval "$(/opt/homebrew/bin/mise activate zsh)"
                               '';
     # Z Shell plugins
