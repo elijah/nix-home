@@ -15,6 +15,7 @@
     "homebrew/cask-fonts"
     "homebrew/cask-versions"
     "homebrew/services"
+    "carvel-dev/carvel"
     "oven-sh/bun"
     "espanso/espanso"
     "chef/homebrew-chef"
