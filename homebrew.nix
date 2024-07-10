@@ -33,12 +33,14 @@
     "commitizen"
     "deno"
     "gh"
+    "jq"
     "mkcert"
     "mise"
     "monokle-cli"
     "pipx"
     "volta"
     "yadm"
+    "ytt"
   ];
 
   # Prefer installing application from the Mac App Store
