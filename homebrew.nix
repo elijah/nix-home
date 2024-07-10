@@ -58,6 +58,7 @@
     "alfred"
     "arc"
     "around"
+    "betterdisplay"
     "daisydisk"
     "discord"
     "espanso"
