@@ -79,7 +79,7 @@
           rev = "afaf2965b41fdc6ca66066e09382726aa0b6aa04";
           sha256 = "1s23azd9hk57dgya0xrqh16jq1qbmm0n70x32mxg8b29ynks6w8n";
         };
-      },
+      }
       {
         name = "zsh-nix-shell";
         file = "nix-shell.plugin.zsh";
