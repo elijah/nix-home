@@ -34,6 +34,7 @@
     "deno"
     "gh"
     "jq"
+    "krew"
     "mkcert"
     "mise"
     "monokle-cli"
