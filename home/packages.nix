@@ -24,6 +24,10 @@
 
     # pnpm
     "$HOME/.pnpm-global/bin"
+
+    # krew
+    "$HOME/.krew/bin"
+
   ];
 
   # The set of packages to appear in the user environment
