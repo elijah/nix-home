@@ -65,6 +65,7 @@
       export AWS_VAULT_PROMPT=terminal
       export DOCKER_BUILDKIT=0
       export DOCKER_DEFAULT_PLATFORM=linux/amd64
+      export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
       eval "$(/opt/homebrew/bin/mise activate zsh)"
                               '';
     # Z Shell plugins
