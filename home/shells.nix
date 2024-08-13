@@ -66,7 +66,19 @@
       export DOCKER_BUILDKIT=0
       export DOCKER_DEFAULT_PLATFORM=linux/amd64
       eval "$(/opt/homebrew/bin/mise activate zsh)"
-                              '';
+      caops-exec() {
+        aws-vault exec --prompt ykman caops -- "$@"
+      }
+      glc-exec() {
+        aws-vault exec glc -- "$@"
+      }
+      nonprod-exec() {
+        aws-vault exec nonprod -- "$@"
+      }
+      prod-exec() {
+        aws-vault exec prod -- "$@"
+      }
+                        '';
     # Z Shell plugins
     # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.plugins
     zsh.plugins = [
