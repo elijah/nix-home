@@ -39,6 +39,7 @@
     "mise"
     "monokle-cli"
     "pipx"
+    "pre-commit"
     "volta"
     "yadm"
     "ytt"
