@@ -19,6 +19,7 @@
     "oven-sh/bun"
     "espanso/espanso"
     "chef/homebrew-chef"
+    "siderolabs/tap/talosctl"
     "kubeshop/monokle"
   ];
 
@@ -40,6 +41,7 @@
     "monokle-cli"
     "pipx"
     "pre-commit"
+    "talosctl"
     "volta"
     "yadm"
     "ytt"
