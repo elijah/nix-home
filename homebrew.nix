@@ -19,6 +19,7 @@
     "oven-sh/bun"
     "espanso/espanso"
     "chef/homebrew-chef"
+    "fluxcd/tap"
     "siderolabs/tap"
     "kubeshop/monokle"
   ];
@@ -33,6 +34,7 @@
     "colima"
     "commitizen"
     "deno"
+    "flux"
     "gh"
     "jq"
     "krew"
