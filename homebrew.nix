@@ -19,7 +19,7 @@
     "oven-sh/bun"
     "espanso/espanso"
     "chef/homebrew-chef"
-    "siderolabs/tap/talosctl"
+    "siderolabs/tap"
     "kubeshop/monokle"
   ];
 
