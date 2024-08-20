@@ -21,7 +21,7 @@
     "chef/homebrew-chef"
     "fluxcd/tap"
     "siderolabs/tap"
-    "kreuzewerker/taps"
+    "kreuzwerker/taps"
     "kubeshop/monokle"
   ];
 
