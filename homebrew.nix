@@ -21,6 +21,7 @@
     "chef/homebrew-chef"
     "fluxcd/tap"
     "siderolabs/tap"
+    "kreuzewerker/taps"
     "kubeshop/monokle"
   ];
 
@@ -76,6 +77,7 @@
     "hammerspoon"
     "jordanbaird-ice"
     "karabiner-elements"
+    "m1-terraform-provider-helper"
     "microsoft-teams"
     "notion"
     "notion-calendar"
