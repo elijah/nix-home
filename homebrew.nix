@@ -64,7 +64,6 @@
   # https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.casks
   # Don't install docker here or you will have a bad time in our environment...
   homebrew.casks = [
-    "actual"
     "alfred"
     "arc"
     "around"
