@@ -78,6 +78,15 @@
       prod-exec() {
         aws-vault exec prod -- "$@"
       }
+      zoff() {
+        sudo launchctl unload /Library/LaunchDaemons/com.zscaler.service.plist && sudo launchctl unload /Library/LaunchDaemons/com.zscaler.tunnel.plist
+      }
+
+      # You might still need to go into the GUI and click "More -> Restart Service" too...
+      zon() {
+        sudo launchctl load /Library/LaunchDaemons/com.zscaler.service.plist && sudo launchctl load /Library/LaunchDaemons/com.zscaler.tunnel.plist
+      }
+
                         '';
     # Z Shell plugins
     # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.plugins
