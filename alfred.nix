@@ -1,7 +1,7 @@
 #{ ... }:
 #{
 
-alfred.includeOverlay
+#alfred.includeOverlay
   
 #  nixpkgs.overlays = [ alfred.overlays.default ];
 #  environment.systemPackages = with pkgs; [
@@ -10,5 +10,5 @@ alfred.includeOverlay
 #    unzip
 #  ];
 
-alfred.darwinModules.activateWorkflows
+#alfred.darwinModules.activateWorkflows
 #}
