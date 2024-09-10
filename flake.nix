@@ -37,6 +37,8 @@
         # Homebrew configuration
         # https://xyno.space/post/nix-darwin-introduction
         ./homebrew.nix
+        
+        alfred.includeOverlay
 
         # The flake-based setup of the Home Manager `nix-darwin` module
         # https://nix-community.github.io/home-manager/index.html#sec-flakes-nix-darwin-module
@@ -52,9 +54,6 @@
 
         # vscode extensions
         ./vscode-extensions.nix
-
-        # alfred gallery workflows
-        ./alfred.nix
 
       ];
     };
