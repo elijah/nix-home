@@ -38,8 +38,6 @@
         # https://xyno.space/post/nix-darwin-introduction
         ./homebrew.nix
         
-        alfred.includeOverlay
-
         # The flake-based setup of the Home Manager `nix-darwin` module
         # https://nix-community.github.io/home-manager/index.html#sec-flakes-nix-darwin-module
         home-manager.darwinModules.home-manager
@@ -59,6 +57,7 @@
     };
 
     nixpkgs.overlays = [ alfred.overlays.default ];
+    
 
     # Set Nix formatter
     # https://nixos.org/manual/nix/unstable/command-ref/new-cli/nix3-fmt#examples
