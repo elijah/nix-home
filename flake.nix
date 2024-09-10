@@ -14,9 +14,16 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     # nix will normally use the nixpkgs defined in home-managers inputs, we only want one copy of nixpkgs though
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # nix-vscode-extensions
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+
+    # alfred workflows
+    alfred.url = "github:xsc/alfred-workflows-nix";
+
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager }: {
+  outputs = { self, nixpkgs, darwin, home-manager, nix-vscode-extensions, alfred }: {
 
     # We need a darwinConfigurations output to actually have a `nix-darwin` configuration.
     # https://github.com/LnL7/nix-darwin#flakes-experimental
@@ -42,6 +49,13 @@
             # Optionally, use home-manager.extraSpecialArgs to pass
             # arguments to home.nix
           }
+
+        # vscode extensions
+        ./vscode-extensions.nix
+
+        # alfred gallery workflows
+        ./alfred.nix
+
       ];
     };
 
