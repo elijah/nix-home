@@ -53,6 +53,9 @@
         # vscode extensions
         ./vscode-extensions.nix
 
+        # alfred gallery
+        ./alfred.nix
+
       ];
     };
 
