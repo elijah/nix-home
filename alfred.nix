@@ -1,5 +1,5 @@
-#{ ... }:
-#{
+{ ... }:
+{
 
 #alfred.includeOverlay
   
@@ -11,4 +11,5 @@
 #  ];
 
 #alfred.darwinModules.activateWorkflows
-#}
+
+}
