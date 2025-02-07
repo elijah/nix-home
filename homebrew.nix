@@ -17,6 +17,7 @@
     "homebrew/services"
     "hashicorp/tap"
     "carvel-dev/carvel"
+    "chainguard-dev/tap"
     "oven-sh/bun"
     "espanso/espanso"
     "loft-sh/tap"
@@ -25,6 +26,8 @@
     "siderolabs/tap"
     "kreuzwerker/taps"
     "kubeshop/monokle"
+    "trycua/lume"
+    "neved4/homebrew-tap"
   ];
 
   # List of Homebrew formulae to install.
@@ -34,6 +37,7 @@
     "aws-iam-authenticator"
     "aws-vault"
     "bun"
+    "chainctl"
     "colima"
     "commitizen"
     "deno"
@@ -42,6 +46,7 @@
     "hcp"
     "jq"
     "krew"
+    "lume"
     "m1-terraform-provider-helper"
     "mkcert"
     "mise"
@@ -81,6 +86,7 @@
     "gpg-suite-no-mail"
     "google-chrome"
     "hammerspoon"
+    "hookmark"
     "jordanbaird-ice"
     "karabiner-elements"
     "microsoft-teams"
@@ -90,6 +96,7 @@
     "positron"
     "raycast"
     "rectangle"
+    "shortcat"
     "spotify"
     "visual-studio-code"
     "warp"
