@@ -28,6 +28,7 @@
     "kubeshop/monokle"
     "trycua/lume"
     "neved4/homebrew-tap"
+    "FelixKratz/formulae"
   ];
 
   # List of Homebrew formulae to install.
@@ -41,10 +42,13 @@
     "colima"
     "commitizen"
     "deno"
+    "flashspace"
     "flux"
     "gh"
     "hcp"
+    "jj"
     "jq"
+    "kanata"
     "krew"
     "lume"
     "m1-terraform-provider-helper"
@@ -54,6 +58,7 @@
     "nvm"
     "pipx"
     "pre-commit"
+    "sketchybar"
     "talosctl"
     "vcluster-experimental"
     "volta"
