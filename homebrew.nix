@@ -43,6 +43,7 @@
     "commitizen"
     "deno"
     "flux"
+    "fzf"
     "gh"
     "hcp"
     "jj"
@@ -57,12 +58,14 @@
     "nvm"
     "pipx"
     "pre-commit"
+    "skaffold"
     "sketchybar"
     "talosctl"
     "vcluster-experimental"
     "volta"
     "yadm"
     "ytt"
+    "zoxide"
   ];
 
   # Prefer installing application from the Mac App Store
