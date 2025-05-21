@@ -34,6 +34,7 @@
   # List of Homebrew formulae to install.
   # https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.brews
   homebrew.brews = [
+    "act"
     "awscli"
     "aws-iam-authenticator"
     "aws-vault"
@@ -44,6 +45,7 @@
     "deno"
     "flux"
     "fzf"
+    "git-delta"
     "gh"
     "hcp"
     "jj"
@@ -63,6 +65,7 @@
     "talosctl"
     "vcluster-experimental"
     "volta"
+    "wrkflw"
     "yadm"
     "ytt"
     "zoxide"
@@ -85,6 +88,7 @@
     "arc"
     "around"
     "betterdisplay"
+    "browser-actions"
     "daisydisk"
     "discord"
     "espanso"
@@ -108,6 +112,7 @@
     "spotify"
     "visual-studio-code"
     "warp"
+    "yaak"
     "zed"
     "zoom"
   ];
