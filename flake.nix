@@ -3,7 +3,7 @@
 
   inputs = {
     # Package sets
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
 
     # Environment/system management
     darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
