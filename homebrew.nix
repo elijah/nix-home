@@ -5,6 +5,9 @@
   # Note that enabling this option does not install Homebrew, see the Homebrew website for installation instructions.
   # https://brew.sh/
   # https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable
+  #   homebrew.enable = true;
+  
+  system.primaryUser = "elw";
   homebrew.enable = true;
 
   # Automatically use the Brewfile that this module generates in the Nix store

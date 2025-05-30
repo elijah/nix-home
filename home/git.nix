@@ -17,7 +17,7 @@ in
       signing = {
         key = elijah.signingKey;
         signByDefault = true;
-        gpgPath = "gpg";
+        signer = "gpg";
       };
 
       ignores = [
