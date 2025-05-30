@@ -42,6 +42,7 @@
     "chainctl"
     "colima"
     "commitizen"
+    "cookiecutter"
     "deno"
     "flux"
     "fzf"
