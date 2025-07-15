@@ -26,15 +26,7 @@
     # Frequently used Brew commands
     bl = "brew list -1";
 
-    # Frequently used Git commands
-    gst = "git status";
-    gco = "git checkout";
-    gcb = "git checkout -b";
-    grb = "git rebase";
-    grba = "git rebase --abort";
-    grbc = "git rebase --continue";
-    grbi = "git rebase -i";
-    gpf = "git push --force-with-lease";
+    # Frequently used Git commands (non-duplicated from git.nix)
     gf = "git fetch";
     gfa = "git fetch --all --prune --jobs=10";
     ggpull = "git pull origin";
