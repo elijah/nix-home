@@ -1,6 +1,9 @@
 { ... }:
 
 {
+  # Allow unfree packages like VSCode and its extensions
+  nixpkgs.config.allowUnfree = true;
+
   # https://nix-community.github.io/home-manager/index.html#sec-usage-configuration
   #
   # This value determines the Home Manager release that your
@@ -24,5 +27,6 @@
     ./packages.nix # Packages that are not included in `nix-darwin` and `home-manager`
     ./shells.nix # Shell configurations
     ./git.nix # Git configurations
+    ../vscode-extensions.nix # VSCode extensions and configuration
   ];
 }

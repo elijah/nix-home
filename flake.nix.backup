@@ -1,8 +1,17 @@
 {
-  description = "My nix-home flake";
+  description = "My nix-home flake"        # The flake-based setup of the Home Manager `nix-darwin` module
+        # https://nix-community.github.io/home-manager/index.html#sec-flakes-nix-darwin-module
+        home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = false;
+            home-manager.useUserPackages = true;
+            home-manager.users.elw = import ./home;
 
-  inputs = {
-    # Package sets
+            # Pass nix-vscode-extensions to home-manager modules
+            home-manager.extraSpecialArgs = {
+              inherit nix-vscode-extensions;
+            };
+          }# Package sets
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
 
     # Environment/system management
@@ -39,7 +48,7 @@
         # https://nix-community.github.io/home-manager/index.html#sec-flakes-nix-darwin-module
         home-manager.darwinModules.home-manager
           {
-            home-manager.useGlobalPkgs = false;
+            home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.elw = import ./home;
 
@@ -47,6 +56,13 @@
             home-manager.extraSpecialArgs = {
               inherit nix-vscode-extensions;
             };
+            
+            # Share nixpkgs config with home-manager modules  
+            home-manager.sharedModules = [
+              {
+                nixpkgs.config.allowUnfree = true;
+              }
+            ];
           }
 
       ];

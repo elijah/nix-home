@@ -1,5 +1,8 @@
 { pkgs, ... }:
 {
+  # Allow unfree packages like VSCode
+  nixpkgs.config.allowUnfree = true;
+
   # Make sure the nix daemon always runs
   # Without this configuration, the switch command won't work due to this error:
   # error: The daemon is not enabled but this is a multi-user install, aborting activation
@@ -44,13 +47,14 @@
   # Fonts
   fonts = {
     packages = with pkgs; [
-      # Developer fonts
-      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono" ]; })
+      # Developer fonts (nerdfonts separated into individual packages)
+      nerd-fonts.fira-code
+      nerd-fonts.droid-sans-mono
+      nerd-fonts.jetbrains-mono
       fira-code
       jetbrains-mono
       
       # System fonts
-      sf-pro
       source-code-pro
     ];
   };
