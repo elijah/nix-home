@@ -55,6 +55,10 @@
         # ./cloud-networking.nix    # Cloud platforms and networking
         # ./design-media.nix        # Design and media processing tools
         # ./sysadmin.nix           # System administration and DevOps
+        # ./shell-enhancements.nix  # Modern shell configuration
+        # ./performance.nix         # Performance monitoring and optimization
+        # ./backup-sync.nix         # Backup and synchronization tools
+        # ./network-tools.nix       # Network utilities and diagnostics
         
         # The flake-based setup of the Home Manager `nix-darwin` module
         # https://nix-community.github.io/home-manager/index.html#sec-flakes-nix-darwin-module

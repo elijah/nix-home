@@ -19,6 +19,10 @@ declare -A MODULES=(
     ["data-science"]="./data-science.nix        # R, Jupyter, Python scientific stack"
     ["knowledge-management"]="./knowledge-management.nix # Obsidian, markdown tools, writing"
     ["development"]="./development.nix         # Multi-language dev environment"
+    ["shell-enhancements"]="./shell-enhancements.nix    # Modern shell configuration"
+    ["performance"]="./performance.nix         # Performance monitoring and optimization"
+    ["backup-sync"]="./backup-sync.nix         # Backup and synchronization tools"
+    ["network-tools"]="./network-tools.nix     # Network utilities and diagnostics"
 )
 
 log() {

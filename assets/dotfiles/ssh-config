@@ -1,0 +1,48 @@
+# SSH Configuration
+# Global SSH client configuration
+
+# Default settings for all hosts
+Host *
+    # Use SSH key agent
+    AddKeysToAgent yes
+    
+    # Use macOS keychain for SSH keys
+    UseKeychain yes
+    
+    # Prefer IPv4
+    AddressFamily inet
+    
+    # Connection settings
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    
+    # Security settings
+    Protocol 2
+    Ciphers aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr
+    MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com
+    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group16-sha512
+    
+    # Performance
+    Compression yes
+    ControlMaster auto
+    ControlPath ~/.ssh/master-%r@%h:%p
+    ControlPersist 10m
+
+# GitHub
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+    
+# GitLab
+Host gitlab.com
+    HostName gitlab.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519
+
+# Example work server
+# Host work-server
+#     HostName server.company.com
+#     User your-username
+#     IdentityFile ~/.ssh/work_key
+#     Port 22

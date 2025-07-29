@@ -13,6 +13,10 @@ To enable any module, edit `flake.nix` and uncomment the desired line:
 ./cloud-networking.nix    # Cloud platforms and networking
 ./design-media.nix        # Design and media processing tools
 ./sysadmin.nix           # System administration and DevOps
+./shell-enhancements.nix  # Modern shell configuration
+./performance.nix         # Performance monitoring and optimization
+./backup-sync.nix         # Backup and synchronization tools
+./network-tools.nix       # Network utilities and diagnostics
 ```
 
 Then rebuild: `./scripts/update.sh`
@@ -124,30 +128,119 @@ Then rebuild: `./scripts/update.sh`
 
 ---
 
+## 🚀 **Shell Enhancement (`shell-enhancements.nix`)**
+
+**What it includes:**
+
+- Modern Zsh configuration with plugins
+- Enhanced completion system
+- Smart history management
+- Git integration in prompt
+- Modern tool aliases (eza, bat, fd, etc.)
+- Custom functions and utilities
+
+**Perfect for:**
+
+- Power users seeking better shell experience
+- Developers wanting efficient CLI workflows
+- Anyone spending significant time in terminal
+
+---
+
+## ⚡ **Performance Monitoring (`performance.nix`)**
+
+**What it includes:**
+
+- System monitoring (htop, btop, iotop)
+- Performance analysis (hyperfine, stress)
+- Disk analysis (ncdu, dust, duf)
+- Network performance testing
+- Memory debugging tools
+- System optimizations for macOS
+
+**Perfect for:**
+
+- Performance optimization
+- System troubleshooting
+- Resource monitoring
+- Benchmarking workflows
+
+---
+
+## 💾 **Backup & Sync (`backup-sync.nix`)**
+
+**What it includes:**
+
+- Modern backup tools (restic, borg)
+- Cloud synchronization (rclone, rsync)
+- Automated backup scripts
+- File integrity checking
+- Data recovery tools
+- Git-based secret management
+
+**Perfect for:**
+
+- Data protection strategies
+- Automated backup workflows
+- Multi-device synchronization
+- Disaster recovery planning
+
+---
+
+## 🌐 **Network Tools (`network-tools.nix`)**
+
+**What it includes:**
+
+- Network diagnostics (nmap, wireshark, mtr)
+- Performance testing (iperf3, speedtest)
+- HTTP tools (curl, httpie, wget)
+- VPN and security tools
+- Custom network scripts
+- SSL/TLS utilities
+
+**Perfect for:**
+
+- Network troubleshooting
+- Security testing
+- Performance optimization
+- Network administration
+
+---
+
 ## 🎯 **Usage Examples**
 
 ### **Enable Security + Productivity:**
+
 ```nix
-# In flake.nix
-./security.nix
-./productivity.nix
+  imports = [
+    ./security.nix
+    ./productivity.nix
+    ./shell-enhancements.nix
+  ];
 ```
 
 ### **Enable Full DevOps Stack:**
+
 ```nix
-# In flake.nix
-./cloud-networking.nix
-./sysadmin.nix
-./security.nix
+  imports = [
+    ./development.nix
+    ./cloud-networking.nix
+    ./sysadmin.nix
+    ./performance.nix
+    ./backup-sync.nix
+    ./network-tools.nix
+  ];
 ```
 
 ### **Enable Creative Workflow:**
-```nix
-# In flake.nix
-./design-media.nix
-./productivity.nix
-```
 
+```nix
+  imports = [
+    ./design-media.nix
+    ./productivity.nix
+    ./knowledge-management.nix
+    ./shell-enhancements.nix
+  ];
 ---
 
 ## 🔄 **Testing Modules**
