@@ -49,6 +49,13 @@
         # ./knowledge-management.nix # Obsidian, markdown tools, writing
         # ./development.nix         # Multi-language dev environment
         
+        # Enhancement modules (uncomment to enable)
+        # ./security.nix            # Security and privacy tools
+        # ./productivity.nix        # Modern CLI tools and productivity
+        # ./cloud-networking.nix    # Cloud platforms and networking
+        # ./design-media.nix        # Design and media processing tools
+        # ./sysadmin.nix           # System administration and DevOps
+        
         # The flake-based setup of the Home Manager `nix-darwin` module
         # https://nix-community.github.io/home-manager/index.html#sec-flakes-nix-darwin-module
         home-manager.darwinModules.home-manager

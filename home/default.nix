@@ -27,6 +27,7 @@
     ./packages.nix # Packages that are not included in `nix-darwin` and `home-manager`
     ./shells.nix # Shell configurations
     ./git.nix # Git configurations
+    ./dotfiles.nix # Dotfiles management (optional)
     ../vscode-extensions.nix # VSCode extensions and configuration
   ];
 }
