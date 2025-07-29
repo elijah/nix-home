@@ -43,5 +43,15 @@
 
   # Fonts
   fonts = {
+    packages = with pkgs; [
+      # Developer fonts
+      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "JetBrainsMono" ]; })
+      fira-code
+      jetbrains-mono
+      
+      # System fonts
+      sf-pro
+      source-code-pro
+    ];
   };
 }
