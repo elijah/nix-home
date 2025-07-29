@@ -22,7 +22,7 @@ main() {
     
     # Build new configuration
     log "Building new configuration..."
-    nix build .#darwinConfigurations.elw.system
+    NIXPKGS_ALLOW_UNFREE=1 nix build .#darwinConfigurations.elw.system --impure
     
     # Switch to new configuration
     log "Switching to new configuration..."

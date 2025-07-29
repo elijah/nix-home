@@ -26,7 +26,13 @@
     # https://github.com/LnL7/nix-darwin#flakes-experimental
     darwinConfigurations.elw = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
+      specialArgs = { inherit nixpkgs; };
       modules = [
+        # Configure nixpkgs with unfree packages allowed
+        {
+          nixpkgs.config.allowUnfree = true;
+        }
+        
         # Main `nix-darwin` configuration
         # https://github.com/LnL7/nix-darwin#flakes-experimental
         ./configuration.nix
@@ -55,6 +61,9 @@
             home-manager.extraSpecialArgs = {
               inherit nix-vscode-extensions;
             };
+            
+            # Allow unfree packages in home-manager
+            nixpkgs.config.allowUnfree = true;
           }
 
       ];
