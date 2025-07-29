@@ -37,6 +37,11 @@
 
         # Alfred workflows configuration
         ./alfred.nix
+
+        # Optional package ecosystems (uncomment to enable)
+        # ./data-science.nix        # R, Jupyter, Python scientific stack
+        # ./knowledge-management.nix # Obsidian, markdown tools, writing
+        # ./development.nix         # Multi-language dev environment
         
         # The flake-based setup of the Home Manager `nix-darwin` module
         # https://nix-community.github.io/home-manager/index.html#sec-flakes-nix-darwin-module
