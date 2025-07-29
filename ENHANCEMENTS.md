@@ -26,6 +26,7 @@ Then rebuild: `./scripts/update.sh`
 ## 🛡️ **Security Enhancement (`security.nix`)**
 
 **What it includes:**
+
 - Password management (pass, passage)
 - Encryption tools (age, sops, GPG)
 - Network security (nmap, wireshark)
@@ -34,6 +35,7 @@ Then rebuild: `./scripts/update.sh`
 - Certificate management (step-cli)
 
 **Perfect for:**
+
 - Security-conscious developers
 - DevSecOps workflows
 - Privacy-focused computing
@@ -44,6 +46,7 @@ Then rebuild: `./scripts/update.sh`
 ## ⚡ **Productivity Enhancement (`productivity.nix`)**
 
 **What it includes:**
+
 - Modern CLI replacements (eza, bat, fd, ripgrep, zoxide)
 - File managers (ranger, broot, nnn)
 - System monitoring (btop, bandwhich, dust)
@@ -52,6 +55,7 @@ Then rebuild: `./scripts/update.sh`
 - Git enhancements (git-absorb, lazygit)
 
 **Perfect for:**
+
 - Power users wanting modern CLI tools
 - Developers seeking productivity boosts
 - Anyone who spends time in terminal
@@ -61,6 +65,7 @@ Then rebuild: `./scripts/update.sh`
 ## ☁️ **Cloud & Networking Enhancement (`cloud-networking.nix`)**
 
 **What it includes:**
+
 - Cloud CLIs (AWS, Azure, Google Cloud)
 - Kubernetes ecosystem (kubectl, k9s, helm)
 - Container tools (docker-compose, dive)
@@ -69,6 +74,7 @@ Then rebuild: `./scripts/update.sh`
 - Database clients (postgresql, mysql, redis)
 
 **Perfect for:**
+
 - DevOps engineers
 - Cloud architects
 - SRE (Site Reliability Engineers)
@@ -79,6 +85,7 @@ Then rebuild: `./scripts/update.sh`
 ## 🎨 **Design & Media Enhancement (`design-media.nix`)**
 
 **What it includes:**
+
 - Image processing (imagemagick, oxipng, jpegoptim)
 - Vector graphics (inkscape)
 - Video tools (ffmpeg, yt-dlp)
@@ -87,6 +94,7 @@ Then rebuild: `./scripts/update.sh`
 - Diagram creation (graphviz, plantuml)
 
 **Perfect for:**
+
 - Content creators
 - Web developers
 - Designers
@@ -97,6 +105,7 @@ Then rebuild: `./scripts/update.sh`
 ## 🔧 **System Administration Enhancement (`sysadmin.nix`)**
 
 **What it includes:**
+
 - System monitoring (htop, iotop, lsof)
 - Performance analysis (hyperfine, stress)
 - Configuration management (ansible)
@@ -105,6 +114,7 @@ Then rebuild: `./scripts/update.sh`
 - Network performance (iperf3)
 
 **Perfect for:**
+
 - System administrators
 - DevOps engineers
 - Infrastructure managers
@@ -115,6 +125,7 @@ Then rebuild: `./scripts/update.sh`
 ## 🏠 **Dotfiles Management Enhancement (`home/dotfiles.nix`)**
 
 **What it includes:**
+
 - Automatic dotfile syncing
 - XDG directory compliance
 - SSH configuration management
@@ -122,6 +133,7 @@ Then rebuild: `./scripts/update.sh`
 - Personal scripts management
 
 **Perfect for:**
+
 - Organized developers
 - Multi-machine setups
 - Configuration version control
@@ -310,6 +322,7 @@ Then rebuild: `./scripts/update.sh`
 ## 📊 **Module Dependencies**
 
 All modules are designed to be:
+
 - ✅ **Independent** - Can be enabled/disabled individually
 - ✅ **Lightweight** - Only essential packages included
 - ✅ **Conflict-free** - No package conflicts between modules
@@ -320,6 +333,7 @@ All modules are designed to be:
 ## 🛠️ **Customization**
 
 Each module can be customized by:
+
 1. **Editing the module file** directly
 2. **Adding/removing packages** from the lists
 3. **Modifying environment variables** and configurations

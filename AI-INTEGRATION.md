@@ -31,6 +31,13 @@ ai-setup
 mkdir -p ~/.config/ai-tools
 echo "your-openai-key" > ~/.config/ai-tools/openai.key
 echo "your-anthropic-key" > ~/.config/ai-tools/anthropic.key
+echo "your-google-key" > ~/.config/ai-tools/google.key
+
+# Check model status
+ai-models status
+
+# Test connections
+ai-models test
 ```
 
 ## 🤖 Available AI Tools
@@ -38,6 +45,9 @@ echo "your-anthropic-key" > ~/.config/ai-tools/anthropic.key
 ### Command Line AI Assistance
 
 - **`ask "question"`** - Get AI help for any question
+- **`gemini "question"`** - Ask Google Gemini directly
+- **`claude "question"`** - Ask Claude directly
+- **`ai-compare "question"`** - Compare responses from all AI models
 - **`ai-commit`** - Generate intelligent commit messages
 - **`ai-review`** - AI-powered code review
 - **`ai-explain file.py`** - Explain code functionality
@@ -48,6 +58,27 @@ echo "your-anthropic-key" > ~/.config/ai-tools/anthropic.key
 - **`ai-project-init myproject python`** - Create AI-enhanced projects
 - **`smart-refactor file.js optimize`** - AI-powered refactoring
 - **`ai-debug error "error message"`** - Debug with AI assistance
+
+### Gemini CLI Tools
+
+- **`gemini-cli "question"`** - Direct Gemini API access
+- **`gemini-ask`** - Interactive Gemini chat session
+- **`gask "question"`** - Quick Gemini query shortcut
+
+### Claude CLI Tools
+
+- **`claude-cli "question"`** - Direct Claude API access
+- **`claude-ask`** - Interactive Claude chat session
+- **`claude-code analyze file.py`** - Code analysis with Claude
+- **`claude-code generate "create a REST API"`** - Generate code
+- **`claude-code review file.js`** - Code review with Claude
+- **`cask "question"`** - Quick Claude query shortcut
+
+### Multi-Model Tools
+
+- **`ai-compare "explain async/await"`** - Compare all AI responses
+- **`ai-models status`** - Check AI model availability
+- **`ai-models test`** - Test all AI connections
 
 ### Automation
 
@@ -103,6 +134,7 @@ action: |
 ## 🎯 Common Use Cases
 
 ### 1. Enhanced Git Workflow
+
 ```bash
 # Stage changes and get AI-generated commit
 git add .
@@ -113,6 +145,7 @@ ai-review
 ```
 
 ### 2. Documentation Automation
+
 ```bash
 # Auto-generate docs when code changes
 ai-workflow start auto-docs
@@ -122,6 +155,7 @@ ai-docs src/
 ```
 
 ### 3. Code Quality
+
 ```bash
 # AI-powered refactoring
 smart-refactor main.py optimize
@@ -131,11 +165,28 @@ ai-debug error "TypeError: 'NoneType' object is not subscriptable"
 ```
 
 ### 4. Project Setup
+
 ```bash
 # Create AI-enhanced project
 ai-project-init my-ai-app python
 
 # Includes: AI workflows, documentation templates, and automation
+```
+
+### 5. Multi-Model AI Queries
+
+```bash
+# Compare responses from all available AI models
+ai-compare "Explain the differences between async/await and promises"
+
+# Use specific models
+gemini-cli "What are the best practices for Python error handling?"
+claude-cli "Review this SQL query for security issues"
+gh copilot suggest "How to optimize this JavaScript function"
+
+# Interactive sessions
+gemini-ask  # Start interactive Gemini chat
+claude-ask  # Start interactive Claude chat
 ```
 
 ## 📈 Advanced Features

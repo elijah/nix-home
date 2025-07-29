@@ -7,6 +7,7 @@
     # AI-powered CLI tools
     github-copilot-cli      # GitHub Copilot CLI
     aichat                  # AI chat in terminal
+    # Note: Gemini CLI and Claude CLI will be installed via pip in ai-setup
     
     # Code analysis and generation
     tree-sitter            # Parser generator for code analysis
@@ -51,6 +52,16 @@
     "ask" = "aichat";
     "explain" = "aichat 'Explain this command:'";
     
+    # Google Gemini shortcuts
+    "gemini" = "gemini-cli";
+    "gem" = "gemini-cli";
+    "gask" = "gemini-ask";
+    
+    # Claude shortcuts
+    "claude" = "claude-cli";
+    "cask" = "claude-ask";
+    "ccode" = "claude-code";
+    
     # Code analysis
     "analyze" = "rg --type py --type js --type ts --type nix";
     "codestat" = "find . -name '*.py' -o -name '*.js' -o -name '*.ts' -o -name '*.nix' | xargs wc -l | sort -n";
@@ -94,6 +105,7 @@
         pip install --quiet \
             openai \
             anthropic \
+            google-generativeai \
             requests \
             python-dotenv \
             rich \
@@ -101,10 +113,24 @@
             pydantic \
             langchain \
             langchain-openai \
-            langchain-anthropic
+            langchain-anthropic \
+            langchain-google-genai
+        
+        # Install CLI tools
+        echo "🔧 Installing AI CLI tools..."
+        
+        # Install Google Gemini CLI (unofficial but functional)
+        pip install --quiet google-gemini-cli || echo "Note: Gemini CLI not available via pip, will create wrapper"
+        
+        # Install Claude CLI (unofficial)
+        pip install --quiet claude-cli || echo "Note: Claude CLI not available via pip, will create wrapper"
         
         echo "✅ AI development environment ready!"
         echo "💡 Activate with: source ~/.local/share/ai-venv/bin/activate"
+        echo "🔑 Configure API keys:"
+        echo "   - Google: ~/.config/ai-tools/google.key"
+        echo "   - Anthropic: ~/.config/ai-tools/anthropic.key"
+        echo "   - OpenAI: ~/.config/ai-tools/openai.key"
       '';
       executable = true;
     };
@@ -369,6 +395,402 @@
       '';
       executable = true;
     };
+    
+    ".local/bin/gemini-cli" = {
+      text = ''
+        #!/usr/bin/env bash
+        # Google Gemini CLI wrapper
+        
+        set -euo pipefail
+        
+        API_KEY_FILE="$HOME/.config/ai-tools/google.key"
+        
+        if [[ ! -f "$API_KEY_FILE" ]]; then
+            echo "❌ Google API key not found. Please save your key to: $API_KEY_FILE"
+            echo "💡 Get your key from: https://makersuite.google.com/app/apikey"
+            exit 1
+        fi
+        
+        API_KEY=$(cat "$API_KEY_FILE")
+        
+        if [[ $# -eq 0 ]]; then
+            echo "Usage: $0 <prompt>"
+            echo "Example: $0 'Explain Python generators'"
+            exit 1
+        fi
+        
+        PROMPT="$*"
+        
+        # Activate AI environment
+        source ~/.local/share/ai-venv/bin/activate 2>/dev/null || true
+        
+        # Use Python to call Gemini API
+        python3 << EOF
+import google.generativeai as genai
+import os
+import sys
+
+genai.configure(api_key="$API_KEY")
+model = genai.GenerativeModel('gemini-pro')
+
+try:
+    response = model.generate_content("$PROMPT")
+    print(response.text)
+except Exception as e:
+    print(f"❌ Error: {e}", file=sys.stderr)
+    sys.exit(1)
+EOF
+      '';
+      executable = true;
+    };
+    
+    ".local/bin/gemini-ask" = {
+      text = ''
+        #!/usr/bin/env bash
+        # Interactive Gemini chat
+        
+        set -euo pipefail
+        
+        echo "🤖 Gemini Chat (type 'exit' to quit)"
+        echo "=================================="
+        
+        while true; do
+            echo -n "You: "
+            read -r input
+            
+            if [[ "$input" == "exit" || "$input" == "quit" ]]; then
+                echo "👋 Goodbye!"
+                break
+            fi
+            
+            if [[ -n "$input" ]]; then
+                echo "Gemini:"
+                gemini-cli "$input"
+                echo
+            fi
+        done
+      '';
+      executable = true;
+    };
+    
+    ".local/bin/claude-cli" = {
+      text = ''
+        #!/usr/bin/env bash
+        # Claude CLI wrapper
+        
+        set -euo pipefail
+        
+        API_KEY_FILE="$HOME/.config/ai-tools/anthropic.key"
+        
+        if [[ ! -f "$API_KEY_FILE" ]]; then
+            echo "❌ Anthropic API key not found. Please save your key to: $API_KEY_FILE"
+            echo "💡 Get your key from: https://console.anthropic.com/"
+            exit 1
+        fi
+        
+        API_KEY=$(cat "$API_KEY_FILE")
+        
+        if [[ $# -eq 0 ]]; then
+            echo "Usage: $0 <prompt>"
+            echo "Example: $0 'Write a Python function to parse JSON'"
+            exit 1
+        fi
+        
+        PROMPT="$*"
+        
+        # Activate AI environment
+        source ~/.local/share/ai-venv/bin/activate 2>/dev/null || true
+        
+        # Use Python to call Claude API
+        python3 << EOF
+import anthropic
+import os
+import sys
+
+client = anthropic.Anthropic(api_key="$API_KEY")
+
+try:
+    response = client.messages.create(
+        model="claude-3-sonnet-20240229",
+        max_tokens=1000,
+        messages=[{"role": "user", "content": "$PROMPT"}]
+    )
+    print(response.content[0].text)
+except Exception as e:
+    print(f"❌ Error: {e}", file=sys.stderr)
+    sys.exit(1)
+EOF
+      '';
+      executable = true;
+    };
+    
+    ".local/bin/claude-ask" = {
+      text = ''
+        #!/usr/bin/env bash
+        # Interactive Claude chat
+        
+        set -euo pipefail
+        
+        echo "🤖 Claude Chat (type 'exit' to quit)"
+        echo "===================================="
+        
+        while true; do
+            echo -n "You: "
+            read -r input
+            
+            if [[ "$input" == "exit" || "$input" == "quit" ]]; then
+                echo "👋 Goodbye!"
+                break
+            fi
+            
+            if [[ -n "$input" ]]; then
+                echo "Claude:"
+                claude-cli "$input"
+                echo
+            fi
+        done
+      '';
+      executable = true;
+    };
+    
+    ".local/bin/claude-code" = {
+      text = ''
+        #!/usr/bin/env bash
+        # Claude code analysis and generation
+        
+        set -euo pipefail
+        
+        if [[ $# -eq 0 ]]; then
+            echo "Usage: $0 {analyze|generate|review} [file|prompt]"
+            echo
+            echo "Commands:"
+            echo "  analyze <file>    - Analyze code file"
+            echo "  generate <prompt> - Generate code from prompt"
+            echo "  review <file>     - Code review"
+            echo "  refactor <file>   - Suggest refactoring"
+            exit 1
+        fi
+        
+        COMMAND="$1"
+        shift
+        
+        case "$COMMAND" in
+            "analyze")
+                if [[ $# -eq 0 || ! -f "$1" ]]; then
+                    echo "❌ Please provide a valid file to analyze"
+                    exit 1
+                fi
+                FILE="$1"
+                echo "🔍 Analyzing $FILE with Claude..."
+                CONTENT=$(cat "$FILE")
+                claude-cli "Analyze this code and explain what it does, identify potential issues, and suggest improvements:
+
+$CONTENT"
+                ;;
+            "generate")
+                if [[ $# -eq 0 ]]; then
+                    echo "❌ Please provide a prompt for code generation"
+                    exit 1
+                fi
+                PROMPT="$*"
+                echo "🔧 Generating code with Claude..."
+                claude-cli "Generate clean, well-documented code for: $PROMPT. Include comments and follow best practices."
+                ;;
+            "review")
+                if [[ $# -eq 0 || ! -f "$1" ]]; then
+                    echo "❌ Please provide a valid file to review"
+                    exit 1
+                fi
+                FILE="$1"
+                echo "👁️  Reviewing $FILE with Claude..."
+                CONTENT=$(cat "$FILE")
+                claude-cli "Perform a thorough code review of this code. Check for bugs, security issues, performance problems, and suggest improvements:
+
+$CONTENT"
+                ;;
+            "refactor")
+                if [[ $# -eq 0 || ! -f "$1" ]]; then
+                    echo "❌ Please provide a valid file to refactor"
+                    exit 1
+                fi
+                FILE="$1"
+                echo "🔧 Getting refactoring suggestions from Claude..."
+                CONTENT=$(cat "$FILE")
+                claude-cli "Suggest refactoring improvements for this code to make it more readable, efficient, and maintainable. Provide the refactored version:
+
+$CONTENT"
+                ;;
+            *)
+                echo "❌ Unknown command: $COMMAND"
+                echo "Available commands: analyze, generate, review, refactor"
+                exit 1
+                ;;
+        esac
+      '';
+      executable = true;
+    };
+    
+    ".local/bin/ai-compare" = {
+      text = ''
+        #!/usr/bin/env bash
+        # Compare responses from different AI models
+        
+        set -euo pipefail
+        
+        if [[ $# -eq 0 ]]; then
+            echo "Usage: $0 <prompt>"
+            echo "Example: $0 'Explain Python decorators'"
+            exit 1
+        fi
+        
+        PROMPT="$*"
+        
+        echo "🤖 Comparing AI responses for: $PROMPT"
+        echo "================================================"
+        
+        # GitHub Copilot (if available)
+        if command -v gh >/dev/null 2>&1; then
+            echo "🐙 GitHub Copilot:"
+            echo "-------------------"
+            gh copilot suggest "$PROMPT" --type shell 2>/dev/null || echo "❌ Copilot not available"
+            echo
+        fi
+        
+        # Gemini
+        if [[ -f "$HOME/.config/ai-tools/google.key" ]]; then
+            echo "🔮 Google Gemini:"
+            echo "------------------"
+            gemini-cli "$PROMPT" 2>/dev/null || echo "❌ Gemini not available"
+            echo
+        fi
+        
+        # Claude
+        if [[ -f "$HOME/.config/ai-tools/anthropic.key" ]]; then
+            echo "🎭 Claude:"
+            echo "-----------"
+            claude-cli "$PROMPT" 2>/dev/null || echo "❌ Claude not available"
+            echo
+        fi
+        
+        # aichat (fallback)
+        if command -v aichat >/dev/null 2>&1; then
+            echo "💬 aichat:"
+            echo "-----------"
+            aichat "$PROMPT"
+        fi
+      '';
+      executable = true;
+    };
+    
+    ".local/bin/ai-models" = {
+      text = ''
+        #!/usr/bin/env bash
+        # AI model management and testing
+        
+        set -euo pipefail
+        
+        case "''${1:-status}" in
+            "status")
+                echo "🤖 AI Models Status"
+                echo "==================="
+                
+                # Check GitHub Copilot
+                if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
+                    echo "✅ GitHub Copilot: Available"
+                else
+                    echo "❌ GitHub Copilot: Not authenticated (run 'gh auth login')"
+                fi
+                
+                # Check Gemini
+                if [[ -f "$HOME/.config/ai-tools/google.key" ]]; then
+                    echo "✅ Google Gemini: API key configured"
+                else
+                    echo "❌ Google Gemini: API key missing"
+                fi
+                
+                # Check Claude
+                if [[ -f "$HOME/.config/ai-tools/anthropic.key" ]]; then
+                    echo "✅ Claude: API key configured"
+                else
+                    echo "❌ Claude: API key missing"
+                fi
+                
+                # Check OpenAI
+                if [[ -f "$HOME/.config/ai-tools/openai.key" ]]; then
+                    echo "✅ OpenAI: API key configured"
+                else
+                    echo "❌ OpenAI: API key missing"
+                fi
+                
+                # Check aichat
+                if command -v aichat >/dev/null 2>&1; then
+                    echo "✅ aichat: Available"
+                else
+                    echo "❌ aichat: Not installed"
+                fi
+                ;;
+                
+            "test")
+                MODEL="''${2:-all}"
+                TEST_PROMPT="Hello, please respond with 'AI model working correctly'"
+                
+                echo "🧪 Testing AI models..."
+                
+                case "$MODEL" in
+                    "gemini"|"all")
+                        echo "Testing Gemini..."
+                        gemini-cli "$TEST_PROMPT" >/dev/null 2>&1 && echo "✅ Gemini working" || echo "❌ Gemini failed"
+                        ;;
+                esac
+                
+                case "$MODEL" in
+                    "claude"|"all")
+                        echo "Testing Claude..."
+                        claude-cli "$TEST_PROMPT" >/dev/null 2>&1 && echo "✅ Claude working" || echo "❌ Claude failed"
+                        ;;
+                esac
+                
+                case "$MODEL" in
+                    "copilot"|"all")
+                        echo "Testing Copilot..."
+                        gh copilot suggest "$TEST_PROMPT" --type shell >/dev/null 2>&1 && echo "✅ Copilot working" || echo "❌ Copilot failed"
+                        ;;
+                esac
+                ;;
+                
+            "setup")
+                echo "🔧 AI Models Setup Guide"
+                echo "========================"
+                echo
+                echo "1. GitHub Copilot:"
+                echo "   - Run: gh auth login"
+                echo "   - Ensure Copilot subscription is active"
+                echo
+                echo "2. Google Gemini:"
+                echo "   - Get API key from: https://makersuite.google.com/app/apikey"
+                echo "   - Save to: ~/.config/ai-tools/google.key"
+                echo
+                echo "3. Claude (Anthropic):"
+                echo "   - Get API key from: https://console.anthropic.com/"
+                echo "   - Save to: ~/.config/ai-tools/anthropic.key"
+                echo
+                echo "4. OpenAI:"
+                echo "   - Get API key from: https://platform.openai.com/api-keys"
+                echo "   - Save to: ~/.config/ai-tools/openai.key"
+                ;;
+                
+            *)
+                echo "Usage: $0 {status|test|setup}"
+                echo
+                echo "Commands:"
+                echo "  status  - Check which AI models are available"
+                echo "  test    - Test AI model connections"
+                echo "  setup   - Show setup instructions"
+                ;;
+        esac
+      '';
+      executable = true;
+    };
   };
 
   # Create default AI prompts
@@ -423,6 +845,7 @@ EOF
     AI_WORKSPACE = "$HOME/workspace/ai-projects";
     OPENAI_API_KEY_FILE = "$HOME/.config/ai-tools/openai.key";
     ANTHROPIC_API_KEY_FILE = "$HOME/.config/ai-tools/anthropic.key";
+    GOOGLE_API_KEY_FILE = "$HOME/.config/ai-tools/google.key";
   };
 
   # Enhanced Git configuration for AI integration
@@ -451,6 +874,24 @@ EOF
         aichat "$*"
       }
       
+      # Gemini shortcuts
+      gask() {
+        if [[ $# -eq 0 ]]; then
+          echo "Usage: gask <question>"
+          return 1
+        fi
+        gemini-cli "$*"
+      }
+      
+      # Claude shortcuts  
+      cask() {
+        if [[ $# -eq 0 ]]; then
+          echo "Usage: cask <question>"
+          return 1
+        fi
+        claude-cli "$*"
+      }
+      
       # Code explanation shortcut
       explain-cmd() {
         if [[ $# -eq 0 ]]; then
@@ -458,6 +899,15 @@ EOF
           return 1
         fi
         gh copilot explain "$*"
+      }
+      
+      # AI model comparison
+      compare-ai() {
+        if [[ $# -eq 0 ]]; then
+          echo "Usage: compare-ai <question>"
+          return 1
+        fi
+        ai-compare "$*"
       }
       
       # AI-powered directory search
