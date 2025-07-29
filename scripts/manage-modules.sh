@@ -23,6 +23,8 @@ declare -A MODULES=(
     ["performance"]="./performance.nix         # Performance monitoring and optimization"
     ["backup-sync"]="./backup-sync.nix         # Backup and synchronization tools"
     ["network-tools"]="./network-tools.nix     # Network utilities and diagnostics"
+    ["ai-tooling"]="./ai-tooling.nix          # AI development and assistance tools"
+    ["ai-workflows"]="./ai-workflows.nix       # AI-powered workflow automation"
 )
 
 log() {

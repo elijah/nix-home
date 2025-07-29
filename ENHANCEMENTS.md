@@ -207,6 +207,48 @@ Then rebuild: `./scripts/update.sh`
 
 ---
 
+## 🤖 **AI Tooling (`ai-tooling.nix`)**
+
+**What it includes:**
+
+- GitHub Copilot CLI integration
+- AI chat tools (aichat)
+- Code analysis and generation tools
+- AI development environment setup
+- Python/Node.js for AI development
+- API testing tools for AI services
+- Custom AI assistance scripts
+
+**Perfect for:**
+
+- AI-enhanced development workflows
+- Code generation and explanation
+- Automated documentation
+- API integration with AI services
+
+---
+
+## 🔄 **AI Workflows (`ai-workflows.nix`)**
+
+**What it includes:**
+
+- Automated commit message generation
+- AI-powered code review
+- Smart refactoring assistance
+- Project initialization with AI
+- Workflow automation tools
+- File watching and auto-processing
+- AI debugging assistant
+
+**Perfect for:**
+
+- Automated development workflows
+- Intelligent code maintenance
+- Project setup automation
+- Continuous AI assistance
+
+---
+
 ## 🎯 **Usage Examples**
 
 ### **Enable Security + Productivity:**
@@ -241,6 +283,19 @@ Then rebuild: `./scripts/update.sh`
     ./knowledge-management.nix
     ./shell-enhancements.nix
   ];
+```
+
+### **Enable AI-Enhanced Development:**
+
+```nix
+  imports = [
+    ./development.nix
+    ./ai-tooling.nix
+    ./ai-workflows.nix
+    ./shell-enhancements.nix
+  ];
+```
+
 ---
 
 ## 🔄 **Testing Modules**

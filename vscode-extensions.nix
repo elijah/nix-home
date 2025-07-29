@@ -71,6 +71,30 @@
         
         # IntelliCode
         visualstudioexptteam.vscodeintellicode
+        
+        # AI Development Extensions
+        continue.continue             # AI code assistant
+        tabnine.tabnine-vscode       # TabNine AI completion
+        codeium.codeium              # Free AI code completion
+        
+        # API Development & Testing
+        humao.rest-client            # REST client for API testing
+        postman.postman-for-vscode   # Postman integration
+        
+        # Enhanced Documentation
+        shd101wyy.markdown-preview-enhanced  # Enhanced markdown preview
+        mintlify.document            # AI-powered documentation
+        
+        # Database & Data Tools
+        ms-mssql.mssql              # SQL Server support
+        oracle.oracledevtools       # Oracle database tools
+        
+        # JSON & Data Processing
+        quicktype.quicktype         # JSON to code generation
+        
+        # Development Productivity
+        ms-vscode.vscode-json       # Enhanced JSON support
+        ms-vscode.hexeditor         # Hex editor for binary files
       ];
       
       userSettings = {

@@ -59,6 +59,8 @@
         # ./performance.nix         # Performance monitoring and optimization
         # ./backup-sync.nix         # Backup and synchronization tools
         # ./network-tools.nix       # Network utilities and diagnostics
+        # ./ai-tooling.nix          # AI development and assistance tools
+        # ./ai-workflows.nix        # AI-powered workflow automation
         
         # The flake-based setup of the Home Manager `nix-darwin` module
         # https://nix-community.github.io/home-manager/index.html#sec-flakes-nix-darwin-module
