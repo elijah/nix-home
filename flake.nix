@@ -7,20 +7,21 @@
 
     # Environment/system management
     darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
-    # nix will normally use the nixpkgs defined in home-managers inputs, we only want one copy of nixpkgs though
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home Manager
     home-manager.url = "github:nix-community/home-manager/release-25.05";
-    # nix will normally use the nixpkgs defined in home-managers inputs, we only want one copy of nixpkgs though
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # nix-vscode-extensions
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
+    # Emacs overlay for latest packages
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
+    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager, nix-vscode-extensions }: {
+  outputs = { self, nixpkgs, darwin, home-manager, nix-vscode-extensions, emacs-overlay }: {
 
     # We need a darwinConfigurations output to actually have a `nix-darwin` configuration.
     # https://github.com/LnL7/nix-darwin#flakes-experimental
@@ -31,6 +32,7 @@
         # Configure nixpkgs with unfree packages allowed
         {
           nixpkgs.config.allowUnfree = true;
+          nixpkgs.overlays = [ emacs-overlay.overlays.default ];
         }
         
         # Main `nix-darwin` configuration
@@ -46,15 +48,15 @@
 
         # Optional package ecosystems (uncomment to enable)
         # ./data-science.nix        # R, Jupyter, Python scientific stack
-        # ./knowledge-management.nix # Obsidian, markdown tools, writing
-        # ./development.nix         # Multi-language dev environment
+        ./knowledge-management.nix # Obsidian, markdown tools, writing
+        ./development.nix         # Multi-language dev environment
         
         # Enhancement modules (uncomment to enable)
         # ./security.nix            # Security and privacy tools
         # ./productivity.nix        # Modern CLI tools and productivity
         # ./cloud-networking.nix    # Cloud platforms and networking
         # ./design-media.nix        # Design and media processing tools
-        # ./sysadmin.nix           # System administration and DevOps
+        ./sysadmin.nix           # System administration and DevOps
         # ./shell-enhancements.nix  # Modern shell configuration
         # ./performance.nix         # Performance monitoring and optimization
         # ./backup-sync.nix         # Backup and synchronization tools
@@ -70,9 +72,9 @@
             home-manager.useUserPackages = true;
             home-manager.users.elw = import ./home;
 
-            # Pass nix-vscode-extensions to home-manager modules
+            # Pass nix-vscode-extensions and emacs-overlay to home-manager modules
             home-manager.extraSpecialArgs = {
-              inherit nix-vscode-extensions;
+              inherit nix-vscode-extensions emacs-overlay;
             };
             
             # Allow unfree packages in home-manager
