@@ -1,4 +1,4 @@
-{ ... }:
+{ config, pkgs, lib, nix-vscode-extensions, ... }:
 
 {
   # Allow unfree packages like VSCode and its extensions
@@ -22,7 +22,17 @@
   # https://nix-community.github.io/home-manager/options.html#opt-programs.home-manager.enable
   programs.home-manager.enable = true;
 
+  # Home Manager needs a bit of information about you and the
+  # paths it should manage.
+  home.username = "elw";
+  home.homeDirectory = "/Users/elw";
+  home.stateVersion = "23.05";
+
+  # Import other home-manager modules
   imports = [
+    ./vscode.nix
+    ./shell.nix
+    ./git.nix
     ./assets.nix # Symlinked assets configurations
     ./packages.nix # Packages that are not included in `nix-darwin` and `home-manager`
     ./shells.nix # Shell configurations

@@ -1,10 +1,11 @@
-{ pkgs, ... }:
+{ config, pkgs, lib, ... }:
+
 {
   # Knowledge Management and Writing Tools
   # Includes Obsidian, note-taking tools, and document processing
 
   environment.systemPackages = with pkgs; [
-    # Obsidian Knowledge Management
+    # Obsidian for visual knowledge management
     obsidian                  # Main Obsidian application
     obsidian-export          # Export Obsidian vaults to Markdown
     
@@ -35,6 +36,10 @@
     # File Management for Knowledge Base
     rclone                   # Cloud storage sync
     rsync                    # File synchronization
+    
+    # RPG/Gaming knowledge tools
+    dice                     # Command-line dice roller
+    fortune                  # Random quotes/inspiration
   ];
 
   # Environment variables for better text processing
@@ -42,6 +47,9 @@
     EDITOR = "nvim";
     PAGER = "less -R";
     BAT_THEME = "Solarized (dark)";
+    DENDRON_ROOT = "/Users/elw/knowledge/dendron";
+    ORG_ROAM_DIR = "/Users/elw/knowledge/org-roam";
+    RPG_NOTES_DIR = "/Users/elw/knowledge/rpg-notes";
   };
 
   # Create directories for knowledge management
@@ -50,6 +58,13 @@
     mkdir -p /Users/elw/Documents/Knowledge
     mkdir -p /Users/elw/Documents/Notes
     mkdir -p /Users/elw/Documents/Research
+    mkdir -p /Users/elw/knowledge/{obsidian,dendron,org-roam,rpg-notes}
+    mkdir -p /Users/elw/knowledge/rpg-notes/{campaigns,characters,worldbuilding,rules}
     echo "Knowledge management directories created"
+  '';
+
+  # Set proper permissions
+  system.activationScripts.set-permissions.text = ''
+    chown -R elw:staff /Users/elw/knowledge
   '';
 }
