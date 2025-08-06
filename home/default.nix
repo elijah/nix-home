@@ -26,7 +26,6 @@
   # paths it should manage.
   home.username = "elw";
   home.homeDirectory = "/Users/elw";
-  home.stateVersion = "23.05";
 
   # Import other home-manager modules
   imports = [
