@@ -31,7 +31,7 @@
     # https://github.com/LnL7/nix-darwin#flakes-experimental
     darwinConfigurations.elw = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
-      specialArgs = { inherit nixpkgs; };
+      specialArgs = { inherit nixpkgs nix-vscode-extensions; };
       modules = [
         # Configure nixpkgs with unfree packages allowed
         {

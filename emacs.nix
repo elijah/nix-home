@@ -1,46 +1,22 @@
 { config, pkgs, lib, ... }:
 
 {
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacs29-pgtk;
-    extraPackages = epkgs: with epkgs; [
-      # Org-roam for knowledge management
-      org-roam
-      org-roam-ui
-      
-      # Evil mode for vim bindings
-      evil
-      evil-collection
-      
-      # Completion framework
-      vertico
-      marginalia
-      consult
-      orderless
-      
-      # DevOps tools
-      docker
-      kubernetes
-      terraform-mode
-      ansible
-      yaml-mode
-      
-      # RPG/Gaming
-      org-journal
-      calfw
-      
-      # Programming
-      magit
-      projectile
-      company
-      lsp-mode
-      flycheck
-      
-      # UI enhancements
-      doom-themes
-      doom-modeline
-      which-key
-    ];
-  };
+  # Remove programs.emacs - that's home-manager only
+  # Keep only system packages for nix-darwin
+  environment.systemPackages = with pkgs; [
+    emacs29-pgtk
+    (emacsPackagesFor emacs29-pgtk).org-roam
+    (emacsPackagesFor emacs29-pgtk).evil
+    (emacsPackagesFor emacs29-pgtk).magit
+    (emacsPackagesFor emacs29-pgtk).vertico
+    (emacsPackagesFor emacs29-pgtk).marginalia
+    (emacsPackagesFor emacs29-pgtk).consult
+    (emacsPackagesFor emacs29-pgtk).orderless
+    (emacsPackagesFor emacs29-pgtk).docker
+    (emacsPackagesFor emacs29-pgtk).terraform-mode
+    (emacsPackagesFor emacs29-pgtk).yaml-mode
+    (emacsPackagesFor emacs29-pgtk).org-journal
+    (emacsPackagesFor emacs29-pgtk).projectile
+    (emacsPackagesFor emacs29-pgtk).company
+  ];
 }
