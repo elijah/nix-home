@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   # System Administration and DevOps Tools
   # Essential tools for system administration and operations
@@ -6,9 +6,9 @@
   environment.systemPackages = with pkgs; [
     # System monitoring and diagnostics
     htop                     # Process viewer
-    iotop                    # I/O monitoring
+    # iotop                  # I/O monitoring (Linux only - not available on macOS)
     lsof                     # List open files
-    nethogs                 # Network bandwidth by process
+    # nethogs               # Network bandwidth by process (Linux only)
     iftop                   # Network bandwidth monitor
     
     # Log analysis
@@ -24,7 +24,7 @@
     tree                    # Directory tree display
     
     # Process management
-    supervisor              # Process control system
+    # supervisor            # Process control system (not available in nixpkgs)
     tmux                    # Terminal multiplexer
     screen                  # Terminal multiplexer
     
@@ -33,7 +33,7 @@
     macchina                # System information (Rust-based)
     
     # Backup and archiving
-    borg                    # Backup tool
+    borgbackup              # Backup tool (borg)
     restic                  # Backup tool
     duplicity               # Backup tool
     
@@ -69,16 +69,29 @@
     
     # Network tools
     iperf3                  # Network performance testing
-    tcpping                 # TCP ping utility
+    # tcpping               # TCP ping utility (not available in nixpkgs)
     
     # Container orchestration
     nomad                   # Workload orchestrator
     
     # Infrastructure testing
-    testinfra               # Infrastructure testing
+    # testinfra             # Infrastructure testing (not available in nixpkgs)
     
     # Chaos engineering
     # chaos-mesh            # Chaos engineering (if available)
+  ] ++ lib.optionals pkgs.stdenv.isLinux [
+    # Linux-specific system administration tools
+    iotop                   # I/O monitoring (Linux only)
+    nethogs                 # Network bandwidth by process (Linux only)
+    strace                  # System call tracer (Linux only)
+    sysstat                 # System statistics (sar, iostat, etc.)
+    tcpdump                 # Network packet analyzer
+    perf-tools              # Performance analysis tools
+    bpftrace                # High-level tracing language for eBPF
+  ] ++ lib.optionals pkgs.stdenv.isDarwin [
+    # macOS-specific system administration tools
+    # darwin.ps_mem         # Memory usage by process (macOS equivalent of smem)
+    # Add other macOS-specific tools here as needed
   ];
 
   # System administration aliases and functions

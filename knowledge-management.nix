@@ -15,7 +15,7 @@
     pandoc                   # Universal document converter
     
     # Note-taking and PKM Tools
-    zettlr                   # Markdown-based writing app
+    # zettlr                 # Markdown-based writing app (x86 Linux only)
     logseq                   # Local-first knowledge management
     
     # Document Processing
@@ -38,8 +38,11 @@
     rsync                    # File synchronization
     
     # RPG/Gaming knowledge tools
-    dice                     # Command-line dice roller
+    # dice                   # Command-line dice roller (not available)
     fortune                  # Random quotes/inspiration
+  ] ++ lib.optionals (pkgs.stdenv.isLinux && pkgs.stdenv.isx86_64) [
+    # x86-64 Linux only packages
+    zettlr                   # Markdown-based writing app (x86 Linux only)
   ];
 
   # Environment variables for better text processing

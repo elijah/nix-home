@@ -7,7 +7,7 @@
     # Core Development Tools
     git                      # Version control
     gh                       # GitHub CLI
-    git-delta               # Better git diff
+    delta                   # Better git diff (was git-delta)
     lazygit                 # Terminal UI for git
     
     # Multiple Language Support
@@ -30,8 +30,8 @@
     # Python Development (beyond data science)
     python312Packages.pip
     python312Packages.virtualenv
-    python312Packages.pipenv
-    python312Packages.poetry
+    pipenv                  # Python package management (standalone)
+    poetry                  # Python package management (top-level)
     python312Packages.black     # Python formatter
     python312Packages.flake8    # Python linter
     python312Packages.mypy      # Python type checker
@@ -62,7 +62,7 @@
     vim                     # Classic vim
     
     # Build and Deployment Tools
-    make                    # Build automation
+    gnumake                 # Build automation (GNU make)
     cmake                   # Cross-platform build system
     ninja                   # Build system
     
@@ -70,7 +70,8 @@
     htop                    # Process viewer
     btop                    # Modern process viewer
     hyperfine              # Benchmarking tool
-    strace                 # System call tracer
+    # strace               # System call tracer (Linux only - use dtruss on macOS)
+    gdb                    # Debugger
   ];
 
   # Configure shell environment for development

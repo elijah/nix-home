@@ -87,13 +87,13 @@
         
         # Database & Data Tools
         ms-mssql.mssql              # SQL Server support
-        oracle.oracledevtools       # Oracle database tools
+        # oracle.oracledevtools     # Oracle database tools (not available in nix-vscode-extensions)
         
         # JSON & Data Processing
         quicktype.quicktype         # JSON to code generation
         
         # Development Productivity
-        ms-vscode.vscode-json       # Enhanced JSON support
+        # ms-vscode.vscode-json     # Enhanced JSON support (not available in nix-vscode-extensions)
         ms-vscode.hexeditor         # Hex editor for binary files
       ];
       

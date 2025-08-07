@@ -35,7 +35,7 @@ for module in "${MODULES[@]}"; do
 done
 
 echo "🏗️  Testing configuration build..."
-if nix build .#darwinConfigurations.elw.system --dry-run; then
+if NIXPKGS_ALLOW_UNFREE=1 nix build .#darwinConfigurations.elw.system --dry-run --impure; then
     echo "✅ Configuration builds successfully"
 else
     echo "❌ Configuration build failed"
@@ -43,7 +43,7 @@ else
 fi
 
 echo "🧪 Running flake checks..."
-if nix flake check; then
+if NIXPKGS_ALLOW_UNFREE=1 nix flake check --impure; then
     echo "✅ All checks passed"
 else
     echo "❌ Some checks failed"
