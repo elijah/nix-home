@@ -39,7 +39,7 @@
     whois # Domain information
     traceroute # Network path tracing
     mtr # Network diagnostic tool
-    netcat # Network swiss army knife
+    netcat-openbsd # Network swiss army knife
     socat # Socket relay
 
     # Load testing and monitoring
