@@ -1,167 +1,241 @@
 {
-  description = "My nix-home flake";
+  description = "Elijah's Nix Darwin Configuration - Comprehensive Development Environment";
 
   inputs = {
-    # Package sets
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    # Environment/system management
-    darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
-    darwin.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    # Home Manager
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    # nix-vscode-extensions
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
-
-    # Emacs overlay for latest packages
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
-    emacs-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager, nix-vscode-extensions, emacs-overlay }:
-    let
-      system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
-    {
-      # We need a darwinConfigurations output to actually have a `nix-darwin` configuration.
-      # https://github.com/LnL7/nix-darwin#flakes-experimental
-      darwinConfigurations.elw = darwin.lib.darwinSystem {
+  outputs = { self, nixpkgs, nix-darwin, home-manager, nix-vscode-extensions, emacs-overlay }: {
+    darwinConfigurations = {
+      # Primary configuration for elw user
+      elw = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { inherit nixpkgs nix-vscode-extensions; };
         modules = [
-          # Configure nixpkgs with unfree packages allowed
-          {
+          { 
             nixpkgs.config.allowUnfree = true;
             nixpkgs.overlays = [ emacs-overlay.overlays.default ];
           }
-
-          # Main `nix-darwin` configuration
-          # https://github.com/LnL7/nix-darwin#flakes-experimental
-          ./configuration.nix
-
-          # Homebrew configuration
-          # https://xyno.space/post/nix-darwin-introduction
-          ./homebrew.nix
-
-          # Alfred workflows configuration
-          ./alfred.nix
-
-          # Optional package ecosystems (uncomment to enable)
-          # ./data-science.nix        # R, Jupyter, Python scientific stack
-          ./knowledge-management.nix # Obsidian, markdown tools, writing
-          ./development.nix # Multi-language dev environment
-          ./emacs.nix # Emacs configuration with org-roam
-
-          # Enhancement modules (uncomment to enable)
-          # ./security.nix            # Security and privacy tools
-          # ./productivity.nix        # Modern CLI tools and productivity
-          # ./cloud-networking.nix    # Cloud platforms and networking
-          # ./design-media.nix        # Design and media processing tools
-          ./sysadmin.nix # System administration and DevOps
-          # ./shell-enhancements.nix  # Modern shell configuration
-          # ./performance.nix         # Performance monitoring and optimization
-          # ./backup-sync.nix         # Backup and synchronization tools
-          # ./network-tools.nix       # Network utilities and diagnostics
-          # ./ai-tooling.nix          # AI development and assistance tools
-          # ./ai-workflows.nix        # AI-powered workflow automation
-
-          # The flake-based setup of the Home Manager `nix-darwin` module
-          # https://nix-community.github.io/home-manager/index.html#sec-flakes-nix-darwin-module
+          
+          # System modules
+          ./modules/system/configuration.nix
+          ./modules/system/homebrew.nix
+          ./modules/system/security.nix
+          ./modules/system/performance.nix
+          ./modules/system/backup-sync.nix
+          ./modules/system/network-tools.nix
+          
+          # Development modules
+          ./modules/development/development.nix
+          ./modules/development/sysadmin.nix
+          ./modules/development/data-science.nix
+          ./modules/development/ai-tooling.nix
+          ./modules/development/mcp-dev.nix
+          
+          # Application modules
+          ./modules/applications/emacs.nix
+          ./modules/applications/vscode-extensions.nix
+          ./modules/applications/knowledge-management.nix
+          ./modules/applications/productivity.nix
+          ./modules/applications/design-media.nix
+          ./modules/applications/cloud-networking.nix
+          
+          # Workflow modules
+          ./modules/workflows/alfred.nix
+          ./modules/workflows/ai-workflows.nix
+          ./modules/workflows/shell-enhancements.nix
+          ./modules/workflows/org-roam-dendron.nix
+          
+          # Home Manager integration
           home-manager.darwinModules.home-manager
           {
-            home-manager.useGlobalPkgs = false;
+            home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.elw = import ./home;
-
-            # Pass nix-vscode-extensions and emacs-overlay to home-manager modules
-            home-manager.extraSpecialArgs = {
-              inherit nix-vscode-extensions emacs-overlay;
-            };
-
-            # Allow unfree packages in home-manager
-            nixpkgs.config.allowUnfree = true;
           }
-
         ];
       };
 
-      # Add checks for validation and testing
-      checks.${system} = {
-        # Test that the configuration builds successfully
+      # Minimal configuration for testing
+      minimal = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        specialArgs = { inherit nixpkgs nix-vscode-extensions; };
+        modules = [
+          { nixpkgs.config.allowUnfree = true; }
+          ./modules/system/configuration.nix
+          ./modules/development/development.nix
+        ];
+      };
+
+      # Full-featured setup with all modules
+      full = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        specialArgs = { inherit nixpkgs nix-vscode-extensions; };
+        modules = [
+          { 
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.overlays = [ emacs-overlay.overlays.default ];
+          }
+          
+          # All system modules
+          ./modules/system/configuration.nix
+          ./modules/system/homebrew.nix
+          ./modules/system/security.nix
+          ./modules/system/performance.nix
+          ./modules/system/backup-sync.nix
+          ./modules/system/network-tools.nix
+          
+          # All development modules
+          ./modules/development/development.nix
+          ./modules/development/sysadmin.nix
+          ./modules/development/data-science.nix
+          ./modules/development/ai-tooling.nix
+          ./modules/development/mcp-dev.nix
+          
+          # All application modules
+          ./modules/applications/emacs.nix
+          ./modules/applications/vscode-extensions.nix
+          ./modules/applications/knowledge-management.nix
+          ./modules/applications/productivity.nix
+          ./modules/applications/design-media.nix
+          ./modules/applications/cloud-networking.nix
+          
+          # All workflow modules
+          ./modules/workflows/alfred.nix
+          ./modules/workflows/ai-workflows.nix
+          ./modules/workflows/shell-enhancements.nix
+          ./modules/workflows/org-roam-dendron.nix
+          
+          # Home Manager integration
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.elw = import ./home;
+          }
+        ];
+      };
+    };
+
+    # Checks for validation
+    checks = nixpkgs.lib.genAttrs [ "aarch64-darwin" ] (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      {
+        # Test that the main configuration builds successfully
         config-builds = self.darwinConfigurations.elw.system;
+
+        # Test alternative configurations
+        minimal-builds = self.darwinConfigurations.minimal.system;
+        full-builds = self.darwinConfigurations.full.system;
 
         # Validate all module files exist and are syntactically correct
         module-syntax = pkgs.runCommand "check-modules" { } ''
-          ${pkgs.nix}/bin/nix-instantiate --parse ${./configuration.nix} > /dev/null
-          ${pkgs.nix}/bin/nix-instantiate --parse ${./homebrew.nix} > /dev/null
-          ${pkgs.nix}/bin/nix-instantiate --parse ${./alfred.nix} > /dev/null
-          ${pkgs.nix}/bin/nix-instantiate --parse ${./knowledge-management.nix} > /dev/null
-          ${pkgs.nix}/bin/nix-instantiate --parse ${./development.nix} > /dev/null
-          ${pkgs.nix}/bin/nix-instantiate --parse ${./emacs.nix} > /dev/null
-          ${pkgs.nix}/bin/nix-instantiate --parse ${./sysadmin.nix} > /dev/null
+          echo "Checking system modules..."
+          ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/system/configuration.nix} > /dev/null
+          ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/system/homebrew.nix} > /dev/null
+          
+          echo "Checking development modules..."
+          ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/development/development.nix} > /dev/null
+          ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/development/sysadmin.nix} > /dev/null
+          
+          echo "Checking application modules..."
+          ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/applications/emacs.nix} > /dev/null
+          ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/applications/vscode-extensions.nix} > /dev/null
+          ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/applications/knowledge-management.nix} > /dev/null
+          
+          echo "Checking workflow modules..."
+          ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/workflows/alfred.nix} > /dev/null
+          
+          echo "All modules validated successfully"
           touch $out
         '';
 
-        # Test emacs configuration (temporarily disabled due to binary cache issues)
-        # emacs-config-test = pkgs.runCommand "test-emacs-config" 
-        #   { buildInputs = [ pkgs.emacs30-pgtk ]; } ''
-        #   # Test that emacs can load without errors
-        #   timeout 30s ${pkgs.emacs30-pgtk}/bin/emacs --batch --eval "(message \"Emacs loads successfully\")" 2>&1
-        #   echo "Emacs configuration test passed" > $out
-        # '';
-
         # Validate flake formatting
         format-check = pkgs.runCommand "format-check" { } ''
-          if ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt --check ${./.}; then
-            echo "Format check passed" > $out
-          else
-            echo "Format check failed - run 'nix fmt' to fix"
+          ${pkgs.nixfmt-rfc-style}/bin/nixfmt --check ${./.}
+          touch $out
+        '';
+      }
+    );
+
+    # Development shells for various workflows
+    devShells = nixpkgs.lib.genAttrs [ "aarch64-darwin" ] (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      {
+        default = pkgs.mkShell {
+          name = "nix-home-dev";
+          packages = with pkgs; [
+            nixfmt-rfc-style
+            deadnix
+            statix
+            nix-tree
+            cachix
+            gh
+          ];
+          shellHook = ''
+            export NIXPKGS_ALLOW_UNFREE=1
+            echo "🏠 Nix Home Development Environment"
+            echo "Available commands:"
+            echo "  nix fmt          - Format Nix files"
+            echo "  nix flake check  - Validate configuration"
+            echo "  darwin-rebuild switch --flake .#elw - Apply configuration"
+          '';
+        };
+      }
+    );
+
+    # Package outputs for module templates and utilities
+    packages = nixpkgs.lib.genAttrs [ "aarch64-darwin" ] (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      {
+        # Module template generator
+        new-module = pkgs.writeShellScriptBin "new-module" ''
+          if [ -z "$1" ] || [ -z "$2" ]; then
+            echo "Usage: new-module <category> <name>"
+            echo "Categories: system, development, applications, workflows"
             exit 1
           fi
+          
+          category="$1"
+          name="$2"
+          target="modules/$category/$name.nix"
+          
+          if [ -f "$target" ]; then
+            echo "Module $target already exists!"
+            exit 1
+          fi
+          
+          cp templates/module/default.nix "$target"
+          sed -i "s/MODULE_NAME/$name/g" "$target"
+          echo "Created module: $target"
         '';
-
-        # Test home-manager configuration
-        home-manager-test = pkgs.runCommand "home-manager-test" { } ''
-          # Basic validation that home-manager config structure is valid
-          ${pkgs.nix}/bin/nix-instantiate --eval --expr '
-            let 
-              lib = import ${nixpkgs}/lib;
-              config = import ${./home} { 
-                pkgs = import ${nixpkgs} { system = "${system}"; }; 
-                inherit lib;
-                # Provide minimal config argument
-                config = {};
-                nix-vscode-extensions = {};
-              };
-            in 
-              if builtins.isAttrs config then "valid" else "invalid"
-          ' > /dev/null
-          echo "Home manager test passed" > $out
-        '';
-      };
-
-      # Add development shell for testing
-      devShells.${system}.default = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          nixpkgs-fmt
-          nix-tree
-          nix-diff
-        ];
-
-        shellHook = ''
-          echo "Nix development environment loaded!"
-          echo "Available commands:"
-          echo "  nix flake check    - Run all tests"
-          echo "  nix fmt           - Format nix files"
-          echo "  nix-tree          - Explore dependency tree"
-        '';
-      };
-
-      # Set Nix formatter
-      formatter.${system} = pkgs.nixpkgs-fmt;
-    };
+      }
+    );
+  };
 }

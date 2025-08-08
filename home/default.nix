@@ -1,4 +1,4 @@
-{ config, pkgs, lib, nix-vscode-extensions, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Allow unfree packages like VSCode and its extensions
@@ -15,15 +15,13 @@
   home.username = "elw";
   home.homeDirectory = "/Users/elw";
 
-  # Only import files that actually exist - comment out missing ones
+  # Import available home configuration modules
   imports = [
-    # ./vscode.nix           # Create this file or comment out
-    # ./shell.nix            # Create this file or comment out  
-    # ./git.nix              # Create this file or comment out
-    # ./assets.nix           # Create this file or comment out
-    # ./packages.nix         # Create this file or comment out
-    # ./shells.nix           # Create this file or comment out
-    # ./dotfiles.nix         # Create this file or comment out
-    ../vscode-extensions.nix # Only if this file exists
+    ./git.nix              # Git configuration
+    ./packages.nix         # User packages
+    ./shells.nix           # Shell configuration  
+    ./dotfiles.nix         # Dotfiles management
+    # Note: VS Code extensions are now configured in the main flake via nix-darwin modules
+    # Complex Home Manager configurations will be added back incrementally
   ];
 }
