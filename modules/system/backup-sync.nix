@@ -28,8 +28,7 @@
     gzip # GZIP compression
 
     # Data recovery
-    testdisk # Data recovery software
-    photorec # Photo recovery software
+    testdisk # Data recovery software (includes photorec)
 
     # File integrity
     rhash # Utility for computing hash sums
