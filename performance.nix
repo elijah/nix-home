@@ -38,6 +38,15 @@
     # Memory and debugging analysis
     lldb # LLVM debugger with memory debugging features
     gdb # GNU debugger
+    
+    # Note: macOS has excellent built-in memory debugging tools:
+    # - leaks: detect memory leaks in running processes
+    # - vmmap: analyze virtual memory usage
+    # - malloc_history: track malloc/free history  
+    # - heap: analyze heap contents
+    # - Instruments.app: comprehensive profiling GUI
+    # - AddressSanitizer: compile with -fsanitize=address
+    # - LeakSanitizer: compile with -fsanitize=leak
 
     # System information
     neofetch # System information display
@@ -100,6 +109,17 @@
     # System info
     sysinfo = "neofetch";
     temp = "sudo powermetrics --samplers smc -n 1 | grep -E 'CPU|GPU' | grep -E 'temp|Temp'";
+
+    # Memory debugging (macOS-specific)
+    memcheck = "lldb --batch --one-line 'process launch --stop-at-entry' --one-line 'target modules dump symtab'";
+    leakcheck = "leaks";  # Built-in macOS leak detection
+    vmmap = "vmmap";      # Built-in macOS virtual memory analyzer
+    malloc-history = "malloc_history"; # Built-in macOS malloc tracking
+    
+    # Compile with sanitizers
+    compile-asan = "clang -fsanitize=address -g";
+    compile-lsan = "clang -fsanitize=leak -g";
+    compile-msan = "clang -fsanitize=memory -g";
   };
 
   # Create performance monitoring directories
