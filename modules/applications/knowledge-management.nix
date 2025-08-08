@@ -48,7 +48,7 @@
   # Environment variables for better text processing
   environment.variables = {
     EDITOR = lib.mkDefault "nvim";  # Can be overridden by other modules
-    PAGER = "less -R";
+    PAGER = lib.mkDefault "less -R"; # Can be overridden by other modules
     BAT_THEME = "Solarized (dark)";
     DENDRON_ROOT = "/Users/elw/knowledge/dendron";
     ORG_ROAM_DIR = "/Users/elw/knowledge/org-roam";
