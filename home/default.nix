@@ -1,8 +1,8 @@
 { config, pkgs, lib, ... }:
 
 {
-  # Allow unfree packages like VSCode and its extensions
-  nixpkgs.config.allowUnfree = true;
+  # Note: nixpkgs.config is handled at the nix-darwin level
+  # to avoid conflicts with home-manager.useGlobalPkgs
 
   # https://nix-community.github.io/home-manager/options.html#opt-home.stateVersion
   home.stateVersion = "23.11";

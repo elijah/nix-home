@@ -49,69 +49,68 @@
   };
 
   programs = {
-    # Z Shell (Default shell)
+    # Z Shell (Default shell) - Temporarily disabled to avoid conflicts with nix-darwin
     # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable
-    # Temporarily disabled to avoid conflicts with nix-darwin zsh configuration
     # zsh.enable = true;
 
     # zsh.initContent = ''
     #   bindkey '^ ' autosuggest-accept
     #   AGKOZAK_CMD_EXEC_TIME=5
-    #   AGKOZAK_COLORS_CMD_EXEC_TIME='yellow'
-    #   AGKOZAK_COLORS_PROMPT_CHAR='magenta'
-    #   AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' )
-    #   AGKOZAK_MULTILINE=0
-    #   AGKOZAK_PROMPT_CHAR=( ❯ ❯ ❮ )
-    #   export AWS_VAULT_BACKEND=file
-    #   export AWS_VAULT_PROMPT=terminal
-    #   export DOCKER_BUILDKIT=0
-    #   export DOCKER_DEFAULT_PLATFORM=linux/amd64
-    #   eval "$(/opt/homebrew/bin/mise activate zsh)"
-    #   caops-exec() {
-    #     aws-vault exec --prompt ykman caops -- "$@"
-    #   }
-    #   glc-exec() {
-    #     aws-vault exec glc -- "$@"
-    #   }
-    #   nonprod-exec() {
-    #     aws-vault exec nonprod -- "$@"
-    #   }
-    #   prod-exec() {
-    #     aws-vault exec prod -- "$@"
-    #   }
-    #   zoff() {
-    #     sudo launchctl unload /Library/LaunchDaemons/com.zscaler.service.plist && sudo launchctl unload /Library/LaunchDaemons/com.zscaler.tunnel.plist
-    #   }
-    #
-    #   # You might still need to go into the GUI and click "More -> Restart Service" too...
-    #   zon() {
-    #     sudo launchctl load /Library/LaunchDaemons/com.zscaler.service.plist && sudo launchctl load /Library/LaunchDaemons/com.zscaler.tunnel.plist
-    #   }
-    #
+      AGKOZAK_COLORS_CMD_EXEC_TIME='yellow'
+      AGKOZAK_COLORS_PROMPT_CHAR='magenta'
+      AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' )
+      AGKOZAK_MULTILINE=0
+      AGKOZAK_PROMPT_CHAR=( ❯ ❯ ❮ )
+      export AWS_VAULT_BACKEND=file
+      export AWS_VAULT_PROMPT=terminal
+      export DOCKER_BUILDKIT=0
+      export DOCKER_DEFAULT_PLATFORM=linux/amd64
+      eval "$(/opt/homebrew/bin/mise activate zsh)"
+      caops-exec() {
+        aws-vault exec --prompt ykman caops -- "$@"
+      }
+      glc-exec() {
+        aws-vault exec glc -- "$@"
+      }
+      nonprod-exec() {
+        aws-vault exec nonprod -- "$@"
+      }
+      prod-exec() {
+        aws-vault exec prod -- "$@"
+      }
+      zoff() {
+        sudo launchctl unload /Library/LaunchDaemons/com.zscaler.service.plist && sudo launchctl unload /Library/LaunchDaemons/com.zscaler.tunnel.plist
+      }
+
+      # You might still need to go into the GUI and click "More -> Restart Service" too...
+      zon() {
+        sudo launchctl load /Library/LaunchDaemons/com.zscaler.service.plist && sudo launchctl load /Library/LaunchDaemons/com.zscaler.tunnel.plist
+      }
+
     # '';
-    # # Z Shell plugins
-    # # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.plugins
+    # Z Shell plugins - Temporarily disabled
+    # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.plugins
     # zsh.plugins = [
-    #   {
-    #     name = "zsh-z";
-    #     file = "zsh-z.plugin.zsh";
-    #     src = pkgs.fetchFromGitHub {
-    #       owner = "agkozak";
-    #       repo = "zsh-z";
-    #       rev = "afaf2965b41fdc6ca66066e09382726aa0b6aa04";
-    #       sha256 = "1s23azd9hk57dgya0xrqh16jq1qbmm0n70x32mxg8b29ynks6w8n";
-    #     };
-    #   }
-    #   {
-    #     name = "zsh-nix-shell";
-    #     file = "nix-shell.plugin.zsh";
-    #     src = pkgs.fetchFromGitHub {
-    #       owner = "chisui";
-    #       repo = "zsh-nix-shell";
-    #       rev = "v0.8.0";
-    #       sha256 = "1lzrn0n4fxfcgg65v0qhnj7wnybybqzs4adz7xsrkgmcsr0ii8b7";
-    #     };
-    #   }
+      {
+        name = "zsh-z";
+        file = "zsh-z.plugin.zsh";
+        src = pkgs.fetchFromGitHub {
+          owner = "agkozak";
+          repo = "zsh-z";
+          rev = "afaf2965b41fdc6ca66066e09382726aa0b6aa04";
+          sha256 = "1s23azd9hk57dgya0xrqh16jq1qbmm0n70x32mxg8b29ynks6w8n";
+        };
+      }
+      {
+        name = "zsh-nix-shell";
+        file = "nix-shell.plugin.zsh";
+        src = pkgs.fetchFromGitHub {
+          owner = "chisui";
+          repo = "zsh-nix-shell";
+          rev = "v0.8.0";
+          sha256 = "1lzrn0n4fxfcgg65v0qhnj7wnybybqzs4adz7xsrkgmcsr0ii8b7";
+        };
+      }
     # ];
 
 
@@ -120,7 +119,7 @@
     # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.starship.enable
     starship = {
       enable = true;
-      enableZshIntegration = false;  # Disabled since zsh is managed by nix-darwin
+      enableZshIntegration = true;
       settings = {
         add_newline = false;
         command_timeout = 1000;
