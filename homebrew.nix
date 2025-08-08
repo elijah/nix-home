@@ -6,7 +6,7 @@
   # https://brew.sh/
   # https://daiderd.com/nix-darwin/manual/index.html#opt-homebrew.enable
   #   homebrew.enable = true;
-  
+
   system.primaryUser = "elw";
   homebrew.enable = true;
 

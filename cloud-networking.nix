@@ -5,68 +5,68 @@
 
   environment.systemPackages = with pkgs; [
     # Cloud CLI tools
-    awscli2                   # AWS CLI
-    azure-cli                 # Azure CLI
-    google-cloud-sdk          # Google Cloud CLI
-    
+    awscli2 # AWS CLI
+    azure-cli # Azure CLI
+    google-cloud-sdk # Google Cloud CLI
+
     # Kubernetes ecosystem
-    kubectl                   # Kubernetes CLI
-    kubectx                   # Kubernetes context switcher
-    kubens                    # Kubernetes namespace switcher
-    k9s                       # Kubernetes TUI
-    helm                      # Kubernetes package manager
-    kustomize                 # Kubernetes configuration management
-    argocd                    # GitOps CLI
-    
+    kubectl # Kubernetes CLI
+    kubectx # Kubernetes context switcher
+    kubens # Kubernetes namespace switcher
+    k9s # Kubernetes TUI
+    helm # Kubernetes package manager
+    kustomize # Kubernetes configuration management
+    argocd # GitOps CLI
+
     # Container tools
-    docker-compose            # Multi-container applications
-    dive                      # Docker image analyzer
-    skopeo                    # Container image operations
-    
+    docker-compose # Multi-container applications
+    dive # Docker image analyzer
+    skopeo # Container image operations
+
     # Infrastructure as Code
-    terraform                 # Infrastructure provisioning
-    terragrunt                # Terraform wrapper
-    packer                    # Image building
-    vagrant                   # Development environments
-    
+    terraform # Infrastructure provisioning
+    terragrunt # Terraform wrapper
+    packer # Image building
+    vagrant # Development environments
+
     # Service mesh and networking
-    istioctl                  # Istio service mesh
-    linkerd                   # Linkerd service mesh
-    
+    istioctl # Istio service mesh
+    linkerd # Linkerd service mesh
+
     # Network diagnostics
-    dig                       # DNS lookup
-    nslookup                  # DNS lookup
-    whois                     # Domain information
-    traceroute                # Network path tracing
-    mtr                       # Network diagnostic tool
-    netcat                    # Network swiss army knife
-    socat                     # Socket relay
-    
+    dig # DNS lookup
+    nslookup # DNS lookup
+    whois # Domain information
+    traceroute # Network path tracing
+    mtr # Network diagnostic tool
+    netcat # Network swiss army knife
+    socat # Socket relay
+
     # Load testing and monitoring
-    wrk                       # HTTP benchmarking
-    hey                       # HTTP load generator
-    
+    wrk # HTTP benchmarking
+    hey # HTTP load generator
+
     # VPN and proxy tools
-    wireguard-tools          # WireGuard VPN
-    openvpn                  # OpenVPN client
-    
+    wireguard-tools # WireGuard VPN
+    openvpn # OpenVPN client
+
     # API tools
-    postman                  # API testing (if available)
-    insomnia                 # API testing
-    
+    postman # API testing (if available)
+    insomnia # API testing
+
     # Database tools
-    postgresql               # PostgreSQL client
-    mysql                    # MySQL client
-    redis                    # Redis client
-    
+    postgresql # PostgreSQL client
+    mysql # MySQL client
+    redis # Redis client
+
     # File transfer
-    rsync                    # File synchronization
-    rclone                   # Cloud storage sync
-    scp                      # Secure copy
-    
+    rsync # File synchronization
+    rclone # Cloud storage sync
+    scp # Secure copy
+
     # Network security
-    nmap                     # Network scanner
-    masscan                  # High-speed port scanner
+    nmap # Network scanner
+    masscan # High-speed port scanner
   ];
 
   # Environment variables for cloud tools
@@ -74,10 +74,10 @@
     # AWS
     AWS_PAGER = "";
     AWS_DEFAULT_OUTPUT = "json";
-    
+
     # Kubernetes
     KUBECONFIG = "$HOME/.kube/config";
-    
+
     # Docker
     DOCKER_BUILDKIT = "1";
     COMPOSE_DOCKER_CLI_BUILD = "1";

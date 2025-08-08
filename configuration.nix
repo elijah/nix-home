@@ -53,7 +53,7 @@
       nerd-fonts.jetbrains-mono
       fira-code
       jetbrains-mono
-      
+
       # System fonts
       source-code-pro
     ];

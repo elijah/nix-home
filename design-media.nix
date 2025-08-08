@@ -5,55 +5,55 @@
 
   environment.systemPackages = with pkgs; [
     # Image processing and editing
-    imagemagick               # Image manipulation
-    graphicsmagick           # Alternative image manipulation
-    oxipng                   # PNG optimizer
-    jpegoptim                # JPEG optimizer
-    pngquant                 # PNG quantization
-    
+    imagemagick # Image manipulation
+    graphicsmagick # Alternative image manipulation
+    oxipng # PNG optimizer
+    jpegoptim # JPEG optimizer
+    pngquant # PNG quantization
+
     # Vector graphics and design
-    inkscape                 # Vector graphics editor
+    inkscape # Vector graphics editor
     # gimp                   # Raster graphics editor (large package)
-    
+
     # Image viewers
-    feh                      # Lightweight image viewer
-    
+    feh # Lightweight image viewer
+
     # Video tools
-    ffmpeg                   # Video/audio processing
-    youtube-dl               # Video downloader
-    yt-dlp                   # Enhanced youtube-dl
-    
+    ffmpeg # Video/audio processing
+    youtube-dl # Video downloader
+    yt-dlp # Enhanced youtube-dl
+
     # Audio tools
-    sox                      # Audio processing
-    lame                     # MP3 encoder
-    flac                     # FLAC audio codec
-    
+    sox # Audio processing
+    lame # MP3 encoder
+    flac # FLAC audio codec
+
     # 3D and CAD (if interested)
     # blender                # 3D creation suite (very large)
     # freecad                # CAD software
-    
+
     # Color and design utilities
-    pastel                   # Color manipulation
-    
+    pastel # Color manipulation
+
     # Font management
-    fontconfig               # Font configuration
-    
+    fontconfig # Font configuration
+
     # Screen capture and recording
     # scrot                  # Screenshot utility (Linux-focused)
-    
+
     # PDF tools
-    poppler                  # PDF rendering library
-    qpdf                     # PDF manipulation
-    
+    poppler # PDF rendering library
+    qpdf # PDF manipulation
+
     # Diagram creation
-    graphviz                 # Graph visualization
-    plantuml                 # UML diagrams
-    
+    graphviz # Graph visualization
+    plantuml # UML diagrams
+
     # Image format conversion
-    webp                     # WebP image format
-    
+    webp # WebP image format
+
     # Metadata tools
-    exiftool                 # Metadata reader/writer
+    exiftool # Metadata reader/writer
   ];
 
   # Environment variables for media tools

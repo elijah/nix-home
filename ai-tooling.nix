@@ -5,40 +5,40 @@
 
   environment.systemPackages = with pkgs; [
     # AI-powered CLI tools
-    github-copilot-cli      # GitHub Copilot CLI
-    aichat                  # AI chat in terminal
+    github-copilot-cli # GitHub Copilot CLI
+    aichat # AI chat in terminal
     # Note: Gemini CLI and Claude CLI will be installed via pip in ai-setup
-    
+
     # Code analysis and generation
-    tree-sitter            # Parser generator for code analysis
-    
+    tree-sitter # Parser generator for code analysis
+
     # API tools for AI services
-    curl                   # HTTP client for API calls
-    jq                     # JSON processor
-    yq                     # YAML processor
-    
+    curl # HTTP client for API calls
+    jq # JSON processor
+    yq # YAML processor
+
     # Development tools enhanced by AI
-    git                    # Version control with AI integrations
-    fzf                    # Fuzzy finder (enhanced with AI suggestions)
-    ripgrep               # Fast text search
-    bat                   # Syntax highlighting
-    
+    git # Version control with AI integrations
+    fzf # Fuzzy finder (enhanced with AI suggestions)
+    ripgrep # Fast text search
+    bat # Syntax highlighting
+
     # Documentation and knowledge management
-    pandoc                # Document converter
-    
+    pandoc # Document converter
+
     # Python for AI/ML development
-    python3               # Python interpreter
-    python3Packages.pip   # Python package manager
-    python3Packages.virtualenv  # Virtual environments
-    
+    python3 # Python interpreter
+    python3Packages.pip # Python package manager
+    python3Packages.virtualenv # Virtual environments
+
     # Node.js for AI tool development
-    nodejs                # Node.js runtime
-    nodePackages.npm      # NPM package manager
-    nodePackages.yarn     # Yarn package manager
-    
+    nodejs # Node.js runtime
+    nodePackages.npm # NPM package manager
+    nodePackages.yarn # Yarn package manager
+
     # API testing and development
-    httpie                # Human-friendly HTTP client
-    postman              # API development platform
+    httpie # Human-friendly HTTP client
+    postman # API development platform
   ];
 
   # AI-enhanced shell configuration
@@ -46,30 +46,30 @@
     # GitHub Copilot CLI shortcuts
     "gcs" = "gh copilot suggest";
     "gce" = "gh copilot explain";
-    
+
     # AI chat and assistance
     "ai" = "aichat";
     "ask" = "aichat";
     "explain" = "aichat 'Explain this command:'";
-    
+
     # Google Gemini shortcuts
     "gemini" = "gemini-cli";
     "gem" = "gemini-cli";
     "gask" = "gemini-ask";
-    
+
     # Claude shortcuts
     "claude" = "claude-cli";
     "cask" = "claude-ask";
     "ccode" = "claude-code";
-    
+
     # Code analysis
     "analyze" = "rg --type py --type js --type ts --type nix";
     "codestat" = "find . -name '*.py' -o -name '*.js' -o -name '*.ts' -o -name '*.nix' | xargs wc -l | sort -n";
-    
+
     # Documentation helpers
     "mkdocs" = "pandoc --from markdown --to html";
     "readme" = "bat README.md";
-    
+
     # API testing shortcuts
     "apitest" = "httpie";
     "json" = "jq .";
@@ -134,7 +134,7 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/ai-commit" = {
       text = ''
         #!/usr/bin/env bash
@@ -176,7 +176,7 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/ai-explain" = {
       text = ''
         #!/usr/bin/env bash
@@ -218,7 +218,7 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/ai-review" = {
       text = ''
         #!/usr/bin/env bash
@@ -256,7 +256,7 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/ai-docs" = {
       text = ''
         #!/usr/bin/env bash
@@ -328,7 +328,7 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/prompt-library" = {
       text = ''
         #!/usr/bin/env bash
@@ -395,55 +395,55 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/gemini-cli" = {
       text = ''
-        #!/usr/bin/env bash
-        # Google Gemini CLI wrapper
+                #!/usr/bin/env bash
+                # Google Gemini CLI wrapper
         
-        set -euo pipefail
+                set -euo pipefail
         
-        API_KEY_FILE="$HOME/.config/ai-tools/google.key"
+                API_KEY_FILE="$HOME/.config/ai-tools/google.key"
         
-        if [[ ! -f "$API_KEY_FILE" ]]; then
-            echo "❌ Google API key not found. Please save your key to: $API_KEY_FILE"
-            echo "💡 Get your key from: https://makersuite.google.com/app/apikey"
-            exit 1
-        fi
+                if [[ ! -f "$API_KEY_FILE" ]]; then
+                    echo "❌ Google API key not found. Please save your key to: $API_KEY_FILE"
+                    echo "💡 Get your key from: https://makersuite.google.com/app/apikey"
+                    exit 1
+                fi
         
-        API_KEY=$(cat "$API_KEY_FILE")
+                API_KEY=$(cat "$API_KEY_FILE")
         
-        if [[ $# -eq 0 ]]; then
-            echo "Usage: $0 <prompt>"
-            echo "Example: $0 'Explain Python generators'"
-            exit 1
-        fi
+                if [[ $# -eq 0 ]]; then
+                    echo "Usage: $0 <prompt>"
+                    echo "Example: $0 'Explain Python generators'"
+                    exit 1
+                fi
         
-        PROMPT="$*"
+                PROMPT="$*"
         
-        # Activate AI environment
-        source ~/.local/share/ai-venv/bin/activate 2>/dev/null || true
+                # Activate AI environment
+                source ~/.local/share/ai-venv/bin/activate 2>/dev/null || true
         
-        # Use Python to call Gemini API
-        python3 << EOF
-import google.generativeai as genai
-import os
-import sys
+                # Use Python to call Gemini API
+                python3 << EOF
+        import google.generativeai as genai
+        import os
+        import sys
 
-genai.configure(api_key="$API_KEY")
-model = genai.GenerativeModel('gemini-pro')
+        genai.configure(api_key="$API_KEY")
+        model = genai.GenerativeModel('gemini-pro')
 
-try:
-    response = model.generate_content("$PROMPT")
-    print(response.text)
-except Exception as e:
-    print(f"❌ Error: {e}", file=sys.stderr)
-    sys.exit(1)
-EOF
+        try:
+            response = model.generate_content("$PROMPT")
+            print(response.text)
+        except Exception as e:
+            print(f"❌ Error: {e}", file=sys.stderr)
+            sys.exit(1)
+        EOF
       '';
       executable = true;
     };
-    
+
     ".local/bin/gemini-ask" = {
       text = ''
         #!/usr/bin/env bash
@@ -472,58 +472,58 @@ EOF
       '';
       executable = true;
     };
-    
+
     ".local/bin/claude-cli" = {
       text = ''
-        #!/usr/bin/env bash
-        # Claude CLI wrapper
+                #!/usr/bin/env bash
+                # Claude CLI wrapper
         
-        set -euo pipefail
+                set -euo pipefail
         
-        API_KEY_FILE="$HOME/.config/ai-tools/anthropic.key"
+                API_KEY_FILE="$HOME/.config/ai-tools/anthropic.key"
         
-        if [[ ! -f "$API_KEY_FILE" ]]; then
-            echo "❌ Anthropic API key not found. Please save your key to: $API_KEY_FILE"
-            echo "💡 Get your key from: https://console.anthropic.com/"
-            exit 1
-        fi
+                if [[ ! -f "$API_KEY_FILE" ]]; then
+                    echo "❌ Anthropic API key not found. Please save your key to: $API_KEY_FILE"
+                    echo "💡 Get your key from: https://console.anthropic.com/"
+                    exit 1
+                fi
         
-        API_KEY=$(cat "$API_KEY_FILE")
+                API_KEY=$(cat "$API_KEY_FILE")
         
-        if [[ $# -eq 0 ]]; then
-            echo "Usage: $0 <prompt>"
-            echo "Example: $0 'Write a Python function to parse JSON'"
-            exit 1
-        fi
+                if [[ $# -eq 0 ]]; then
+                    echo "Usage: $0 <prompt>"
+                    echo "Example: $0 'Write a Python function to parse JSON'"
+                    exit 1
+                fi
         
-        PROMPT="$*"
+                PROMPT="$*"
         
-        # Activate AI environment
-        source ~/.local/share/ai-venv/bin/activate 2>/dev/null || true
+                # Activate AI environment
+                source ~/.local/share/ai-venv/bin/activate 2>/dev/null || true
         
-        # Use Python to call Claude API
-        python3 << EOF
-import anthropic
-import os
-import sys
+                # Use Python to call Claude API
+                python3 << EOF
+        import anthropic
+        import os
+        import sys
 
-client = anthropic.Anthropic(api_key="$API_KEY")
+        client = anthropic.Anthropic(api_key="$API_KEY")
 
-try:
-    response = client.messages.create(
-        model="claude-3-sonnet-20240229",
-        max_tokens=1000,
-        messages=[{"role": "user", "content": "$PROMPT"}]
-    )
-    print(response.content[0].text)
-except Exception as e:
-    print(f"❌ Error: {e}", file=sys.stderr)
-    sys.exit(1)
-EOF
+        try:
+            response = client.messages.create(
+                model="claude-3-sonnet-20240229",
+                max_tokens=1000,
+                messages=[{"role": "user", "content": "$PROMPT"}]
+            )
+            print(response.content[0].text)
+        except Exception as e:
+            print(f"❌ Error: {e}", file=sys.stderr)
+            sys.exit(1)
+        EOF
       '';
       executable = true;
     };
-    
+
     ".local/bin/claude-ask" = {
       text = ''
         #!/usr/bin/env bash
@@ -552,84 +552,84 @@ EOF
       '';
       executable = true;
     };
-    
+
     ".local/bin/claude-code" = {
       text = ''
-        #!/usr/bin/env bash
-        # Claude code analysis and generation
+                #!/usr/bin/env bash
+                # Claude code analysis and generation
         
-        set -euo pipefail
+                set -euo pipefail
         
-        if [[ $# -eq 0 ]]; then
-            echo "Usage: $0 {analyze|generate|review} [file|prompt]"
-            echo
-            echo "Commands:"
-            echo "  analyze <file>    - Analyze code file"
-            echo "  generate <prompt> - Generate code from prompt"
-            echo "  review <file>     - Code review"
-            echo "  refactor <file>   - Suggest refactoring"
-            exit 1
-        fi
-        
-        COMMAND="$1"
-        shift
-        
-        case "$COMMAND" in
-            "analyze")
-                if [[ $# -eq 0 || ! -f "$1" ]]; then
-                    echo "❌ Please provide a valid file to analyze"
-                    exit 1
-                fi
-                FILE="$1"
-                echo "🔍 Analyzing $FILE with Claude..."
-                CONTENT=$(cat "$FILE")
-                claude-cli "Analyze this code and explain what it does, identify potential issues, and suggest improvements:
-
-$CONTENT"
-                ;;
-            "generate")
                 if [[ $# -eq 0 ]]; then
-                    echo "❌ Please provide a prompt for code generation"
+                    echo "Usage: $0 {analyze|generate|review} [file|prompt]"
+                    echo
+                    echo "Commands:"
+                    echo "  analyze <file>    - Analyze code file"
+                    echo "  generate <prompt> - Generate code from prompt"
+                    echo "  review <file>     - Code review"
+                    echo "  refactor <file>   - Suggest refactoring"
                     exit 1
                 fi
-                PROMPT="$*"
-                echo "🔧 Generating code with Claude..."
-                claude-cli "Generate clean, well-documented code for: $PROMPT. Include comments and follow best practices."
-                ;;
-            "review")
-                if [[ $# -eq 0 || ! -f "$1" ]]; then
-                    echo "❌ Please provide a valid file to review"
-                    exit 1
-                fi
-                FILE="$1"
-                echo "👁️  Reviewing $FILE with Claude..."
-                CONTENT=$(cat "$FILE")
-                claude-cli "Perform a thorough code review of this code. Check for bugs, security issues, performance problems, and suggest improvements:
+        
+                COMMAND="$1"
+                shift
+        
+                case "$COMMAND" in
+                    "analyze")
+                        if [[ $# -eq 0 || ! -f "$1" ]]; then
+                            echo "❌ Please provide a valid file to analyze"
+                            exit 1
+                        fi
+                        FILE="$1"
+                        echo "🔍 Analyzing $FILE with Claude..."
+                        CONTENT=$(cat "$FILE")
+                        claude-cli "Analyze this code and explain what it does, identify potential issues, and suggest improvements:
 
-$CONTENT"
-                ;;
-            "refactor")
-                if [[ $# -eq 0 || ! -f "$1" ]]; then
-                    echo "❌ Please provide a valid file to refactor"
-                    exit 1
-                fi
-                FILE="$1"
-                echo "🔧 Getting refactoring suggestions from Claude..."
-                CONTENT=$(cat "$FILE")
-                claude-cli "Suggest refactoring improvements for this code to make it more readable, efficient, and maintainable. Provide the refactored version:
+        $CONTENT"
+                        ;;
+                    "generate")
+                        if [[ $# -eq 0 ]]; then
+                            echo "❌ Please provide a prompt for code generation"
+                            exit 1
+                        fi
+                        PROMPT="$*"
+                        echo "🔧 Generating code with Claude..."
+                        claude-cli "Generate clean, well-documented code for: $PROMPT. Include comments and follow best practices."
+                        ;;
+                    "review")
+                        if [[ $# -eq 0 || ! -f "$1" ]]; then
+                            echo "❌ Please provide a valid file to review"
+                            exit 1
+                        fi
+                        FILE="$1"
+                        echo "👁️  Reviewing $FILE with Claude..."
+                        CONTENT=$(cat "$FILE")
+                        claude-cli "Perform a thorough code review of this code. Check for bugs, security issues, performance problems, and suggest improvements:
 
-$CONTENT"
-                ;;
-            *)
-                echo "❌ Unknown command: $COMMAND"
-                echo "Available commands: analyze, generate, review, refactor"
-                exit 1
-                ;;
-        esac
+        $CONTENT"
+                        ;;
+                    "refactor")
+                        if [[ $# -eq 0 || ! -f "$1" ]]; then
+                            echo "❌ Please provide a valid file to refactor"
+                            exit 1
+                        fi
+                        FILE="$1"
+                        echo "🔧 Getting refactoring suggestions from Claude..."
+                        CONTENT=$(cat "$FILE")
+                        claude-cli "Suggest refactoring improvements for this code to make it more readable, efficient, and maintainable. Provide the refactored version:
+
+        $CONTENT"
+                        ;;
+                    *)
+                        echo "❌ Unknown command: $COMMAND"
+                        echo "Available commands: analyze, generate, review, refactor"
+                        exit 1
+                        ;;
+                esac
       '';
       executable = true;
     };
-    
+
     ".local/bin/ai-compare" = {
       text = ''
         #!/usr/bin/env bash
@@ -681,7 +681,7 @@ $CONTENT"
       '';
       executable = true;
     };
-    
+
     ".local/bin/ai-models" = {
       text = ''
         #!/usr/bin/env bash
@@ -795,49 +795,49 @@ $CONTENT"
 
   # Create default AI prompts
   home.activation.ai-prompts = ''
-    mkdir -p ~/.local/share/ai-prompts
+        mkdir -p ~/.local/share/ai-prompts
     
-    # Code review prompt
-    cat > ~/.local/share/ai-prompts/code-review.txt << 'EOF'
-Review this code for:
-1. Potential bugs or security issues
-2. Performance improvements
-3. Code clarity and maintainability
-4. Best practices adherence
-5. Suggestions for optimization
-EOF
+        # Code review prompt
+        cat > ~/.local/share/ai-prompts/code-review.txt << 'EOF'
+    Review this code for:
+    1. Potential bugs or security issues
+    2. Performance improvements
+    3. Code clarity and maintainability
+    4. Best practices adherence
+    5. Suggestions for optimization
+    EOF
     
-    # Documentation prompt
-    cat > ~/.local/share/ai-prompts/document.txt << 'EOF'
-Generate comprehensive documentation for this code including:
-1. Purpose and overview
-2. Function/method descriptions
-3. Usage examples
-4. Installation/setup instructions
-5. Dependencies and requirements
-Format as clear, well-structured markdown.
-EOF
+        # Documentation prompt
+        cat > ~/.local/share/ai-prompts/document.txt << 'EOF'
+    Generate comprehensive documentation for this code including:
+    1. Purpose and overview
+    2. Function/method descriptions
+    3. Usage examples
+    4. Installation/setup instructions
+    5. Dependencies and requirements
+    Format as clear, well-structured markdown.
+    EOF
     
-    # Debugging prompt
-    cat > ~/.local/share/ai-prompts/debug.txt << 'EOF'
-Help me debug this code by:
-1. Identifying potential issues
-2. Suggesting debugging strategies
-3. Explaining error messages
-4. Recommending fixes
-5. Providing test cases
-EOF
+        # Debugging prompt
+        cat > ~/.local/share/ai-prompts/debug.txt << 'EOF'
+    Help me debug this code by:
+    1. Identifying potential issues
+    2. Suggesting debugging strategies
+    3. Explaining error messages
+    4. Recommending fixes
+    5. Providing test cases
+    EOF
     
-    # Optimization prompt
-    cat > ~/.local/share/ai-prompts/optimize.txt << 'EOF'
-Optimize this code for:
-1. Performance and efficiency
-2. Memory usage
-3. Readability and maintainability
-4. Modern best practices
-5. Error handling
-Provide before/after comparisons and explanations.
-EOF
+        # Optimization prompt
+        cat > ~/.local/share/ai-prompts/optimize.txt << 'EOF'
+    Optimize this code for:
+    1. Performance and efficiency
+    2. Memory usage
+    3. Readability and maintainability
+    4. Modern best practices
+    5. Error handling
+    Provide before/after comparisons and explanations.
+    EOF
   '';
 
   # AI tool configuration

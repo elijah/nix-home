@@ -8,14 +8,14 @@
     # mcp-cli
 
     # Local LLM runners and frameworks
-    ollama           # Local LLM runner (supports GPU/NPU/TPU)
-    lm-studio        # Local LLM desktop app
-    mlc-llm          # MLC LLM for local inference (GPU/NPU/TPU)
-    llama-cpp        # Llama.cpp for local LLMs (CPU/GPU)
+    ollama # Local LLM runner (supports GPU/NPU/TPU)
+    lm-studio # Local LLM desktop app
+    mlc-llm # MLC LLM for local inference (GPU/NPU/TPU)
+    llama-cpp # Llama.cpp for local LLMs (CPU/GPU)
     # Add more as needed: exllama, vllm, etc.
 
     # GPU/NPU/TPU support
-    nvidia-docker    # For NVIDIA GPU containers (if on Linux)
+    nvidia-docker # For NVIDIA GPU containers (if on Linux)
     cudaPackages.cudatoolkit
     rocmPackages.rocminfo
     vulkan-tools

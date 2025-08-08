@@ -9,7 +9,7 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
     historySubstringSearch.enable = true;
-    
+
     # Better history configuration
     history = {
       size = 50000;
@@ -19,7 +19,7 @@
       ignoreSpace = true;
       extended = true;
     };
-    
+
     # Modern shell options
     setopt = [
       "HIST_VERIFY"
@@ -31,7 +31,7 @@
       "AUTO_CD"
       "GLOB_DOTS"
     ];
-    
+
     # Enhanced completions
     completionInit = ''
       # Advanced completion system
@@ -53,7 +53,7 @@
       # Complete process IDs for kill
       zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
     '';
-    
+
     initExtra = ''
       # Load our custom functions
       fpath=(~/.local/share/zsh/functions $fpath)
@@ -166,11 +166,14 @@
     VISUAL = "code --wait";
     PAGER = "bat";
     MANPAGER = "sh -c 'col -bx | bat -l man -p'";
-    
+
     # Development
     DOCKER_BUILDKIT = "1";
     COMPOSE_DOCKER_CLI_BUILD = "1";
-    
+
+    # Nix configuration
+    NIXPKGS_ALLOW_UNFREE = "1";
+
     # History
     HISTSIZE = "50000";
     SAVEHIST = "50000";

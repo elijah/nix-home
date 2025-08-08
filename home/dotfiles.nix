@@ -7,20 +7,20 @@
     # Terminal configurations
     ".zshrc".source = ../assets/dotfiles/zshrc;
     ".zprofile".source = ../assets/dotfiles/zprofile;
-    
+
     # Tool configurations
     ".gitignore_global".source = ../assets/dotfiles/gitignore_global;
     ".editorconfig".source = ../assets/dotfiles/editorconfig;
-    
+
     # SSH config management
     ".ssh/config".source = ../assets/dotfiles/ssh-config;
-    
+
     # Hammerspoon configuration (if you have one)
     # ".hammerspoon" = {
     #   source = ../assets/hammerspoon;
     #   recursive = true;
     # };
-    
+
     # Personal scripts
     ".local/bin" = {
       source = ../assets/scripts;
@@ -30,7 +30,7 @@
 
   # XDG directories for cleaner home directory
   xdg.enable = true;
-  
+
   # Environment variables for XDG compliance
   home.sessionVariables = {
     # Move commonly messy configs to XDG directories

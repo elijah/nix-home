@@ -5,49 +5,49 @@
 
   environment.systemPackages = with pkgs; [
     # Network diagnostics
-    dig                     # DNS lookup utility
-    nslookup               # DNS lookup utility
-    whois                  # Domain information lookup
-    traceroute             # Network route tracing
-    mtr                    # Network diagnostic tool
-    ping                   # Network connectivity test
-    
+    dig # DNS lookup utility
+    nslookup # DNS lookup utility
+    whois # Domain information lookup
+    traceroute # Network route tracing
+    mtr # Network diagnostic tool
+    ping # Network connectivity test
+
     # Network monitoring
-    nmap                   # Network discovery and security auditing
-    masscan               # High-speed port scanner
-    netcat                # Network swiss army knife
-    socat                 # Socket relay
-    tcpdump               # Network packet capture
-    wireshark             # Network protocol analyzer
-    
+    nmap # Network discovery and security auditing
+    masscan # High-speed port scanner
+    netcat # Network swiss army knife
+    socat # Socket relay
+    tcpdump # Network packet capture
+    wireshark # Network protocol analyzer
+
     # Network performance
-    iperf3                # Network performance testing
-    speedtest-cli         # Internet speed testing
-    
+    iperf3 # Network performance testing
+    speedtest-cli # Internet speed testing
+
     # HTTP tools
-    curl                  # HTTP client
-    wget                  # File downloader
-    httpie                # Human-friendly HTTP client
-    aria2                 # Advanced downloader
-    
+    curl # HTTP client
+    wget # File downloader
+    httpie # Human-friendly HTTP client
+    aria2 # Advanced downloader
+
     # VPN and proxy
-    wireguard-tools       # WireGuard VPN utilities
-    openvpn              # OpenVPN client
-    
+    wireguard-tools # WireGuard VPN utilities
+    openvpn # OpenVPN client
+
     # Network utilities
-    rsync                # File synchronization over network
-    scp                  # Secure copy over SSH
-    
+    rsync # File synchronization over network
+    scp # Secure copy over SSH
+
     # SSL/TLS tools
-    openssl              # SSL/TLS toolkit
-    certstrap            # Certificate generation
-    step-cli             # Certificate management
-    
+    openssl # SSL/TLS toolkit
+    certstrap # Certificate generation
+    step-cli # Certificate management
+
     # Network file sharing
-    samba                # SMB/CIFS file sharing
-    
+    samba # SMB/CIFS file sharing
+
     # Network security
-    nftables             # Netfilter tables (if available)
+    nftables # Netfilter tables (if available)
   ];
 
   # Network optimization and configuration
@@ -96,7 +96,7 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/network-scan" = {
       text = ''
         #!/usr/bin/env bash
@@ -133,7 +133,7 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/port-check" = {
       text = ''
         #!/usr/bin/env bash
@@ -181,25 +181,25 @@
     myip = "curl -s https://ipinfo.io/ip";
     localip = "ifconfig | grep 'inet ' | grep -v 127.0.0.1 | awk '{print $2}' | head -1";
     netinfo = "network-info";
-    
+
     # DNS tools
     dns = "dig +short";
     dnsfull = "dig";
     dnsreverse = "dig -x";
-    
+
     # Network testing
     pingtest = "ping -c 4 8.8.8.8";
     speedtest = "speedtest-cli";
     portscan = "nmap -F";
-    
+
     # HTTP testing
     headers = "curl -I";
     curltime = "curl -w '@/dev/stdin' -o /dev/null -s";
-    
+
     # Network monitoring
     netwatch = "netstat -an | grep LISTEN";
     connections = "lsof -i";
-    
+
     # Quick network fixes
     dnsflush = "sudo dscacheutil -flushcache";
     netrestart = "sudo ifconfig en0 down && sudo ifconfig en0 up";

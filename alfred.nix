@@ -3,12 +3,12 @@ let
   # Custom function to create Alfred workflow packages
   mkAlfredWorkflow = { name, src, description ? "" }: pkgs.stdenv.mkDerivation {
     inherit name src;
-    
+
     installPhase = ''
       mkdir -p $out/Applications/Alfred.app/Contents/Frameworks/Alfred\ Framework.framework/Versions/A/Resources/workflows
       cp -r * "$out/Applications/Alfred.app/Contents/Frameworks/Alfred Framework.framework/Versions/A/Resources/workflows/"
     '';
-    
+
     meta = {
       inherit description;
       platforms = pkgs.lib.platforms.darwin;
@@ -59,9 +59,9 @@ in
   environment.systemPackages = with pkgs; [
     # Note: Alfred itself should be installed via Mac App Store or Homebrew
     # These are utilities for workflow management
-    unzip  # Required for extracting .alfredworkflow files
-    jq     # Useful for JSON processing in workflows
-    curl   # Common dependency for workflows
+    unzip # Required for extracting .alfredworkflow files
+    jq # Useful for JSON processing in workflows
+    curl # Common dependency for workflows
     alfredWorkflowActivator
   ];
 
@@ -93,7 +93,7 @@ in
   # Enable Alfred in system preferences
   system.defaults = {
     LaunchServices = {
-      LSQuarantine = false;  # Disable quarantine for downloaded workflows
+      LSQuarantine = false; # Disable quarantine for downloaded workflows
     };
   };
 }

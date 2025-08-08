@@ -5,36 +5,36 @@
 
   environment.systemPackages = with pkgs; [
     # Password management and security
-    pass                      # CLI password manager
-    passage                   # Modern pass alternative
-    age                       # File encryption tool
-    sops                      # Secrets management
-    
+    pass # CLI password manager
+    passage # Modern pass alternative
+    age # File encryption tool
+    sops # Secrets management
+
     # Network security
-    nmap                      # Network discovery and security auditing
-    wireshark                 # Network protocol analyzer
-    tcpdump                   # Network packet capture
-    
+    nmap # Network discovery and security auditing
+    wireshark # Network protocol analyzer
+    tcpdump # Network packet capture
+
     # System security
-    lynis                     # Security auditing tool
-    rkhunter                  # Rootkit detection
-    clamav                    # Antivirus
-    
+    lynis # Security auditing tool
+    rkhunter # Rootkit detection
+    clamav # Antivirus
+
     # Privacy tools
-    tor                       # Anonymous communication
-    torsocks                  # Torify applications
-    
+    tor # Anonymous communication
+    torsocks # Torify applications
+
     # Encryption and signing
-    gnupg                     # GPG encryption
-    pinentry-mac              # macOS GPG pinentry
-    yubikey-manager           # YubiKey management (if you use hardware keys)
-    
+    gnupg # GPG encryption
+    pinentry-mac # macOS GPG pinentry
+    yubikey-manager # YubiKey management (if you use hardware keys)
+
     # Certificate management
-    step-cli                  # Certificate management
-    certstrap                 # Certificate generation
-    
+    step-cli # Certificate management
+    certstrap # Certificate generation
+
     # Secure file deletion
-    srm                       # Secure file removal
+    srm # Secure file removal
   ];
 
   # GPG configuration
@@ -56,7 +56,7 @@
     defaultCacheTtl = 3600;
     maxCacheTtl = 86400;
   };
-  
+
   # Activate security measures
   system.activationScripts.security-setup.text = ''
     echo "Setting up security configurations..."

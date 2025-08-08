@@ -5,26 +5,26 @@
 
   environment.systemPackages = with pkgs; [
     # Automation tools
-    watchman              # File watching and automation
-    entr                  # File watcher for running commands
-    fswatch              # Cross-platform file change monitor
-    
+    watchman # File watching and automation
+    entr # File watcher for running commands
+    fswatch # Cross-platform file change monitor
+
     # AI-enhanced development tools
-    gh                   # GitHub CLI with Copilot integration
-    
+    gh # GitHub CLI with Copilot integration
+
     # Workflow orchestration
-    just                 # Command runner (better than make)
-    direnv              # Environment management per directory
-    
+    just # Command runner (better than make)
+    direnv # Environment management per directory
+
     # Text processing for AI pipelines
-    miller              # Data processing like awk/sed/cut for CSV/JSON
-    glow                # Markdown renderer for AI-generated docs
-    
+    miller # Data processing like awk/sed/cut for CSV/JSON
+    glow # Markdown renderer for AI-generated docs
+
     # API and webhook tools
-    webhook             # Lightweight webhook server
-    
+    webhook # Lightweight webhook server
+
     # Notification tools
-    terminal-notifier   # macOS notifications from command line
+    terminal-notifier # macOS notifications from command line
   ];
 
   # AI workflow scripts and automation
@@ -151,7 +151,7 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/ai-project-init" = {
       text = ''
         #!/usr/bin/env bash
@@ -260,7 +260,7 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/smart-refactor" = {
       text = ''
         #!/usr/bin/env bash
@@ -345,7 +345,7 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/ai-debug" = {
       text = ''
         #!/usr/bin/env bash
@@ -465,12 +465,12 @@
     "ai-start" = "ai-workflow start";
     "ai-stop" = "ai-workflow stop";
     "ai-status" = "ai-workflow status";
-    
+
     # Quick AI assistance
     "debug-this" = "ai-debug interactive";
     "refactor-this" = "smart-refactor";
     "new-ai-project" = "ai-project-init";
-    
+
     # Development workflow
     "smart-commit" = "ai-commit";
     "smart-review" = "ai-review";

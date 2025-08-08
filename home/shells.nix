@@ -87,7 +87,7 @@
         sudo launchctl load /Library/LaunchDaemons/com.zscaler.service.plist && sudo launchctl load /Library/LaunchDaemons/com.zscaler.tunnel.plist
       }
 
-                        '';
+    '';
     # Z Shell plugins
     # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.plugins
     zsh.plugins = [

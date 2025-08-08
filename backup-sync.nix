@@ -5,35 +5,35 @@
 
   environment.systemPackages = with pkgs; [
     # Modern backup tools
-    restic                  # Fast, secure backup program
-    borg                    # Deduplicating backup program
-    duplicity               # Encrypted bandwidth-efficient backup
-    
+    restic # Fast, secure backup program
+    borg # Deduplicating backup program
+    duplicity # Encrypted bandwidth-efficient backup
+
     # Cloud sync
-    rclone                  # Sync files to/from cloud storage
-    rsync                   # Fast file synchronization
-    
+    rclone # Sync files to/from cloud storage
+    rsync # Fast file synchronization
+
     # Version control for configs
-    git-crypt               # Transparent file encryption in git
-    git-secret              # Store secrets in git repositories
-    
+    git-crypt # Transparent file encryption in git
+    git-secret # Store secrets in git repositories
+
     # File monitoring and sync
-    syncthing               # Continuous file synchronization
-    unison                  # File synchronizer
-    
+    syncthing # Continuous file synchronization
+    unison # File synchronizer
+
     # Archive tools
-    p7zip                   # 7-Zip file archiver
-    zip                     # ZIP archiver
-    unzip                   # ZIP extractor
-    gzip                    # GZIP compression
-    
+    p7zip # 7-Zip file archiver
+    zip # ZIP archiver
+    unzip # ZIP extractor
+    gzip # GZIP compression
+
     # Data recovery
-    testdisk                # Data recovery software
-    photorec                # Photo recovery software
-    
+    testdisk # Data recovery software
+    photorec # Photo recovery software
+
     # File integrity
-    rhash                   # Utility for computing hash sums
-    checksec                # Tool for checking security properties
+    rhash # Utility for computing hash sums
+    checksec # Tool for checking security properties
   ];
 
   # Backup scripts and automation
@@ -90,7 +90,7 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/backup-system" = {
       text = ''
         #!/usr/bin/env bash
@@ -137,7 +137,7 @@
       '';
       executable = true;
     };
-    
+
     ".local/bin/sync-dotfiles" = {
       text = ''
         #!/usr/bin/env bash

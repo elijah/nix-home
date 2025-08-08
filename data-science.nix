@@ -5,15 +5,15 @@
 
   environment.systemPackages = with pkgs; [
     # R Environment
-    R                          # R statistical computing language
-    rWrapper                   # R with commonly used packages
-    
+    R # R statistical computing language
+    rWrapper # R with commonly used packages
+
     # Jupyter Ecosystem
-    jupyter                    # Complete Jupyter environment
-    jupyter-all                # Jupyter with all kernels and extensions
-    
+    jupyter # Complete Jupyter environment
+    jupyter-all # Jupyter with all kernels and extensions
+
     # Python Data Science Stack
-    python312                  # Latest Python
+    python312 # Latest Python
     python312Packages.jupyter
     python312Packages.jupyterlab
     python312Packages.pandas
@@ -23,19 +23,19 @@
     python312Packages.scikit-learn
     python312Packages.requests
     python312Packages.plotly
-    
+
     # Additional Kernels for Jupyter
-    gophernotes               # Go kernel for Jupyter
-    iruby                     # Ruby kernel for Jupyter
-    
+    gophernotes # Go kernel for Jupyter
+    iruby # Ruby kernel for Jupyter
+
     # Data Processing Tools
-    jq                        # JSON processor
-    yq                        # YAML processor
-    csvkit                    # CSV toolkit
-    
+    jq # JSON processor
+    yq # YAML processor
+    csvkit # CSV toolkit
+
     # Visualization and Analysis
-    gnuplot                   # Plotting program
-    graphviz                  # Graph visualization
+    gnuplot # Plotting program
+    graphviz # Graph visualization
   ];
 
   # Configure environment variables for R
