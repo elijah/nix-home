@@ -6,7 +6,7 @@
   environment.systemPackages = with pkgs; [
     # Modern backup tools
     restic # Fast, secure backup program
-    borg # Deduplicating backup program
+    borgbackup # Deduplicating backup program (borg)
     duplicity # Encrypted bandwidth-efficient backup
 
     # Cloud sync
