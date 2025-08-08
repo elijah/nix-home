@@ -35,7 +35,7 @@
 
     # Network diagnostics
     dig # DNS lookup
-    nslookup # DNS lookup
+    # nslookup # DNS lookup (not available in nixpkgs, use dig instead)
     whois # Domain information
     traceroute # Network path tracing
     mtr # Network diagnostic tool
