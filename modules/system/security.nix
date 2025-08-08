@@ -26,7 +26,7 @@
 
     # Encryption and signing
     gnupg # GPG encryption
-    pinentry-mac # macOS GPG pinentry
+    pinentry_mac # macOS GPG pinentry (underscore not dash)
     yubikey-manager # YubiKey management (if you use hardware keys)
 
     # Certificate management
