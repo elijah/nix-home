@@ -15,7 +15,7 @@
     # Network monitoring
     nmap # Network discovery and security auditing
     masscan # High-speed port scanner
-    netcat # Network swiss army knife
+    netcat-gnu # Network swiss army knife (GNU variant, more reliable)
     socat # Socket relay
     tcpdump # Network packet capture
     wireshark # Network protocol analyzer
