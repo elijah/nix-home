@@ -50,7 +50,7 @@
     plantuml # UML diagrams
 
     # Image format conversion
-    webp # WebP image format
+    libwebp # WebP image format tools and library
 
     # Metadata tools
     exiftool # Metadata reader/writer
