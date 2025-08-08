@@ -8,7 +8,6 @@
     extensions = with pkgs.vscode-extensions; [
       # Language Support
       ms-python.python
-      ms-vscode.vscode-typescript-next
       golang.go
       hashicorp.terraform
       
@@ -27,7 +26,7 @@
       redhat.vscode-yaml
       
       # Knowledge Management
-      dendron.dendron  # For note-taking and knowledge management
+      # dendron.dendron  # For note-taking and knowledge management (install manually if needed)
       
       # Productivity
       vscodevim.vim
