@@ -111,7 +111,7 @@
 
     # Network diagnostics
     pingtest = "ping -c 4 8.8.8.8";
-    speedtest = "curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -";
+    speedtest-py = "curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -";
   };
 
   # System administration directories
