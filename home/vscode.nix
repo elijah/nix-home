@@ -9,7 +9,6 @@
       # Language Support
       ms-python.python
       golang.go
-      hashicorp.terraform
       
       # Nix Support
       jnoortheen.nix-ide
@@ -17,24 +16,12 @@
       # GitHub Integration
       github.copilot
       github.copilot-chat
-      github.vscode-pull-request-github
       
       # Docker & DevOps
       ms-azuretools.vscode-docker
-      ms-vscode-remote.remote-containers
-      ms-kubernetes-tools.vscode-kubernetes-tools
-      redhat.vscode-yaml
-      
-      # Knowledge Management
-      # dendron.dendron  # For note-taking and knowledge management (install manually if needed)
       
       # Productivity
       vscodevim.vim
-      ms-vscode.vscode-json
-      
-      # Theme and UI
-      pkief.material-icon-theme
-      github.github-vscode-theme
     ];
 
     userSettings = {
