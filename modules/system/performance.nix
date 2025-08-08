@@ -35,8 +35,9 @@
     entr # Run commands when files change
     watchexec # Execute commands on file changes
 
-    # Memory analysis
-    valgrind # Memory debugging and profiling
+    # Memory and debugging analysis
+    lldb # LLVM debugger with memory debugging features
+    gdb # GNU debugger
 
     # System information
     neofetch # System information display
