@@ -14,7 +14,7 @@
     kubectx # Kubernetes context switcher
     # kubens # Kubernetes namespace switcher (part of kubectx package)
     k9s # Kubernetes TUI
-    helm # Kubernetes package manager
+    kubernetes-helm # Kubernetes package manager (Helm)
     kustomize # Kubernetes configuration management
     argocd # GitOps CLI
 

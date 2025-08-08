@@ -2,6 +2,9 @@
 {
   # Allow unfree packages like VSCode
   nixpkgs.config.allowUnfree = true;
+  
+  # Allow unsupported system packages (for packages that don't officially support macOS)
+  nixpkgs.config.allowUnsupportedSystem = true;
 
   # Global environment variables
   environment.variables = {
