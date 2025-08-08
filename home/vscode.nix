@@ -4,27 +4,28 @@
   programs.vscode = {
     enable = true;
     
-    # Essential extensions for DevOps and TTRPG workflows
-    extensions = with pkgs.vscode-extensions; [
-      # Language Support
-      ms-python.python
-      golang.go
-      
-      # Nix Support
-      jnoortheen.nix-ide
-      
-      # GitHub Integration
-      github.copilot
-      github.copilot-chat
-      
-      # Docker & DevOps
-      ms-azuretools.vscode-docker
-      
-      # Productivity
-      vscodevim.vim
-    ];
+    profiles.default = {
+      # Essential extensions for DevOps and TTRPG workflows
+      extensions = with pkgs.vscode-extensions; [
+        # Language Support
+        ms-python.python
+        golang.go
+        
+        # Nix Support
+        jnoortheen.nix-ide
+        
+        # GitHub Integration
+        github.copilot
+        github.copilot-chat
+        
+        # Docker & DevOps
+        ms-azuretools.vscode-docker
+        
+        # Productivity
+        vscodevim.vim
+      ];
 
-    userSettings = {
+      userSettings = {
       # Editor settings
       "editor.fontSize" = 14;
       "editor.fontFamily" = "'JetBrains Mono', 'Fira Code', Consolas, 'Courier New', monospace";
@@ -73,24 +74,25 @@
       };
     };
 
-    keybindings = [
-      {
-        key = "ctrl+shift+p";
-        command = "workbench.action.showCommands";
-      }
-      {
-        key = "ctrl+shift+`";
-        command = "workbench.action.terminal.new";
-      }
-      # Dendron keybindings for knowledge management
-      {
-        key = "ctrl+l";
-        command = "dendron.lookup";
-      }
-      {
-        key = "ctrl+shift+l";
-        command = "dendron.lookupSchema";
-      }
-    ];
+      keybindings = [
+        {
+          key = "ctrl+shift+p";
+          command = "workbench.action.showCommands";
+        }
+        {
+          key = "ctrl+shift+`";
+          command = "workbench.action.terminal.new";
+        }
+        # Dendron keybindings for knowledge management
+        {
+          key = "ctrl+l";
+          command = "dendron.lookup";
+        }
+        {
+          key = "ctrl+shift+l";
+          command = "dendron.lookupSchema";
+        }
+      ];
+    };
   };
 }

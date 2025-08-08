@@ -12,7 +12,7 @@
     # Kubernetes ecosystem
     kubectl # Kubernetes CLI
     kubectx # Kubernetes context switcher
-    kubens # Kubernetes namespace switcher
+    # kubens # Kubernetes namespace switcher (part of kubectx package)
     k9s # Kubernetes TUI
     helm # Kubernetes package manager
     kustomize # Kubernetes configuration management
