@@ -4,10 +4,6 @@
   # Automatically manage common configuration files
 
   home.file = {
-    # Terminal configurations
-    ".zshrc".source = ../assets/dotfiles/zshrc;
-    ".zprofile".source = ../assets/dotfiles/zprofile;
-
     # Tool configurations
     ".gitignore_global".source = ../assets/dotfiles/gitignore_global;
     ".editorconfig".source = ../assets/dotfiles/editorconfig;
