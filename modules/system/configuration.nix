@@ -3,6 +3,12 @@
   # Allow unfree packages like VSCode
   nixpkgs.config.allowUnfree = true;
 
+  # Global environment variables
+  environment.variables = {
+    # Allow unsupported systems for nixpkgs compatibility
+    NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM = "1";
+  };
+
   # Make sure the nix daemon always runs
   # Without this configuration, the switch command won't work due to this error:
   # error: The daemon is not enabled but this is a multi-user install, aborting activation
