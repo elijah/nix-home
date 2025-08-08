@@ -30,7 +30,6 @@
       # Programming support
       lsp-mode
       lsp-ui
-      company-lsp
       
       # Nix support
       nix-mode
