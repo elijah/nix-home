@@ -5,7 +5,7 @@
 
   environment.systemPackages = with pkgs; [
     # AI-powered CLI tools
-    github-copilot-cli # GitHub Copilot CLI
+    gh-copilot # GitHub Copilot CLI (renamed from github-copilot-cli)
     aichat # AI chat in terminal
 
     # Code analysis and generation
