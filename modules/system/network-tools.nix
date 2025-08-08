@@ -10,7 +10,7 @@
     whois # Domain information lookup
     traceroute # Network route tracing
     mtr # Network diagnostic tool
-    ping # Network connectivity test
+    iputils # Network connectivity tools (includes ping)
 
     # Network monitoring
     nmap # Network discovery and security auditing
