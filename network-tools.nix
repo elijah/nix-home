@@ -6,7 +6,7 @@
   environment.systemPackages = with pkgs; [
     # Network diagnostics
     dig # DNS lookup utility
-    nslookup # DNS lookup utility
+    # nslookup # DNS lookup utility (not available in nixpkgs, use dig instead)
     whois # Domain information lookup
     traceroute # Network route tracing
     mtr # Network diagnostic tool
@@ -92,7 +92,7 @@
         echo
         
         log "DNS Resolution Test"
-        nslookup google.com >/dev/null 2>&1 && echo "✅ DNS resolution OK" || echo "❌ DNS resolution failed"
+        dig google.com >/dev/null 2>&1 && echo "✅ DNS resolution OK" || echo "❌ DNS resolution failed"
       '';
       executable = true;
     };
