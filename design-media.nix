@@ -20,8 +20,7 @@
 
     # Video tools
     ffmpeg # Video/audio processing
-    youtube-dl # Video downloader
-    yt-dlp # Enhanced youtube-dl
+    yt-dlp # Modern video downloader (successor to youtube-dl)
 
     # Audio tools
     sox # Audio processing
