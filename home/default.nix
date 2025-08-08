@@ -21,7 +21,8 @@
     ./packages.nix         # User packages
     ./shells.nix           # Shell configuration  
     ./dotfiles.nix         # Dotfiles management
-    # Note: VS Code extensions are now configured in the main flake via nix-darwin modules
-    # Complex Home Manager configurations will be added back incrementally
+    ./vscode.nix           # VS Code with Dendron and DevOps extensions
+    ./emacs.nix            # Emacs with org-roam for knowledge management
+    # Complex Home Manager configurations added back incrementally
   ];
 }
