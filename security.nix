@@ -17,7 +17,7 @@
 
     # System security
     lynis # Security auditing tool
-    rkhunter # Rootkit detection
+    chkrootkit # Rootkit detection (alternative to rkhunter)
     clamav # Antivirus
 
     # Privacy tools
