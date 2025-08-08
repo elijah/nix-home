@@ -36,7 +36,7 @@
 
     # Network utilities
     rsync # File synchronization over network
-    scp # Secure copy over SSH
+    openssh # SSH client and utilities (includes scp, ssh, sftp)
 
     # SSL/TLS tools
     openssl # SSL/TLS toolkit

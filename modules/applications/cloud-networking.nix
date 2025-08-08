@@ -62,7 +62,7 @@
     # File transfer
     rsync # File synchronization
     rclone # Cloud storage sync
-    scp # Secure copy
+    openssh # SSH client and utilities (includes scp, ssh, sftp)
 
     # Network security
     nmap # Network scanner
