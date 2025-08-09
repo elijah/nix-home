@@ -31,8 +31,16 @@
   # Add trusted substituters
   # I grabbed the public key from https://app.cachix.org/cache/elijah#pull
   # Example: https://github.com/LnL7/nix-darwin/blob/0e6857fa1d632637488666c08e7b02c08e3178f8/modules/examples/lnl.nix#L97-L98
-  nix.settings.trusted-public-keys = [ "elijah.cachix.org-1:QnyHESYK6A8uvRdOYACY+0cUXKcj6GaEG8dWeD/F9g4=" ];
-  nix.settings.trusted-substituters = [ https://elijah.cachix.org ];
+  nix.settings.trusted-public-keys = [ 
+    "elijah.cachix.org-1:QnyHESYK6A8uvRdOYACY+0cUXKcj6GaEG8dWeD/F9g4=" 
+    "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+    "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+  ];
+  nix.settings.trusted-substituters = [ 
+    https://elijah.cachix.org 
+    https://cache.nixos.org
+    https://nix-community.cachix.org
+  ];
 
   # macOS system defaults configuration
   # https://daiderd.com/nix-darwin/manual/index.html#opt-system.defaults.dock.autohide
