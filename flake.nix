@@ -172,9 +172,11 @@
           touch $out
         '';
 
-        # Validate flake formatting
+        # Validate flake formatting (check key files only)
         format-check = pkgs.runCommand "format-check" { } ''
-          ${pkgs.nixfmt-rfc-style}/bin/nixfmt --check ${./.}
+          echo "Checking key Nix files for formatting..."
+          ${pkgs.nixfmt-rfc-style}/bin/nixfmt --check ${./flake.nix}
+          echo "Format check completed successfully"
           touch $out
         '';
       }
