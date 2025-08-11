@@ -36,19 +36,25 @@ Nix-Darwin Management Script
 Usage: $0 [COMMAND]
 
 Commands:
-    deploy      Deploy the configuration (nix-darwin switch)
-    build       Build without deploying (dry-run)
-    check       Run flake checks
-    update      Update flake inputs
-    health      Check system health
-    rollback    Rollback to previous generation
-    help        Show this help message
+    deploy           Deploy the configuration (nix-darwin switch)
+    build            Build without deploying (dry-run)
+    test             Run comprehensive tool and integration tests
+    test-tools       Test development tools only
+    test-editors     Test editor integrations (Emacs, VS Code)
+    test-home-manager Test Home Manager integration
+    check            Run flake checks
+    update           Update flake inputs
+    health           Check system health
+    rollback         Rollback to previous generation
+    help             Show this help message
 
 Examples:
-    $0 deploy          # Deploy elw configuration
-    $0 build           # Test build without applying
-    $0 check           # Validate configuration
-    $0 update          # Update all dependencies
+    $0 deploy           # Deploy elw configuration
+    $0 build            # Test build without applying
+    $0 test             # Run all functionality tests
+    $0 test-tools       # Test just the CLI tools
+    $0 check            # Validate configuration syntax
+    $0 update           # Update all dependencies
 EOF
 }
 
@@ -162,6 +168,22 @@ case "${1:-help}" in
         ;;
     build)
         build_config
+        ;;
+    test)
+        log_info "Running comprehensive tool tests..."
+        ./scripts/test-tools.sh all
+        ;;
+    test-tools)
+        log_info "Testing development tools only..."
+        ./scripts/test-tools.sh tools
+        ;;
+    test-editors)
+        log_info "Testing editor integrations..."
+        ./scripts/test-tools.sh editors
+        ;;
+    test-home-manager)
+        log_info "Testing Home Manager integration..."
+        ./scripts/test-tools.sh home-manager
         ;;
     check)
         check_config

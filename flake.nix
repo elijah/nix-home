@@ -179,6 +179,45 @@
           echo "Format check completed successfully"
           touch $out
         '';
+
+        # Test tool availability (simplified check)
+        tool-check = pkgs.runCommand "tool-check" { 
+          buildInputs = with pkgs; [
+            git nodejs python3
+            ripgrep bat fzf
+          ];
+        } ''
+          echo "Basic tool availability check..."
+          git --version
+          node --version
+          python3 --version
+          rg --version
+          bat --version
+          fzf --version
+          echo "Core tools available"
+          touch $out
+        '';
+
+        # Test Home Manager configuration syntax  
+        home-manager-syntax = pkgs.runCommand "home-manager-syntax-check" { } ''
+          echo "Validating Home Manager configuration syntax..."
+          ${pkgs.nix}/bin/nix-instantiate --parse ${./home/default.nix} > /dev/null
+          echo "Home Manager configuration syntax is valid"
+          touch $out
+        '';
+
+        # Test script validation
+        script-validation = pkgs.runCommand "script-validation" { 
+          buildInputs = with pkgs; [ bash ];
+        } ''
+          echo "Validating shell scripts..."
+          find ${./scripts} -name "*.sh" -type f | while read script; do
+            echo "Checking syntax of $script..."
+            bash -n "$script"
+          done
+          echo "Script validation completed"
+          touch $out
+        '';
       }
     );
 
