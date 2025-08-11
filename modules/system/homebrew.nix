@@ -66,6 +66,7 @@
     "pre-commit"
     "skaffold"
     "sketchybar"
+    "starship"
     "talosctl"
     "vcluster-experimental"
     "volta"

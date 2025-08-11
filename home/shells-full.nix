@@ -117,6 +117,7 @@
     # Style Z Shell using Starship, a cross-shell prompt
     # https://starship.rs
     # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.starship.enable
+    # Note: Starship binary is installed via Homebrew, but configuration is managed by Home Manager
     starship = {
       enable = true;
       enableZshIntegration = true;

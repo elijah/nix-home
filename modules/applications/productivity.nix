@@ -52,7 +52,7 @@
     # Productivity
     just # Command runner
     direnv # Environment management
-    starship # Shell prompt
+    # starship # Shell prompt - installed via Homebrew for better reliability
     atuin # Shell history
   ];
 

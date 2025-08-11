@@ -6,7 +6,7 @@
   environment.systemPackages = with pkgs; [
     # Modern shell tools
     zsh # Z shell
-    starship # Shell prompt
+    # starship # Shell prompt - installed via Homebrew for better reliability
     zoxide # Better cd
     atuin # Shell history
     fzf # Fuzzy finder
