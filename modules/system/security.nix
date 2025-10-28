@@ -17,7 +17,7 @@
 
     # System security
     lynis # Security auditing tool
-    chkrootkit # Rootkit detection (alternative to rkhunter)
+    # chkrootkit # Rootkit detection (not compatible with current macOS SDK)
     clamav # Antivirus
 
     # Privacy tools

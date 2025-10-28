@@ -32,7 +32,7 @@
 
     # File integrity
     rhash # Utility for computing hash sums
-    checksec # Tool for checking security properties
+    # checksec # Linux-specific security checker (macOS has different tools)
   ];
 
   # Note: Backup scripts and automation would be configured in Home Manager

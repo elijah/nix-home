@@ -46,9 +46,10 @@
     prometheus # Metrics collection
     grafana # Metrics visualization
 
-    # Database administration
+    # Database management
     pgcli # PostgreSQL CLI with autocomplete
-    mycli # MySQL CLI with autocomplete
+    # mycli # MySQL CLI - has build issues on nix-darwin, use Homebrew instead
+    redis # Redis server
 
     # Service discovery
     consul # Service discovery

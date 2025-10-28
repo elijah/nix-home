@@ -8,9 +8,9 @@
     dig # DNS lookup utility
     # nslookup # DNS lookup utility (not available in nixpkgs, use dig instead)
     whois # Domain information lookup
-    traceroute # Network route tracing
+    # traceroute # macOS has built-in traceroute
     mtr # Network diagnostic tool
-    iputils # Network connectivity tools (includes ping)
+    # iputils # Linux-specific (macOS has built-in ping)
 
     # Network monitoring
     nmap # Network discovery and security auditing
@@ -47,7 +47,7 @@
     samba # SMB/CIFS file sharing
 
     # Network security
-    nftables # Netfilter tables (if available)
+    # nftables # Linux-specific firewall (macOS uses pfctl)
   ];
 
   # Note: Network diagnostic scripts would be configured in Home Manager

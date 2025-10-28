@@ -27,7 +27,7 @@
     terraform # Infrastructure provisioning
     terragrunt # Terraform wrapper
     packer # Image building
-    vagrant # Development environments
+    # vagrant # Has build issues with Ruby grpc on macOS - use Homebrew if needed
 
     # Service mesh and networking
     istioctl # Istio service mesh
@@ -37,7 +37,7 @@
     dig # DNS lookup
     # nslookup # DNS lookup (not available in nixpkgs, use dig instead)
     whois # Domain information
-    traceroute # Network path tracing
+    # traceroute # macOS has built-in traceroute
     mtr # Network diagnostic tool
     netcat-gnu # Network swiss army knife (GNU variant, more reliable)
     socat # Socket relay

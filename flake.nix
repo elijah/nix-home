@@ -255,6 +255,11 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
+        # Default package - nix-home management script
+        default = pkgs.writeShellScriptBin "nix-home" ''
+          ${builtins.readFile ./scripts/manage.sh}
+        '';
+
         # Module template generator
         new-module = pkgs.writeShellScriptBin "new-module" ''
           if [ -z "$1" ] || [ -z "$2" ]; then

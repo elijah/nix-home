@@ -15,8 +15,8 @@
   homebrew.global.brewfile = true;
 
   homebrew.taps = [
-    "homebrew/cask-fonts"
-    "homebrew/cask-versions"
+    # "homebrew/cask-fonts" # Deprecated - merged into main casks
+    # "homebrew/cask-versions" # Deprecated - merged into main casks
     "homebrew/services"
     "hashicorp/tap"
     "carvel-dev/carvel"
@@ -91,7 +91,7 @@
   homebrew.casks = [
     "alfred"
     "arc"
-    "around"
+    # "around" # Discontinued upstream
     "betterdisplay"
     "browser-actions"
     "daisydisk"

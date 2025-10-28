@@ -11,9 +11,9 @@
     lazygit # Terminal UI for git
 
     # Multiple Language Support
-    nodejs_20 # Node.js LTS
-    nodePackages.npm # npm package manager
-    nodePackages.yarn # Yarn package manager
+    # nodejs_20 # Node.js LTS - use Homebrew nvm/volta/bun instead (tests fail on nix-darwin)
+    # nodePackages.npm # npm package manager
+    # nodePackages.yarn # Yarn package manager
     bun # Fast JavaScript runtime and package manager
 
     # Rust Ecosystem
@@ -43,7 +43,7 @@
     # Database Tools
     sqlite # SQLite database
     postgresql_15 # PostgreSQL client
-    mysql80 # MySQL client
+    # mysql80 # MySQL client - has build issues on nix-darwin, use Homebrew instead
 
     # API and Web Development
     httpie # HTTP client

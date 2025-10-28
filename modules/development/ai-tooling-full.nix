@@ -32,9 +32,9 @@
     python3Packages.virtualenv # Virtual environments
 
     # Node.js for AI tool development
-    nodejs # Node.js runtime
-    nodePackages.npm # NPM package manager
-    nodePackages.yarn # Yarn package manager
+    # nodejs # Node.js runtime - use Homebrew instead
+    # nodePackages.npm # NPM package manager
+    # nodePackages.yarn # Yarn package manager
 
     # API testing and development
     httpie # Human-friendly HTTP client

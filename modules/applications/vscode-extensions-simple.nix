@@ -9,7 +9,7 @@
     vscode
 
     # VS Code related tools
-    nodejs # Required for many VS Code extensions
+    # nodejs # Required for many VS Code extensions - use Homebrew instead
     git # Required for VS Code Git integration
   ];
 
