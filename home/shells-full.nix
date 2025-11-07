@@ -51,11 +51,11 @@
   programs = {
     # Z Shell (Default shell) - Temporarily disabled to avoid conflicts with nix-darwin
     # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enable
-    # zsh.enable = true;
+    zsh.enable = true;
 
-    # zsh.initContent = ''
-    #   bindkey '^ ' autosuggest-accept
-    #   AGKOZAK_CMD_EXEC_TIME=5
+    zsh.initContent = ''
+      bindkey '^ ' autosuggest-accept
+      AGKOZAK_CMD_EXEC_TIME=5
       AGKOZAK_COLORS_CMD_EXEC_TIME='yellow'
       AGKOZAK_COLORS_PROMPT_CHAR='magenta'
       AGKOZAK_CUSTOM_SYMBOLS=( '⇣⇡' '⇣' '⇡' '+' 'x' '!' '>' '?' )
@@ -66,8 +66,11 @@
       export DOCKER_BUILDKIT=0
       export DOCKER_DEFAULT_PLATFORM=linux/amd64
       eval "$(/opt/homebrew/bin/mise activate zsh)"
+      someenv-exec() {
+        aws-vault exec --prompt ykman caops -- "@"
+      }
       caops-exec() {
-        aws-vault exec --prompt ykman caops -- "$@"
+        aws-vault exec caops -- "$@"
       }
       glc-exec() {
         aws-vault exec glc -- "$@"
@@ -81,36 +84,35 @@
       zoff() {
         sudo launchctl unload /Library/LaunchDaemons/com.zscaler.service.plist && sudo launchctl unload /Library/LaunchDaemons/com.zscaler.tunnel.plist
       }
-
       # You might still need to go into the GUI and click "More -> Restart Service" too...
       zon() {
         sudo launchctl load /Library/LaunchDaemons/com.zscaler.service.plist && sudo launchctl load /Library/LaunchDaemons/com.zscaler.tunnel.plist
       }
-
-    # '';
+    '';
+    
     # Z Shell plugins - Temporarily disabled
     # https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.plugins
     # zsh.plugins = [
-      {
-        name = "zsh-z";
-        file = "zsh-z.plugin.zsh";
-        src = pkgs.fetchFromGitHub {
-          owner = "agkozak";
-          repo = "zsh-z";
-          rev = "afaf2965b41fdc6ca66066e09382726aa0b6aa04";
-          sha256 = "1s23azd9hk57dgya0xrqh16jq1qbmm0n70x32mxg8b29ynks6w8n";
-        };
-      }
-      {
-        name = "zsh-nix-shell";
-        file = "nix-shell.plugin.zsh";
-        src = pkgs.fetchFromGitHub {
-          owner = "chisui";
-          repo = "zsh-nix-shell";
-          rev = "v0.8.0";
-          sha256 = "1lzrn0n4fxfcgg65v0qhnj7wnybybqzs4adz7xsrkgmcsr0ii8b7";
-        };
-      }
+    #   {
+    #     name = "zsh-z";
+    #     file = "zsh-z.plugin.zsh";
+    #     src = pkgs.fetchFromGitHub {
+    #       owner = "agkozak";
+    #       repo = "zsh-z";
+    #       rev = "afaf2965b41fdc6ca66066e09382726aa0b6aa04";
+    #       sha256 = "1s23azd9hk57dgya0xrqh16jq1qbmm0n70x32mxg8b29ynks6w8n";
+    #     };
+    #   }
+    #   {
+    #     name = "zsh-nix-shell";
+    #     file = "nix-shell.plugin.zsh";
+    #     src = pkgs.fetchFromGitHub {
+    #       owner = "chisui";
+    #       repo = "zsh-nix-shell";
+    #       rev = "v0.8.0";
+    #       sha256 = "1lzrn0n4fxfcgg65v0qhnj7wnybybqzs4adz7xsrkgmcsr0ii8b7";
+    #     };
+    #   }
     # ];
 
 
