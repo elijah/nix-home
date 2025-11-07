@@ -7,7 +7,7 @@ Host *
     AddKeysToAgent yes
     
     # Use macOS keychain for SSH keys
-    UseKeychain yes
+    # UseKeychain yes
     
     # Prefer IPv4
     AddressFamily inet
