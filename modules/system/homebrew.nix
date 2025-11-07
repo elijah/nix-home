@@ -17,7 +17,7 @@
   homebrew.taps = [
     # "homebrew/cask-fonts" # Deprecated - merged into main casks
     # "homebrew/cask-versions" # Deprecated - merged into main casks
-    "homebrew/services"
+    # "homebrew/services" # Deprecated - no longer exists
     "hashicorp/tap"
     "carvel-dev/carvel"
     "chainguard-dev/tap"
