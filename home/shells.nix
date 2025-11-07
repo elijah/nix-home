@@ -67,9 +67,15 @@
       export DOCKER_BUILDKIT=0
       export DOCKER_DEFAULT_PLATFORM=linux/amd64
       eval "$(/opt/homebrew/bin/mise activate zsh)"
-      caops-exec() {
-        aws-vault exec --prompt ykman caops -- "$@"
+      
+      someenv-exec() {
+        aws-vault exec --prompt ykman caops -- "@"
       }
+      
+      caops-exec() {
+        aws-vault exec caops -- "$@"
+      }
+      
       glc-exec() {
         aws-vault exec glc -- "$@"
       }
@@ -112,7 +118,7 @@
     #       sha256 = "1lzrn0n4fxfcgg65v0qhnj7wnybybqzs4adz7xsrkgmcsr0ii8b7";
     #     };
     #   }
-    ];
+    # ];
 
 
     # Style Z Shell using Starship, a cross-shell prompt
