@@ -5,6 +5,7 @@
 - Package conflicts resolved
 - Environment variable conflicts fixed
 - Modular architecture working
+- Darwin upgrade attempt parked with diagnostics: [docs/DARWIN-UPGRADE-PARKED-2026-05-27.md](docs/DARWIN-UPGRADE-PARKED-2026-05-27.md)
 
 ## Priority Improvements
 

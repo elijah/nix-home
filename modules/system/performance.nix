@@ -49,7 +49,7 @@
     # - LeakSanitizer: compile with -fsanitize=leak
 
     # System information
-    neofetch # System information display
+    fastfetch # System information display
     macchina # Fast system info tool
 
     # Log analysis
@@ -107,7 +107,7 @@
     disktest = "dd if=/dev/zero of=/tmp/test bs=1M count=1024 && rm /tmp/test";
 
     # System info
-    sysinfo = "neofetch";
+    sysinfo = "fastfetch";
     temp = "sudo powermetrics --samplers smc -n 1 | grep -E 'CPU|GPU' | grep -E 'temp|Temp'";
 
     # Memory debugging (macOS-specific)

@@ -29,7 +29,7 @@
     screen # Terminal multiplexer
 
     # System information
-    neofetch # System information display
+    fastfetch # System information display
     macchina # System information (Rust-based)
 
     # Backup and archiving

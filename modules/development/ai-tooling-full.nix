@@ -5,7 +5,7 @@
 
   environment.systemPackages = with pkgs; [
     # AI-powered CLI tools
-    gh-copilot # GitHub Copilot CLI (renamed from github-copilot-cli)
+    github-copilot-cli # GitHub Copilot CLI
     aichat # AI chat in terminal
     # Note: Gemini CLI and Claude CLI will be installed via pip in ai-setup
 

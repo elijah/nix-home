@@ -2,15 +2,15 @@
   description = "Elijah's Nix Darwin Configuration - Comprehensive Development Environment";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin";
 
     nix-darwin = {
-      url = "github:LnL7/nix-darwin/e04a388232d9a6ba56967ce5b53a8a6f713cdfcf";
+      url = "github:LnL7/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/cc2fa2331aebf9661d22bb507d362b39852ac73f";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

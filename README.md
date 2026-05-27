@@ -134,3 +134,4 @@ $ nix-prefetch-git <github-repository-url>
 ## References
 
 - [Declarative macOS Configuration Using nix-darwin And home-manager](https://xyno.space/post/nix-darwin-introduction)
+- [Parked Darwin upgrade notes (2026-05-27)](docs/DARWIN-UPGRADE-PARKED-2026-05-27.md)

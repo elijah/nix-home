@@ -56,7 +56,7 @@
 
     # Database tools
     postgresql # PostgreSQL client
-    mariadb-client # MySQL/MariaDB client
+    mariadb.client # MySQL/MariaDB client
     redis # Redis client
 
     # File transfer
