@@ -38,6 +38,21 @@ ai-models status  # Check all AI models
 ai-models test    # Test connections
 ```
 
+### 5. Bootstrap Universal Agent Skills
+
+```bash
+# Create one shared skills directory and link it across agents
+./scripts/manage.sh skills
+
+# Or seed from an existing skills folder
+./scripts/bootstrap-agent-skills.sh --source ~/my-agent-skills
+
+# Or seed from a shared git repo
+./scripts/bootstrap-agent-skills.sh --repo https://github.com/<org>/<skills-repo>.git --ref main
+```
+
+The bootstrap command links the shared skills directory to Copilot, OpenCode, Claude, Gemini, and VS Code prompts paths so one update is reused everywhere.
+
 ## 🤖 New Commands Available
 
 ### Google Gemini

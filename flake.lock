@@ -57,6 +57,7 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "rev": "cc2fa2331aebf9661d22bb507d362b39852ac73f",
         "type": "github"
       }
     },
@@ -77,6 +78,7 @@
       "original": {
         "owner": "LnL7",
         "repo": "nix-darwin",
+        "rev": "e04a388232d9a6ba56967ce5b53a8a6f713cdfcf",
         "type": "github"
       }
     },

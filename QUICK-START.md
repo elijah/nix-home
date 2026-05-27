@@ -8,6 +8,9 @@ This directory contains tools for managing your nix-darwin configuration.
 # Deploy the configuration
 ./scripts/manage.sh deploy
 
+# Re-sync declarative packages and capture drift snapshots
+./scripts/manage.sh resync
+
 # Test configuration without deploying
 ./scripts/manage.sh build
 
@@ -22,6 +25,8 @@ This directory contains tools for managing your nix-darwin configuration.
 
 - **`deploy`** - Deploy the nix-darwin configuration
 - **`build`** - Test build without applying changes
+- **`resync`** - Re-apply declarative package state and write drift reports under `logs/resync/`
+- **`skills`** - Link one shared skills directory to Copilot/OpenCode/Claude/Gemini paths
 - **`check`** - Run syntax and format validation
 - **`update`** - Update all flake inputs
 - **`health`** - System health diagnostics
@@ -66,4 +71,7 @@ To update your configuration:
 
 # Deploy if tests pass
 ./scripts/manage.sh deploy
+
+# Reconcile package drift after deploy
+./scripts/manage.sh resync
 ```

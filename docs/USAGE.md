@@ -10,6 +10,15 @@ This guide explains how to use the reorganized nix-home configuration.
 sudo env NIXPKGS_ALLOW_UNFREE=1 darwin-rebuild switch --flake .#elw --impure
 ```
 
+### Re-sync Packages and Capture Drift
+```bash
+# Re-apply declarative package state and collect drift snapshots
+./scripts/manage.sh resync
+
+# Optional: include flake input update first
+./scripts/resync-environment.sh --update-lock
+```
+
 ### Apply Alternative Configurations
 ```bash
 # Minimal setup (just development tools)
@@ -101,6 +110,27 @@ sudo darwin-rebuild switch --flake .#elw --show-trace --verbose
 
 ### Managing Homebrew Packages
 Edit `modules/system/homebrew.nix` or the main `Brewfile`
+
+After changes or on a new machine, run `./scripts/manage.sh resync` and review the generated drift files in `logs/resync/<timestamp>/`.
+
+### Universal Agent Skills Setup
+```bash
+# Create a shared skills directory and link all supported agents
+./scripts/manage.sh skills
+
+# Optional: sync skills from an existing directory
+./scripts/bootstrap-agent-skills.sh --source ~/my-agent-skills
+
+# Optional: sync skills from a repository
+./scripts/bootstrap-agent-skills.sh --repo https://github.com/<org>/<repo>.git --ref main
+```
+
+This links one shared skills directory to:
+- `~/.copilot/skills`
+- `~/.config/opencode/skills`
+- `~/.claude/skills`
+- `~/.gemini/skills`
+- `~/Library/Application Support/Code/User/prompts/skills`
 
 ### VS Code Extensions
 Edit `modules/applications/vscode-extensions.nix`

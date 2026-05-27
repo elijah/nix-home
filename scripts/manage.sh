@@ -12,6 +12,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
+FILTERED_WARNING='Using `lib.generators.toPlist` without `escape = true` is deprecated'
 
 log_info() {
     echo -e "${BLUE}[INFO]${NC} $1"
@@ -38,10 +39,13 @@ Usage: $0 [COMMAND]
 Commands:
     deploy           Deploy the configuration (nix-darwin switch)
     build            Build without deploying (dry-run)
+    resync           Re-sync declarative packages and capture drift snapshots
+    install-community-skills Install ECC/Superpowers/KWP skills into shared links
     test             Run comprehensive tool and integration tests
     test-tools       Test development tools only
     test-editors     Test editor integrations (Emacs, VS Code)
     test-home-manager Test Home Manager integration
+    skills           Bootstrap universal agent skills directory and links
     check            Run flake checks
     update           Update flake inputs
     health           Check system health
@@ -51,8 +55,11 @@ Commands:
 Examples:
     $0 deploy           # Deploy elw configuration
     $0 build            # Test build without applying
+    $0 resync           # Re-apply packages and snapshot package drift
+    $0 install-community-skills  # Install and merge community skill packs
     $0 test             # Run all functionality tests
     $0 test-tools       # Test just the CLI tools
+    $0 skills           # Link shared skills across agent CLIs/editors
     $0 check            # Validate configuration syntax
     $0 update           # Update all dependencies
 EOF
@@ -95,7 +102,8 @@ check_config() {
     
     # Quick syntax check
     log_info "Checking syntax..."
-    if nix build .#checks.aarch64-darwin.module-syntax --no-link --quiet; then
+    if nix build .#checks.aarch64-darwin.module-syntax --no-link --quiet --no-update-lock-file \
+        2> >(grep -Fv "$FILTERED_WARNING" >&2); then
         log_success "Module syntax check passed!"
     else
         log_error "Module syntax check failed!"
@@ -104,7 +112,8 @@ check_config() {
     
     # Format check
     log_info "Checking formatting..."
-    if nix build .#checks.aarch64-darwin.format-check --no-link --quiet; then
+    if nix build .#checks.aarch64-darwin.format-check --no-link --quiet --no-update-lock-file \
+        2> >(grep -Fv "$FILTERED_WARNING" >&2); then
         log_success "Format check passed!"
     else
         log_error "Format check failed!"
@@ -169,6 +178,14 @@ case "${1:-help}" in
     build)
         build_config
         ;;
+    resync)
+        log_info "Re-syncing environment and collecting drift snapshots..."
+        ./scripts/resync-environment.sh
+        ;;
+    install-community-skills)
+        log_info "Installing community skill packs (ECC, Superpowers, KWP)..."
+        ./scripts/install-community-skills.sh
+        ;;
     test)
         log_info "Running comprehensive tool tests..."
         ./scripts/test-tools.sh all
@@ -184,6 +201,10 @@ case "${1:-help}" in
     test-home-manager)
         log_info "Testing Home Manager integration..."
         ./scripts/test-tools.sh home-manager
+        ;;
+    skills)
+        log_info "Bootstrapping universal agent skills directories..."
+        ./scripts/bootstrap-agent-skills.sh
         ;;
     check)
         check_config
