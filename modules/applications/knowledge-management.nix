@@ -20,7 +20,7 @@
 
     # Document Processing
     typst # Modern typesetting system
-    texlive.combined.scheme-full # Complete LaTeX distribution
+    # texlive.combined.scheme-full # Complete LaTeX distribution (disabled: frequently fails to substitute from cache)
 
     # Text Processing
     ripgrep # Fast text search tool

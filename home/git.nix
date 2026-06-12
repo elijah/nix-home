@@ -37,7 +37,7 @@ in
         pf = "push --force-with-lease";
       };
 
-      diff-so-fancy.enable = true;
+      # diff-so-fancy disabled: frequently fails to substitute from nix cache
     };
   };
 }

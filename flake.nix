@@ -43,6 +43,7 @@
           modules = [
             {
               nixpkgs.config.allowUnfree = true;
+              nixpkgs.config.permittedInsecurePackages = [ "electron-39.8.10" ];
               nixpkgs.overlays = [ emacs-overlay.overlays.default ];
             }
 
@@ -57,7 +58,7 @@
             # Development modules
             ./modules/development/development.nix
             ./modules/development/sysadmin.nix
-            ./modules/development/data-science.nix
+            # ./modules/development/data-science.nix  # disabled: heavy deps frequently fail to substitute from cache
             ./modules/development/ai-tooling.nix
             ./modules/development/mcp-dev.nix
 
@@ -118,7 +119,7 @@
             # All development modules
             ./modules/development/development.nix
             ./modules/development/sysadmin.nix
-            ./modules/development/data-science.nix
+            # ./modules/development/data-science.nix  # disabled: heavy deps frequently fail to substitute from cache
             ./modules/development/ai-tooling.nix
             ./modules/development/mcp-dev.nix
 

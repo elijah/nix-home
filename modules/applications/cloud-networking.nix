@@ -5,9 +5,9 @@
 
   environment.systemPackages = with pkgs; [
     # Cloud CLI tools
-    awscli2 # AWS CLI
-    azure-cli # Azure CLI
-    google-cloud-sdk # Google Cloud CLI
+    # awscli2 # disabled: large package, frequently fails to substitute from cache
+    # azure-cli # disabled: large package, frequently fails to substitute from cache
+    # google-cloud-sdk # disabled: large package, frequently fails to substitute from cache
 
     # Kubernetes ecosystem
     kubectl # Kubernetes CLI
@@ -24,8 +24,8 @@
     skopeo # Container image operations
 
     # Infrastructure as Code
-    terraform # Infrastructure provisioning
-    terragrunt # Terraform wrapper
+    # terraform # disabled: build failures
+    # terragrunt # disabled: build failures
     packer # Image building
     # vagrant # Has build issues with Ruby grpc on macOS - use Homebrew if needed
 

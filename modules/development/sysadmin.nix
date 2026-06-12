@@ -38,13 +38,13 @@
     duplicity # Backup tool
 
     # Configuration management
-    ansible # Configuration management
+    # ansible # disabled: large package with heavy Python deps, frequently fails to substitute from cache
     # puppet                # Configuration management (if needed)
     # chef                  # Configuration management (if needed)
 
     # Infrastructure monitoring
-    prometheus # Metrics collection
-    grafana # Metrics visualization
+    # prometheus # disabled: large server package, frequently fails to substitute from cache
+    # grafana # disabled: large server package, frequently fails to substitute from cache
 
     # Database management
     pgcli # PostgreSQL CLI with autocomplete
@@ -52,10 +52,10 @@
     redis # Redis server
 
     # Service discovery
-    consul # Service discovery
+    # consul # disabled: build failures
 
     # Secrets management
-    vault # HashiCorp Vault
+    # vault # disabled: build failures
 
     # Message queues
     # rabbitmq-server       # Message broker (if needed)
@@ -73,7 +73,7 @@
     # tcpping               # TCP ping utility (not available in nixpkgs)
 
     # Container orchestration
-    nomad # Workload orchestrator
+    # nomad # disabled: build failures
 
     # Infrastructure testing
     # testinfra             # Infrastructure testing (not available in nixpkgs)
