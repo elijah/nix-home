@@ -92,19 +92,9 @@
     
     # Create AWS config directory
     mkdir -p /Users/elw/.aws
-
-    # Keep AWS credentials writable for SSO-enabled CLI tooling.
-    # Some tools refresh credentials in-place and will fail on immutable/symlinked files.
-    if [ -L /Users/elw/.aws/credentials ]; then
-      echo "Replacing symlinked ~/.aws/credentials with a regular file"
-      rm -f /Users/elw/.aws/credentials
-      touch /Users/elw/.aws/credentials
-    elif [ ! -e /Users/elw/.aws/credentials ]; then
-      touch /Users/elw/.aws/credentials
-    fi
-
-    chown elw:staff /Users/elw/.aws/credentials
-    chmod 600 /Users/elw/.aws/credentials
+    # Keeping ~/.aws/credentials writable for SSO-enabled CLI tooling is now
+    # handled cross-platform by home/aws-credentials.nix (home.activation),
+    # which runs identically under nix-darwin and the Linux personality.
     
     # Create Docker config directory
     mkdir -p /Users/elw/.docker

@@ -24,6 +24,7 @@
     ../packages.nix # Cross-platform nix packages
     ../dotfiles.nix # XDG dotfiles management
     ../assets.nix # Scripts/Warp symlinks (resolved relative to $HOME/Code/GitHub/elijah/nix-home)
+    ../aws-credentials.nix # Keep ~/.aws/credentials writable for SSO CLI tools
     ./shells.nix # Linux-appropriate shell/starship config
     ../../modules/linux/packages.nix # apt/vendor-repo/homebrew-fallback bootstrap script
   ];

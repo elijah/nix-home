@@ -256,6 +256,7 @@
           home-manager-syntax = pkgs.runCommand "home-manager-syntax-check" { } ''
             echo "Validating Home Manager configuration syntax..."
             ${pkgs.nix}/bin/nix-instantiate --parse ${./home/default.nix} > /dev/null
+            ${pkgs.nix}/bin/nix-instantiate --parse ${./home/aws-credentials.nix} > /dev/null
             ${pkgs.nix}/bin/nix-instantiate --parse ${./home/linux/default.nix} > /dev/null
             ${pkgs.nix}/bin/nix-instantiate --parse ${./home/linux/shells.nix} > /dev/null
             echo "Home Manager configuration syntax is valid"

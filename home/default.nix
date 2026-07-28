@@ -23,6 +23,7 @@
     ./dotfiles.nix         # Dotfiles management
     ./vscode.nix           # VS Code with Dendron and DevOps extensions
     ./emacs.nix            # Emacs with org-roam for knowledge management
+    ./aws-credentials.nix  # Keep ~/.aws/credentials writable for SSO CLI tools
     # Complex Home Manager configurations added back incrementally
   ];
 }
