@@ -121,6 +121,40 @@ check_config() {
         log_error "Format check failed!"
         exit 1
     fi
+
+    # Home Manager configuration syntax check
+    log_info "Checking Home Manager configuration syntax..."
+    if nix build .#checks.aarch64-darwin.home-manager-syntax --no-link --quiet --no-update-lock-file \
+        2> >(grep -Fv "$FILTERED_WARNING" >&2); then
+        log_success "Home Manager syntax check passed!"
+    else
+        log_error "Home Manager syntax check failed!"
+        exit 1
+    fi
+
+    # Fast, VM-less regression check for the Linux (WSL2) personality: dry-run
+    # evaluate + resolve both homeConfigurations so eval errors, home-manager
+    # option conflicts, and platform-unsupported packages (e.g. a package
+    # missing for aarch64-linux specifically) are caught without needing the
+    # Lima VM harness for routine changes. Run directly on the host (not as a
+    # `checks` derivation) since it needs to invoke nix against the flake
+    # itself, which the build sandbox would otherwise block.
+    log_info "Dry-run evaluating Linux homeConfigurations (elw-linux, elw-linux-aarch64)..."
+    if nix build .#homeConfigurations.elw-linux.activationPackage --dry-run --no-link --quiet --no-update-lock-file \
+        2> >(grep -Fv "$FILTERED_WARNING" >&2); then
+        log_success "elw-linux (x86_64-linux) evaluates cleanly!"
+    else
+        log_error "elw-linux (x86_64-linux) evaluation failed!"
+        exit 1
+    fi
+
+    if nix build .#homeConfigurations.elw-linux-aarch64.activationPackage --dry-run --no-link --quiet --no-update-lock-file \
+        2> >(grep -Fv "$FILTERED_WARNING" >&2); then
+        log_success "elw-linux-aarch64 (aarch64-linux) evaluates cleanly!"
+    else
+        log_error "elw-linux-aarch64 (aarch64-linux) evaluation failed!"
+        exit 1
+    fi
 }
 
 update_flake() {

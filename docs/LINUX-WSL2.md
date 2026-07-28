@@ -36,41 +36,65 @@ scripts/
 
 ## Package Strategy
 
-Every package the macOS side gets via Homebrew (see `modules/system/homebrew.nix`
-and the Brewfile) is re-classified in `modules/linux/packages.nix` into three
-priority tiers, applied in order by `linux-bootstrap`:
+Most of what used to live in `modules/system/homebrew.nix` (see the
+Brewfile) is no longer duplicated here at all: cross-platform CLI tools with
+no OS-level integration need are installed via the **shared home-manager
+modules** (`modules/development/*`, `modules/system/security.nix`,
+`modules/applications/*`, `modules/workflows/*` — see
+`docs/ARCHITECTURE.md`'s "Shared Module Strategy" section), which are
+imported by both `home/default.nix` (macOS) and `home/linux/default.nix`
+(Linux) and therefore already installed via plain Nix on this personality.
+`gh`, `kubernetes-helm`, `mise`, and `sops` are examples of tools that moved
+this way and no longer need an apt/vendor-repo/Homebrew entry at all.
+
+`modules/linux/packages.nix` is now reserved for the residual cases where a
+shared nixpkgs package genuinely isn't the right answer: things needing real
+OS-level integration (Docker Engine's daemon + systemd unit, hardware-adjacent
+packages like `rtl-sdr`), or known nix build flakiness on this platform
+(Node.js — "tests fail on nix-darwin", terraform/vault — build failures). It
+classifies those into three priority tiers, applied in order by
+`linux-bootstrap`:
 
 1. **`aptPackages`** — installed straight from Ubuntu 24.04's official
    `main`/`universe`/`restricted`/`multiverse` repositories via
    `apt-get install`. Preferred whenever available.
 2. **`vendorRepos`** — packages that aren't in Ubuntu's own repos but do have
-   a well-known, vendor-owned apt repository (Docker, GitHub CLI, HashiCorp,
-   mise-en-place, NodeSource, Helm). Each entry adds the vendor's signing key
-   and `sources.list.d` entry, then installs the listed packages.
-3. **`homebrewFallbackPackages`** — anything left over (e.g. `awscli`, `sops`,
-   assorted CLI tools whose only meaningful "official" packaging channel is a
-   third-party Homebrew tap) falls back to Homebrew/Linuxbrew, matching the
-   same tool by the same name as the macOS `homebrew.nix` module. If Homebrew
-   isn't installed, this tier is skipped with an informational message rather
-   than failing the whole bootstrap.
+   a well-known, vendor-owned apt repository (Docker, HashiCorp, NodeSource).
+   Each entry adds the vendor's signing key and `sources.list.d` entry, then
+   installs the listed packages.
+3. **`homebrewFallbackPackages`** — anything left over (e.g. `awscli`,
+   whose nixpkgs `awscli2` package is disabled repo-wide due to cache
+   substitution failures, plus assorted CLI tools whose only meaningful
+   "official" packaging channel is a third-party Homebrew tap) falls back to
+   Homebrew/Linuxbrew, matching the same tool by the same name as the macOS
+   `homebrew.nix` module. If Homebrew isn't installed, this tier is skipped
+   with an informational message rather than failing the whole bootstrap.
 
 Every package placement was verified against a live Ubuntu 24.04 (arm64)
 environment using `apt-cache policy`/`apt-get install -s` — see inline `NOTE`
-comments in `packages.nix` for anything with surprising behavior (e.g. apt's
-`yq` is the Python/jq-based `yq`, not `mikefarah/yq`).
+comments in `packages.nix` for anything with surprising behavior.
 
-`awscli` and `sops` specifically have **no** apt package and no well-known
-vendor apt/PPA repo on Ubuntu 24.04, so they're classified under the Homebrew
+`awscli` specifically has **no** apt package and no well-known vendor
+apt/PPA repo on Ubuntu 24.04, and its nixpkgs `awscli2` equivalent is
+disabled repo-wide for cache reasons, so it's classified under the Homebrew
 fallback tier.
 
 ### Adding a new package
 
-1. Check availability first: `apt-cache policy <pkg>` (inside a real or Lima
-   Ubuntu 24.04 host — do this before assuming a package is apt-installable).
-2. If available, add it to `aptPackages`.
-3. If not, but the vendor publishes an apt/PPA repo, add a new entry to
+1. **Check the shared modules first**: if it's a plain cross-platform CLI
+   tool with no OS-level integration need, prefer adding it to the relevant
+   shared home-manager module (`modules/development/*`,
+   `modules/applications/*`, `modules/workflows/*`,
+   `modules/system/security.nix`/`network-tools.nix`/`backup-sync.nix`) so
+   it installs identically on both personalities - not here.
+2. Only if it genuinely needs apt/vendor-repo/Homebrew (real OS integration,
+   or known nix build flakiness): check availability with
+   `apt-cache policy <pkg>` (inside a real or Lima Ubuntu 24.04 host — do
+   this before assuming a package is apt-installable).
+3. If available, add it to `aptPackages`.
+4. If not, but the vendor publishes an apt/PPA repo, add a new entry to
    `vendorRepos` (or a package to an existing entry's `packages` list).
-4. Otherwise, add it to `homebrewFallbackPackages`.
+5. Otherwise, add it to `homebrewFallbackPackages`.
 
 ## Using on a Real WSL2 Machine
 
@@ -128,6 +152,30 @@ ways:
 This is purely a Lima testing artifact — a real WSL2/Ubuntu machine already
 has `/home/elw` as your actual home directory, so none of this applies there.
 
+### Disk space
+
+The shared home-manager modules now installed on this personality include
+some large packages (e.g. `python3Packages.torch`/`transformers` in
+`modules/development/mcp-dev.nix`, LaTeX/PDF tooling, the
+`python312Packages` data-science stack). A real WSL2 install typically has
+plenty of headroom, but the Lima test VM's disk (`lima/ubuntu-2404-wsl-test.yaml`,
+`disk: "60GiB"`) can be tight if the host itself is also low on space - Lima
+VM disk images are files on the host filesystem, so a nearly-full host disk
+can cause `switch`/`bootstrap` to fail with `Input/output error` partway
+through a large download. If you hit that, check the *host's* free disk
+first (`df -h /`) before assuming the Nix config itself is broken.
+
+## Fast, VM-less Regression Checks
+
+Most day-to-day changes don't need a full Lima run. `scripts/manage.sh check`
+(and `nix flake check`) run a fast, VM-less dry-run evaluation of both
+`homeConfigurations` (`elw-linux` and `elw-linux-aarch64`), which catches
+eval errors, `home.*` option conflicts between modules, and packages that
+aren't available on one of the two Linux architectures (e.g. `insomnia` is
+missing on `aarch64-linux` — see `modules/applications/cloud-networking.nix`)
+without needing a Linux builder or a VM at all. Run the Lima harness (below)
+periodically for real end-to-end validation, e.g. after `nix flake update`.
+
 ## Validated
 
 As of this writing, the following has been confirmed working end-to-end
@@ -135,6 +183,12 @@ inside a Lima Ubuntu 24.04 (aarch64) VM:
 
 - `nix build .#homeConfigurations.elw-linux-aarch64.activationPackage`
 - `home-manager switch --flake .#elw-linux-aarch64`
-- `linux-bootstrap` — apt packages, all six vendor repos (docker, github-cli,
-  hashicorp, mise, nodesource, helm), and the Homebrew-fallback tier's
-  graceful skip-if-brew-missing behavior.
+- `linux-bootstrap` — apt packages, all vendor repos (docker, hashicorp,
+  nodesource), and the Homebrew-fallback tier's graceful
+  skip-if-brew-missing behavior.
+
+Additionally, after the shared-module refactor (see `docs/ARCHITECTURE.md`),
+`nix build .#homeConfigurations.elw-linux.activationPackage --dry-run` and
+`...elw-linux-aarch64.activationPackage --dry-run` were verified to evaluate
+cleanly for both Linux architectures, alongside all three
+`darwinConfigurations` (`elw`, `minimal`, `full`).

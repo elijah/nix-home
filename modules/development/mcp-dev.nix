@@ -1,8 +1,10 @@
 { pkgs, ... }:
 {
   # Model Context Protocol (MCP) and Local AI Hardware Support
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager).
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # Local LLM runners and frameworks
     ollama # Local LLM runner (supports GPU/NPU/TPU)
 
@@ -19,14 +21,14 @@
   ];
 
   # Environment variables for local model storage and hardware
-  environment.variables = {
+  home.sessionVariables = {
     HF_HOME = "$HOME/.cache/huggingface";
     TRANSFORMERS_CACHE = "$HOME/.cache/huggingface/transformers";
     OLLAMA_MODELS = "$HOME/.ollama/models";
   };
 
   # Shell aliases for local LLM workflows
-  environment.shellAliases = {
+  home.shellAliases = {
     "ollama-run" = "ollama run llama2";
   };
 }

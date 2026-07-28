@@ -1,9 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, ... }:
 {
   # Network and Cloud Tools
   # Comprehensive networking and cloud service management
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager).
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # Cloud CLI tools
     # awscli2 # disabled: large package, frequently fails to substitute from cache
     # azure-cli # disabled: large package, frequently fails to substitute from cache
@@ -52,8 +54,9 @@
 
     # API tools
     postman # API testing (if available)
-    insomnia # API testing
-
+  ] ++ lib.optionals (!(pkgs.stdenv.isLinux && pkgs.stdenv.isAarch64)) [
+    insomnia # API testing - not packaged for aarch64-linux in nixpkgs
+  ] ++ [
     # Database tools
     postgresql # PostgreSQL client
     mariadb.client # MySQL/MariaDB client
@@ -70,7 +73,7 @@
   ];
 
   # Environment variables for cloud tools
-  environment.variables = {
+  home.sessionVariables = {
     # AWS
     AWS_PAGER = "";
     AWS_DEFAULT_OUTPUT = "json";
@@ -84,21 +87,19 @@
   };
 
   # Create necessary directories
-  system.activationScripts.cloud-setup.text = ''
-    echo "Setting up cloud and network tool directories..."
-    
+  home.activation.cloudSetup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    verboseEcho "Setting up cloud and network tool directories..."
+
     # Create kubectl config directory
-    mkdir -p /Users/elw/.kube
-    
+    run mkdir -p "${config.home.homeDirectory}/.kube"
+
     # Create AWS config directory
-    mkdir -p /Users/elw/.aws
-    # Keeping ~/.aws/credentials writable for SSO-enabled CLI tooling is now
+    run mkdir -p "${config.home.homeDirectory}/.aws"
+    # Keeping ~/.aws/credentials writable for SSO-enabled CLI tooling is
     # handled cross-platform by home/aws-credentials.nix (home.activation),
     # which runs identically under nix-darwin and the Linux personality.
-    
+
     # Create Docker config directory
-    mkdir -p /Users/elw/.docker
-    
-    echo "Cloud and network setup completed"
+    run mkdir -p "${config.home.homeDirectory}/.docker"
   '';
 }

@@ -2,8 +2,10 @@
 {
   # Backup and Synchronization Tools
   # Comprehensive backup, sync, and data protection solutions
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager).
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # Modern backup tools
     restic # Fast, secure backup program
     borgbackup # Deduplicating backup program (borg)

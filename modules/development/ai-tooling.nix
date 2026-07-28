@@ -2,8 +2,10 @@
 {
   # AI Tooling and Development Enhancements
   # Comprehensive AI integration for modern development workflows
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager).
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # AI-powered CLI tools
     github-copilot-cli # GitHub Copilot CLI
     aichat # AI chat in terminal
@@ -34,7 +36,7 @@
   ];
 
   # Environment variables for AI tools
-  environment.variables = {
+  home.sessionVariables = {
     # AI service configurations
     OPENAI_API_BASE = "https://api.openai.com/v1";
   };

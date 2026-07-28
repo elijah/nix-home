@@ -1,65 +1,16 @@
-{ pkgs, ... }:
+{ ... }:
 {
-  # Performance Monitoring and System Optimization
-  # Tools and configurations for monitoring and optimizing system performance
+  # macOS System Preferences: Dock, Finder, Trackpad, Screen Capture
+  # Darwin-only: these are nix-darwin `system.defaults` options with no
+  # home-manager equivalent, so this stays a nix-darwin module wired only
+  # into flake.nix's darwinConfigurations.
+  #
+  # The cross-platform performance-monitoring packages, aliases, and
+  # activation setup that used to live in this file have moved to the
+  # shared home-manager module modules/development/performance-tools.nix,
+  # which is imported by both home/default.nix (macOS) and
+  # home/linux/default.nix (Linux).
 
-  environment.systemPackages = with pkgs; [
-    # System monitoring
-    htop # Interactive process viewer
-    btop # Modern resource monitor
-    iotop # I/O monitoring
-    nethogs # Network usage by process
-    bandwhich # Network utilization monitor
-
-    # Performance analysis
-    hyperfine # Command-line benchmarking
-    pv # Pipe viewer for data transfer rates
-    stress # System stress testing
-    sysbench # System benchmark suite
-
-    # Disk analysis
-    ncdu # NCurses disk usage
-    dust # Modern du replacement
-    duf # Modern df replacement
-
-    # Network performance
-    iperf3 # Network performance testing
-    speedtest-cli # Internet speed testing
-
-    # Process management
-    procs # Modern ps replacement
-    killall # Kill processes by name
-
-    # File system monitoring
-    watchman # File watcher service
-    entr # Run commands when files change
-    watchexec # Execute commands on file changes
-
-    # Memory and debugging analysis
-    lldb # LLVM debugger with memory debugging features
-    gdb # GNU debugger
-    
-    # Note: macOS has excellent built-in memory debugging tools:
-    # - leaks: detect memory leaks in running processes
-    # - vmmap: analyze virtual memory usage
-    # - malloc_history: track malloc/free history  
-    # - heap: analyze heap contents
-    # - Instruments.app: comprehensive profiling GUI
-    # - AddressSanitizer: compile with -fsanitize=address
-    # - LeakSanitizer: compile with -fsanitize=leak
-
-    # System information
-    fastfetch # System information display
-    macchina # Fast system info tool
-
-    # Log analysis
-    lnav # Log navigator
-
-    # Temperature monitoring (if supported)
-    # sensors                # Hardware sensor monitoring
-  ];
-
-  # System performance optimizations
   system.defaults = {
     # Dock optimizations
     dock = {
@@ -88,51 +39,4 @@
     # Energy saving
     screencapture.location = "~/Pictures/Screenshots";
   };
-
-  # Performance monitoring aliases
-  environment.shellAliases = {
-    # Quick system checks
-    cpu = "htop --sort-key PERCENT_CPU";
-    mem = "htop --sort-key PERCENT_MEM";
-    disk = "duf";
-    network = "nethogs";
-
-    # Process management
-    psk = "procs --tree";
-    psmem = "procs --sortd memory";
-    pscpu = "procs --sortd cpu";
-
-    # Performance testing
-    speedtest = "speedtest-cli";
-    disktest = "dd if=/dev/zero of=/tmp/test bs=1M count=1024 && rm /tmp/test";
-
-    # System info
-    sysinfo = "fastfetch";
-    temp = "sudo powermetrics --samplers smc -n 1 | grep -E 'CPU|GPU' | grep -E 'temp|Temp'";
-
-    # Memory debugging (macOS-specific)
-    memcheck = "lldb --batch --one-line 'process launch --stop-at-entry' --one-line 'target modules dump symtab'";
-    leakcheck = "leaks";  # Built-in macOS leak detection
-    vmmap = "vmmap";      # Built-in macOS virtual memory analyzer
-    malloc-history = "malloc_history"; # Built-in macOS malloc tracking
-    
-    # Compile with sanitizers
-    compile-asan = "clang -fsanitize=address -g";
-    compile-lsan = "clang -fsanitize=leak -g";
-    compile-msan = "clang -fsanitize=memory -g";
-  };
-
-  # Create performance monitoring directories
-  system.activationScripts.performance-setup.text = ''
-    echo "Setting up performance monitoring..."
-    
-    # Create directories for logs and monitoring data
-    mkdir -p /Users/elw/.local/share/monitoring
-    mkdir -p /Users/elw/.local/share/logs
-    
-    # Create screenshots directory
-    mkdir -p /Users/elw/Pictures/Screenshots
-    
-    echo "Performance monitoring setup completed"
-  '';
 }

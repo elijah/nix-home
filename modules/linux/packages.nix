@@ -9,10 +9,21 @@
 # NixOS - it has to be materialized as a script that shells out to apt.
 #
 # Preference order, per package:
+#   0. Shared nixpkgs (home.packages, in modules/development/* etc.) - always
+#      preferred first now that this personality has real Nix available; see
+#      docs/ARCHITECTURE.md for the shared-module list. Only fall through to
+#      the tiers below when a package needs genuine OS-level integration
+#      (a systemd service/daemon, udev rules, kernel/KVM access) or has
+#      known nix build flakiness on this platform.
 #   1. `aptPackages`      - present in Ubuntu 24.04 (noble) main/universe.
 #   2. `vendorRepos`      - not in Ubuntu's own repos, but the upstream
 #                           vendor publishes a well-known apt repository
-#                           (e.g. Docker, GitHub CLI, HashiCorp, NodeSource).
+#                           (e.g. Docker, HashiCorp, NodeSource). GitHub CLI,
+#                           Helm, and mise vendor repos were removed here -
+#                           `gh`/`kubernetes-helm`/`mise` are plain
+#                           cross-platform nixpkgs packages with no OS
+#                           integration need, so they're installed via the
+#                           shared home-manager modules instead.
 #   3. `homebrewFallback` - nothing above applies; installed via Homebrew on
 #                           Linux (Linuxbrew) as a last resort, mirroring how
 #                           modules/system/homebrew.nix installs these same
@@ -26,13 +37,13 @@
 # kanata's macOS driver, mactop) are intentionally omitted.
 let
   # Packages installable straight from Ubuntu 24.04's own repositories.
+  # NOTE: several packages formerly listed here (fzf, jq, yq, openssh-client,
+  # openvpn, zoxide) have been removed - they're already installed via the
+  # shared home-manager modules (modules/development/*, modules/system/*,
+  # modules/workflows/*) that now run identically on this Linux personality,
+  # so installing them a second time via apt would just be redundant.
   aptPackages = [
-    "fzf"
-    "jq"
-    "yq" # NOTE: apt's `yq` is the Python/jq wrapper, not mikefarah/yq - behavior differs from Brewfile's yq
     "yamllint"
-    "openssh-client"
-    "openvpn"
     "pwgen"
     "pkgconf"
     "qemu-system"
@@ -41,7 +52,6 @@ let
     "rtl-sdr"
     "gitleaks"
     "yadm"
-    "zoxide"
     "pipx"
     "emacs"
   ];
@@ -70,18 +80,6 @@ let
       '';
     }
     {
-      name = "github-cli";
-      description = "GitHub CLI (official cli.github.com apt repo)";
-      packages = [ "gh" ];
-      setup = ''
-        install -m 0755 -d /etc/apt/keyrings
-        curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg -o /etc/apt/keyrings/githubcli-archive-keyring.gpg
-        chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
-        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
-          > /etc/apt/sources.list.d/github-cli.list
-      '';
-    }
-    {
       name = "hashicorp";
       description = "HashiCorp tools (official apt.releases.hashicorp.com repo)";
       packages = [ ]; # none installed by default - add e.g. "terraform" or "vault" as needed
@@ -93,17 +91,6 @@ let
       '';
     }
     {
-      name = "mise";
-      description = "mise-en-place (official mise.jdx.dev apt repo)";
-      packages = [ "mise" ];
-      setup = ''
-        install -m 0755 -d /etc/apt/keyrings
-        curl -fsSL https://mise.jdx.dev/gpg-key.pub | gpg --batch --yes --dearmor -o /etc/apt/keyrings/mise-archive-keyring.gpg
-        echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=$(dpkg --print-architecture)] https://mise.jdx.dev/deb stable main" \
-          > /etc/apt/sources.list.d/mise.list
-      '';
-    }
-    {
       name = "nodesource";
       description = "Node.js LTS (official NodeSource apt repo) - eslint/prettier install via npm afterwards";
       packages = [ "nodejs" ];
@@ -111,28 +98,15 @@ let
         curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
       '';
     }
-    {
-      # NOTE: the old baltocdn.com/helm apt mirror is stale/deprecated - the
-      # community-maintained apt repo now lives on Buildkite's package
-      # registry per https://helm.sh/docs/intro/install/#from-apt-debianubuntu
-      name = "helm";
-      description = "Helm (community apt repo, hosted by Buildkite)";
-      packages = [ "helm" ];
-      setup = ''
-        install -m 0755 -d /etc/apt/keyrings
-        rm -f /etc/apt/sources.list.d/helm-stable-debian.list # stale filename from an older baltocdn-based setup
-        curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --batch --yes --dearmor -o /etc/apt/keyrings/helm.gpg
-        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" \
-          > /etc/apt/sources.list.d/helm-debian.list
-      '';
-    }
   ];
 
   # Nothing above applies - fall back to Homebrew on Linux (Linuxbrew), same
   # tools modules/system/homebrew.nix installs via Homebrew on macOS.
+  # NOTE: `sops` was removed from this list - it's now installed via the
+  # shared modules/system/security.nix home-manager module (a plain
+  # cross-platform nixpkgs package, no Homebrew needed).
   homebrewFallbackPackages = [
-    "awscli" # verified on Ubuntu 24.04 (noble): apt has no installation candidate at all
-    "sops" # verified on Ubuntu 24.04 (noble): not present in main/universe/security
+    "awscli" # verified on Ubuntu 24.04 (noble): apt has no installation candidate at all; nixpkgs' awscli2 is disabled repo-wide due to cache substitution failures (see modules/applications/cloud-networking.nix)
     "aws-iam-authenticator"
     "aws-vault"
     "chainguard-dev/tap/chainctl"

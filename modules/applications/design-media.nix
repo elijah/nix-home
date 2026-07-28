@@ -1,9 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, ... }:
 {
   # Design and Media Tools
   # Creative tools for design, video, audio, and image processing
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager).
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # Image processing and editing
     imagemagick # Image manipulation
     graphicsmagick # Alternative image manipulation
@@ -56,20 +58,16 @@
   ];
 
   # Environment variables for media tools
-  environment.variables = {
+  home.sessionVariables = {
     # ImageMagick security policy (if needed)
     MAGICK_HOME = "${pkgs.imagemagick}";
   };
 
   # Create directories for media tools
-  system.activationScripts.media-setup.text = ''
-    echo "Setting up media and design tool directories..."
-    
-    # Create directories for media processing
-    mkdir -p /Users/elw/Media/Processing
-    mkdir -p /Users/elw/Media/Output
-    mkdir -p /Users/elw/Media/Screenshots
-    
-    echo "Media and design setup completed"
+  home.activation.mediaSetup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    verboseEcho "Setting up media and design tool directories..."
+    run mkdir -p "${config.home.homeDirectory}/Media/Processing"
+    run mkdir -p "${config.home.homeDirectory}/Media/Output"
+    run mkdir -p "${config.home.homeDirectory}/Media/Screenshots"
   '';
 }

@@ -3,8 +3,11 @@
 {
   # Knowledge Management and Writing Tools
   # Includes Obsidian, note-taking tools, and document processing
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager). GUI apps (Obsidian, Logseq) work under
+  # WSL2 thanks to WSLg's built-in Wayland/X11 forwarding.
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # Obsidian for visual knowledge management
     obsidian # Main Obsidian application
     obsidian-export # Export Obsidian vaults to Markdown
@@ -46,28 +49,31 @@
   ];
 
   # Environment variables for better text processing
-  environment.variables = {
-    EDITOR = lib.mkDefault "nvim";  # Can be overridden by other modules
+  home.sessionVariables = {
+    EDITOR = lib.mkDefault "nvim"; # Can be overridden by other modules
     PAGER = lib.mkDefault "less -R"; # Can be overridden by other modules
     BAT_THEME = "Solarized (dark)";
-    DENDRON_ROOT = "/Users/elw/knowledge/dendron";
-    ORG_ROAM_DIR = "/Users/elw/knowledge/org-roam";
-    RPG_NOTES_DIR = "/Users/elw/knowledge/rpg-notes";
+    DENDRON_ROOT = "${config.home.homeDirectory}/knowledge/dendron";
+    ORG_ROAM_DIR = "${config.home.homeDirectory}/knowledge/org-roam";
+    RPG_NOTES_DIR = "${config.home.homeDirectory}/knowledge/rpg-notes";
   };
 
   # Create directories for knowledge management
-  system.activationScripts.knowledge-setup.text = ''
-    echo "Setting up knowledge management directories..."
-    mkdir -p /Users/elw/Documents/Knowledge
-    mkdir -p /Users/elw/Documents/Notes
-    mkdir -p /Users/elw/Documents/Research
-    mkdir -p /Users/elw/knowledge/{obsidian,dendron,org-roam,rpg-notes}
-    mkdir -p /Users/elw/knowledge/rpg-notes/{campaigns,characters,worldbuilding,rules}
-    echo "Knowledge management directories created"
+  home.activation.knowledgeSetup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    verboseEcho "Setting up knowledge management directories..."
+    run mkdir -p "${config.home.homeDirectory}/Documents/Knowledge"
+    run mkdir -p "${config.home.homeDirectory}/Documents/Notes"
+    run mkdir -p "${config.home.homeDirectory}/Documents/Research"
+    run mkdir -p "${config.home.homeDirectory}/knowledge/obsidian"
+    run mkdir -p "${config.home.homeDirectory}/knowledge/dendron"
+    run mkdir -p "${config.home.homeDirectory}/knowledge/org-roam"
+    run mkdir -p "${config.home.homeDirectory}/knowledge/rpg-notes/campaigns"
+    run mkdir -p "${config.home.homeDirectory}/knowledge/rpg-notes/characters"
+    run mkdir -p "${config.home.homeDirectory}/knowledge/rpg-notes/worldbuilding"
+    run mkdir -p "${config.home.homeDirectory}/knowledge/rpg-notes/rules"
   '';
 
-  # Set proper permissions
-  system.activationScripts.set-permissions.text = ''
-    chown -R elw:staff /Users/elw/knowledge
-  '';
+  # No chown needed here: home-manager activation always runs as the target
+  # user, so files/directories created above are already correctly owned
+  # (unlike the old nix-darwin system.activationScripts, which ran as root).
 }

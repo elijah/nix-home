@@ -1,9 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   # AI Workflow Automation
   # Intelligent automation for development and productivity workflows
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager).
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # Automation tools
     watchman # File watching and automation
     entr # File watcher for running commands
@@ -22,11 +24,11 @@
 
     # API and webhook tools
     webhook # Lightweight webhook server
-
+  ] ++ lib.optionals pkgs.stdenv.isDarwin [
     # Notification tools
     terminal-notifier # macOS notifications from command line
   ];
 
   # Note: AI workflow scripts and automation are configured in Home Manager
-  # This module provides the system-level packages needed for AI workflows
+  # This module provides the shared packages needed for AI workflows
 }

@@ -47,34 +47,21 @@
               nixpkgs.overlays = [ emacs-overlay.overlays.default ];
             }
 
-            # System modules
+            # System modules - darwin-only (system.defaults/homebrew/nix.conf
+            # options with no home-manager equivalent). Everything else that
+            # used to live here has moved to shared home-manager modules,
+            # imported from ./home instead - see modules/default.nix and
+            # docs/ARCHITECTURE.md for the full shared-module list.
             ./modules/system/configuration.nix
             ./modules/system/homebrew.nix
-            ./modules/system/security.nix
             ./modules/system/performance.nix
-            ./modules/system/backup-sync.nix
-            ./modules/system/network-tools.nix
 
-            # Development modules
-            ./modules/development/development.nix
-            ./modules/development/sysadmin.nix
-            # ./modules/development/data-science.nix  # disabled: heavy deps frequently fail to substitute from cache
-            ./modules/development/ai-tooling.nix
-            ./modules/development/mcp-dev.nix
-
-            # Application modules
+            # Application modules - darwin-only GUI apps
             ./modules/applications/emacs.nix
             ./modules/applications/vscode-extensions.nix
-            ./modules/applications/knowledge-management.nix
-            ./modules/applications/productivity.nix
-            ./modules/applications/design-media.nix
-            ./modules/applications/cloud-networking.nix
 
-            # Workflow modules
+            # Workflow modules - darwin-only
             ./modules/workflows/alfred.nix
-            ./modules/workflows/ai-workflows.nix
-            ./modules/workflows/shell-enhancements.nix
-            ./modules/workflows/org-roam-dendron.nix
 
             # Home Manager integration
             home-manager.darwinModules.home-manager
@@ -94,7 +81,18 @@
           modules = [
             { nixpkgs.config.allowUnfree = true; }
             ./modules/system/configuration.nix
-            ./modules/development/development.nix
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "backup";
+              home-manager.users.elw = {
+                home.stateVersion = "23.11";
+                home.username = "elw";
+                home.homeDirectory = "/Users/elw";
+                imports = [ ./modules/development/development.nix ];
+              };
+            }
           ];
         };
 
@@ -105,37 +103,22 @@
           modules = [
             {
               nixpkgs.config.allowUnfree = true;
+              nixpkgs.config.permittedInsecurePackages = [ "electron-39.8.10" ];
               nixpkgs.overlays = [ emacs-overlay.overlays.default ];
             }
 
-            # All system modules
+            # All system modules - darwin-only remainder (see elw config
+            # above for why most system.* modules moved to ./home)
             ./modules/system/configuration.nix
             ./modules/system/homebrew.nix
-            ./modules/system/security.nix
             ./modules/system/performance.nix
-            ./modules/system/backup-sync.nix
-            ./modules/system/network-tools.nix
 
-            # All development modules
-            ./modules/development/development.nix
-            ./modules/development/sysadmin.nix
-            # ./modules/development/data-science.nix  # disabled: heavy deps frequently fail to substitute from cache
-            ./modules/development/ai-tooling.nix
-            ./modules/development/mcp-dev.nix
-
-            # All application modules
+            # All application modules - darwin-only GUI apps
             ./modules/applications/emacs.nix
             ./modules/applications/vscode-extensions.nix
-            ./modules/applications/knowledge-management.nix
-            ./modules/applications/productivity.nix
-            ./modules/applications/design-media.nix
-            ./modules/applications/cloud-networking.nix
 
-            # All workflow modules
+            # All workflow modules - darwin-only
             ./modules/workflows/alfred.nix
-            ./modules/workflows/ai-workflows.nix
-            ./modules/workflows/shell-enhancements.nix
-            ./modules/workflows/org-roam-dendron.nix
 
             # Home Manager integration
             home-manager.darwinModules.home-manager
@@ -167,6 +150,7 @@
               pkgs = import nixpkgs {
                 inherit system;
                 config.allowUnfree = true;
+                config.permittedInsecurePackages = [ "electron-39.8.10" ];
               };
             in
             home-manager.lib.homeManagerConfiguration {
@@ -196,25 +180,11 @@
 
           # Validate all module files exist and are syntactically correct
           module-syntax = pkgs.runCommand "check-modules" { } ''
-            echo "Checking system modules..."
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/system/configuration.nix} > /dev/null
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/system/homebrew.nix} > /dev/null
-
-            echo "Checking development modules..."
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/development/development.nix} > /dev/null
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/development/sysadmin.nix} > /dev/null
-
-            echo "Checking application modules..."
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/applications/emacs.nix} > /dev/null
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/applications/vscode-extensions.nix} > /dev/null
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/applications/knowledge-management.nix} > /dev/null
-
-            echo "Checking workflow modules..."
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/workflows/alfred.nix} > /dev/null
-
-            echo "Checking Linux modules..."
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/linux/packages.nix} > /dev/null
-
+            echo "Checking all modules/ .nix files..."
+            find ${./modules} -name "*.nix" -type f | while read -r f; do
+              echo "  parsing $f"
+              ${pkgs.nix}/bin/nix-instantiate --parse "$f" > /dev/null
+            done
             echo "All modules validated successfully"
             touch $out
           '';
@@ -254,14 +224,26 @@
 
           # Test Home Manager configuration syntax
           home-manager-syntax = pkgs.runCommand "home-manager-syntax-check" { } ''
-            echo "Validating Home Manager configuration syntax..."
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./home/default.nix} > /dev/null
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./home/aws-credentials.nix} > /dev/null
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./home/linux/default.nix} > /dev/null
-            ${pkgs.nix}/bin/nix-instantiate --parse ${./home/linux/shells.nix} > /dev/null
+            echo "Checking all home/ .nix files..."
+            find ${./home} -name "*.nix" -type f | while read -r f; do
+              echo "  parsing $f"
+              ${pkgs.nix}/bin/nix-instantiate --parse "$f" > /dev/null
+            done
             echo "Home Manager configuration syntax is valid"
             touch $out
           '';
+
+          # NOTE: fast, VM-less dry-run evaluation of the Linux
+          # homeConfigurations (elw-linux / elw-linux-aarch64) is NOT done
+          # here as a `checks` derivation, because it needs to invoke `nix`
+          # recursively against the flake itself (network + daemon access),
+          # which the Nix build sandbox blocks by default. Instead it's run
+          # directly on the host via `scripts/manage.sh check` (see
+          # `linux-home-eval` there), which calls
+          # `nix build .#homeConfigurations.<name>.activationPackage --dry-run`.
+          # This still catches eval errors, option conflicts, and
+          # platform-unsupported packages on every check run, without
+          # needing the Lima VM harness for routine regression checks.
 
           # Test script validation
           script-validation =

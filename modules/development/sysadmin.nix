@@ -1,9 +1,11 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 {
   # System Administration and DevOps Tools
   # Essential tools for system administration and operations
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager).
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # System monitoring and diagnostics
     htop # Process viewer
     # iotop                  # I/O monitoring (Linux only - not available on macOS)
@@ -96,7 +98,7 @@
   ];
 
   # System administration aliases and functions
-  environment.shellAliases = {
+  home.shellAliases = {
     # System monitoring shortcuts
     ports = "lsof -i -P -n | grep LISTEN";
     processes = "ps aux | grep -v grep | grep";
@@ -116,15 +118,11 @@
   };
 
   # System administration directories
-  system.activationScripts.sysadmin-setup.text = ''
-    echo "Setting up system administration directories..."
-    
-    # Create directories for system administration
-    mkdir -p /Users/elw/.config/monitoring
-    mkdir -p /Users/elw/.config/backups
-    mkdir -p /Users/elw/Scripts/maintenance
-    mkdir -p /Users/elw/Logs
-    
-    echo "System administration setup completed"
+  home.activation.sysadminSetup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    verboseEcho "Setting up system administration directories..."
+    run mkdir -p "${config.home.homeDirectory}/.config/monitoring"
+    run mkdir -p "${config.home.homeDirectory}/.config/backups"
+    run mkdir -p "${config.home.homeDirectory}/Scripts/maintenance"
+    run mkdir -p "${config.home.homeDirectory}/Logs"
   '';
 }

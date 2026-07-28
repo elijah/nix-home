@@ -1,9 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, ... }:
 {
   # Development Tools and Language Ecosystems
   # Comprehensive development environment with multiple language support
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager).
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # Core Development Tools
     git # Version control
     gh # GitHub CLI
@@ -15,6 +17,7 @@
     # nodePackages.npm # npm package manager
     # nodePackages.yarn # Yarn package manager
     bun # Fast JavaScript runtime and package manager
+    mise # Polyglot runtime/tool version manager (was a Linux apt vendor-repo entry; plain cross-platform nixpkgs package)
 
     # Rust Ecosystem
     rustc # Rust compiler
@@ -57,9 +60,9 @@
     kubernetes-helm # Kubernetes package manager
 
     # Text Editors and IDEs
-    vscode # Already configured
-    # emacs - configured separately in emacs.nix
     vim # Classic vim
+    # vscode - macOS-only GUI app, configured separately in home/vscode.nix
+    # emacs - configured separately in emacs.nix
 
     # Build and Deployment Tools
     gnumake # Build automation (GNU make)
@@ -75,7 +78,7 @@
   ];
 
   # Configure shell environment for development
-  environment.variables = {
+  home.sessionVariables = {
     # Development paths
     GOPATH = "$HOME/go";
     CARGO_HOME = "$HOME/.cargo";
@@ -90,12 +93,15 @@
   };
 
   # Create development directory structure
-  system.activationScripts.dev-setup.text = ''
-    echo "Setting up development environment..."
-    mkdir -p /Users/elw/Development/{projects,experiments,learning}
-    mkdir -p /Users/elw/go/{bin,pkg,src}
-    mkdir -p /Users/elw/.cargo
-    mkdir -p /Users/elw/.rustup
-    echo "Development directories created"
+  home.activation.devSetup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    verboseEcho "Setting up development environment..."
+    run mkdir -p "${config.home.homeDirectory}/Development/projects"
+    run mkdir -p "${config.home.homeDirectory}/Development/experiments"
+    run mkdir -p "${config.home.homeDirectory}/Development/learning"
+    run mkdir -p "${config.home.homeDirectory}/go/bin"
+    run mkdir -p "${config.home.homeDirectory}/go/pkg"
+    run mkdir -p "${config.home.homeDirectory}/go/src"
+    run mkdir -p "${config.home.homeDirectory}/.cargo"
+    run mkdir -p "${config.home.homeDirectory}/.rustup"
   '';
 }

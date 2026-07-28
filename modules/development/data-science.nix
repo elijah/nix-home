@@ -1,9 +1,13 @@
-{ pkgs, ... }:
+{ pkgs, lib, config, ... }:
 {
   # Data Science and Research Tools Configuration
   # Includes R, Jupyter, Python scientific computing stack, and related tools
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager). Currently not imported by either
+  # personality due to nixpkgs cache substitution issues with this package
+  # set - kept converted and ready for parity whenever it's re-enabled.
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # R Environment
     R # R statistical computing language
     rWrapper # R with commonly used packages
@@ -39,14 +43,13 @@
   ];
 
   # Configure environment variables for R
-  environment.variables = {
+  home.sessionVariables = {
     R_LIBS_USER = "$HOME/.local/lib/R/library";
   };
 
   # Create R library directory structure
-  system.activationScripts.r-setup.text = ''
-    echo "Setting up R environment..."
-    mkdir -p /Users/elw/.local/lib/R/library
-    echo "R library directory created"
+  home.activation.rSetup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    verboseEcho "Setting up R environment..."
+    run mkdir -p "${config.home.homeDirectory}/.local/lib/R/library"
   '';
 }

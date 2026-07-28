@@ -2,8 +2,10 @@
 {
   # Productivity and Automation Tools
   # Enhance workflow with powerful CLI tools and automation
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager).
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # Modern replacements for traditional tools
     eza # Better ls
     bat # Better cat with syntax highlighting

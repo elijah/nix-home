@@ -2,8 +2,10 @@
 {
   # Network Tools and Configuration
   # Comprehensive networking utilities and optimizations
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager).
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # Network diagnostics
     dig # DNS lookup utility
     # nslookup # DNS lookup utility (not available in nixpkgs, use dig instead)

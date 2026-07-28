@@ -69,45 +69,148 @@ nix-home/
 
 ## Module Categories
 
+**Sharing model:** most modules below are plain **home-manager** modules
+(using `home.packages`/`home.sessionVariables`/`home.shellAliases`/
+`home.activation`) and are imported directly by both `home/default.nix`
+(macOS) and `home/linux/default.nix` (Linux) - they are **not** wired into
+`flake.nix`'s `darwinConfigurations` at all. Only modules that use genuinely
+darwin-only options (`system.defaults`, `system.activationScripts`,
+Homebrew, GUI `.app` bundles) are still imported directly into
+`darwinConfigurations`. Each module below is marked *(shared)* or
+*(darwin-only)* accordingly. See "Shared Module Strategy" below for the
+rationale and conventions.
+
 ### System (`modules/system/`)
-Core system configuration and services:
-- **configuration.nix**: Base nix-darwin configuration
-- **homebrew.nix**: Homebrew package management
-- **security.nix**: Security and privacy tools
-- **performance.nix**: Performance monitoring
-- **backup-sync.nix**: Backup and synchronization
-- **network-tools.nix**: Network utilities
+- **configuration.nix** *(darwin-only)*: `nix.conf`, `system.defaults`,
+  `system.primaryUser`/`stateVersion` - not home-manager options.
+- **homebrew.nix** *(darwin-only)*: Homebrew package management (Linux uses
+  `modules/linux/packages.nix` instead).
+- **performance.nix** *(darwin-only)*: Dock/Finder/trackpad/screencapture
+  `system.defaults`. The cross-platform performance-monitoring packages/
+  aliases that used to live here moved to
+  `modules/development/performance-tools.nix` *(shared)*.
+- **security.nix** *(shared)*: Security/privacy tools; `pinentry_mac` vs
+  `pinentry-curses` gated by `lib.optionals pkgs.stdenv.isDarwin`/`isLinux`.
+- **backup-sync.nix** *(shared)*: Backup and synchronization tools.
+- **network-tools.nix** *(shared)*: Network utilities.
 
 ### Development (`modules/development/`)
-Programming languages, tools, and development environments:
-- **development.nix**: Multi-language development setup
-- **sysadmin.nix**: System administration and DevOps tools
-- **data-science.nix**: Data science and analytics tools
-- **ai-tooling.nix**: AI development tools
-- **mcp-dev.nix**: Model Context Protocol development
+All *(shared)*:
+- **development.nix**: Multi-language development setup.
+- **sysadmin.nix**: System administration and DevOps tools (already used
+  `lib.optionals isLinux/isDarwin` package gating before this became a
+  shared module - that pattern is now used throughout).
+- **data-science.nix**: Data science and analytics tools (converted for
+  parity, but currently commented out of `home/default.nix` /
+  `home/linux/default.nix` due to nixpkgs cache substitution issues with
+  this package set).
+- **ai-tooling.nix**: AI development tools.
+- **mcp-dev.nix**: Model Context Protocol / local LLM tooling (heavy:
+  includes `python3Packages.torch`/`transformers` - see the disk-space note
+  below if testing in a constrained VM).
+- **performance-tools.nix**: Performance-monitoring packages/aliases split
+  out of `system/performance.nix`.
 
 ### Applications (`modules/applications/`)
-Desktop applications and user software:
-- **emacs.nix**: Emacs editor with org-roam
-- **vscode-extensions.nix**: VS Code extensions
-- **knowledge-management.nix**: Note-taking and knowledge tools
-- **productivity.nix**: Productivity applications
-- **design-media.nix**: Design and media tools
-- **cloud-networking.nix**: Cloud platform tools
+- **emacs.nix** *(darwin-only)*: GUI app, not installed on the Linux
+  personality.
+- **vscode-extensions.nix** *(darwin-only)*: GUI app, not installed on the
+  Linux personality.
+- **knowledge-management.nix** *(shared)*: Note-taking and knowledge tools
+  (Obsidian/Logseq GUI apps work under WSL2 via WSLg).
+- **productivity.nix** *(shared)*: Productivity CLI tools.
+- **design-media.nix** *(shared)*: Design and media tools.
+- **cloud-networking.nix** *(shared)*: Cloud platform tools (`insomnia` is
+  gated off aarch64-linux - not packaged there in nixpkgs).
 
 ### Workflows (`modules/workflows/`)
-Automation and workflow enhancement:
-- **alfred.nix**: Alfred app and workflows
-- **ai-workflows.nix**: AI-powered automation
-- **shell-enhancements.nix**: Enhanced shell configuration
-- **org-roam-dendron.nix**: Knowledge management workflows
+- **alfred.nix** *(darwin-only)*: macOS Alfred app + LaunchAgents.
+- **ai-workflows.nix** *(shared)*: AI-powered automation
+  (`terminal-notifier` gated to Darwin).
+- **shell-enhancements.nix** *(shared)*: Enhanced shell configuration
+  (`$EDITOR`/`$VISUAL` default to `code --wait` on Darwin, `nvim` on Linux -
+  no VS Code on the Linux personality).
+- **org-roam-dendron.nix** *(shared)*: Knowledge management workflows.
 
 ### Linux (`modules/linux/`)
 Package strategy for the standalone Ubuntu 24.04/WSL2 Home Manager
 personality (not a nix-darwin module - see `docs/LINUX-WSL2.md`):
-- **packages.nix**: Classifies every macOS Homebrew package into apt-native,
-  vendor-apt-repo, or Homebrew(Linux)-fallback tiers, and generates the
-  `linux-bootstrap` script that installs them in that priority order.
+- **packages.nix**: apt-native / vendor-apt-repo / Homebrew(Linux)-fallback
+  tiers, used only for packages that need genuine OS-level integration
+  (Docker Engine's daemon + systemd unit, hardware-adjacent packages like
+  `rtl-sdr`, tools with known nix build flakiness like Node.js on
+  nix-darwin) or aren't available any other way (`awscli` - nixpkgs'
+  `awscli2` is disabled repo-wide due to cache substitution failures).
+  Everything else that's a plain cross-platform CLI tool (e.g. `gh`,
+  `kubernetes-helm`, `mise`, `sops`) is installed via the shared
+  home-manager modules above instead of apt/vendor-repo/Homebrew.
+
+## Shared Module Strategy
+
+To maximize code shared between the macOS (nix-darwin) and Linux (WSL2)
+personalities while keeping darwin-only functionality cleanly separated:
+
+1. **Prefer home-manager options over nix-darwin options** wherever a
+   module is just "packages + env vars + directory setup":
+   `environment.systemPackages` → `home.packages`,
+   `environment.variables` → `home.sessionVariables`,
+   `environment.shellAliases` → `home.shellAliases`,
+   `system.activationScripts.<name>.text` →
+   `home.activation.<name> = lib.hm.dag.entryAfter [ "writeBoundary" ] ...`
+   (using the `run`/`verboseEcho` helper functions and
+   `${config.home.homeDirectory}` instead of a hardcoded `/Users/elw` path -
+   home-manager activation always runs as the target user, so no `chown` is
+   needed, unlike root-run nix-darwin `system.activationScripts`).
+2. **Gate platform-only entries inside a shared file** with
+   `lib.optionals pkgs.stdenv.isDarwin`/`isLinux` (packages) or
+   `lib.optionalAttrs` (shell aliases) - see `modules/system/security.nix`
+   (pinentry) or `modules/development/sysadmin.nix` (monitoring tools) for
+   examples.
+3. **Watch for `home.sessionVariables`/`home.shellAliases` key collisions**
+   once multiple previously-separate modules share the same option
+   namespace - home-manager will raise a "conflicting definition values"
+   eval error if two modules set the same key to different values. Prefer
+   removing the duplicate (keeping whichever module actually owns/consumes
+   the variable) over `lib.mkForce`, unless there's a genuine
+   priority-ordering need.
+4. **Watch for platform-unsupported packages**: a package available on
+   `x86_64-linux` isn't guaranteed to be available on `aarch64-linux` (e.g.
+   `insomnia` in `modules/applications/cloud-networking.nix`). The fast
+   cross-platform checks (below) catch this automatically.
+5. **Disk footprint**: the shared modules pull in some large packages (e.g.
+   `python3Packages.torch`/`transformers` in `mcp-dev.nix`, LaTeX/PDF
+   tooling, `python312Packages` data-science stacks). A real WSL2 install
+   typically has plenty of disk, but small test VMs (including the default
+   Lima harness disk size) may need to be sized up accordingly.
+
+## Regression Testing Strategy
+
+Two tiers of validation protect both personalities against upstream
+nixpkgs changes:
+
+1. **Fast, VM-less checks** (`nix flake check` / `scripts/manage.sh check`):
+   - `module-syntax` / `home-manager-syntax`: `nix-instantiate --parse`
+     every file under `modules/` and `home/`.
+   - `config-builds` / `minimal-builds` / `full-builds`: dry-run-evaluate
+     all three `darwinConfigurations`.
+   - The Linux dry-run step in `scripts/manage.sh check` runs
+     `nix build .#homeConfigurations.elw-linux(-aarch64).activationPackage
+     --dry-run`, which evaluates the full derivation graph for both Linux
+     architectures (catching eval errors, option conflicts, and
+     platform-unsupported packages) without needing a builder for that
+     platform. This isn't a `checks` derivation itself, since invoking `nix`
+     recursively against the flake needs network/daemon access the Nix
+     build sandbox blocks by default.
+2. **Deep, VM-based validation** (`scripts/linux-test-harness.sh` /
+   `scripts/manage.sh linux-test`): spins up a real Lima Ubuntu 24.04 VM,
+   runs `home-manager switch --flake .#elw-linux` for real, then
+   `linux-bootstrap` for the apt/vendor-repo/Homebrew tiers. Run this
+   periodically (e.g. after `nix flake update`, or before relying on the
+   Linux personality for something important) - it's slower but catches
+   real build/activation failures the fast checks can't (missing runtime
+   deps, apt bootstrap issues, disk space, etc). See `docs/LINUX-WSL2.md`.
+
+
 
 ## Configuration Profiles
 

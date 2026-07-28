@@ -1,9 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   # Security and Privacy Tools
   # Essential security utilities and privacy-focused tools
+  # Shared home-manager module: works identically on macOS (nix-darwin) and
+  # Linux (standalone home-manager).
 
-  environment.systemPackages = with pkgs; [
+  home.packages = with pkgs; [
     # Password management and security
     pass # CLI password manager
     passage # Modern pass alternative
@@ -26,7 +28,6 @@
 
     # Encryption and signing
     gnupg # GPG encryption
-    pinentry_mac # macOS GPG pinentry (underscore not dash)
     yubikey-manager # YubiKey management (if you use hardware keys)
 
     # Certificate management
@@ -35,8 +36,12 @@
 
     # Secure file deletion
     srm # Secure file removal
+  ] ++ lib.optionals pkgs.stdenv.isDarwin [
+    pinentry_mac # macOS GPG pinentry (underscore not dash)
+  ] ++ lib.optionals pkgs.stdenv.isLinux [
+    pinentry-curses # Terminal-based GPG pinentry for headless/WSL2 use
   ];
 
   # Note: GPG configuration and agent setup are handled in Home Manager
-  # This module focuses on system-level security packages
+  # This module focuses on shared security packages
 }
