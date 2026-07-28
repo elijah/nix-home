@@ -1,7 +1,8 @@
 # nix-home
 
 This repository is a declarative macOS configuration using `nix`, `nix-darwin`,
-and `home-manager`.
+and `home-manager`. It also ships a standalone Linux/WSL2 (Ubuntu 24.04)
+Home Manager personality — see [docs/LINUX-WSL2.md](docs/LINUX-WSL2.md).
 
 - [nix-home](#nix-home)
   - [Installation](#installation)
@@ -135,3 +136,4 @@ $ nix-prefetch-git <github-repository-url>
 
 - [Declarative macOS Configuration Using nix-darwin And home-manager](https://xyno.space/post/nix-darwin-introduction)
 - [Parked Darwin upgrade notes (2026-05-27)](docs/DARWIN-UPGRADE-PARKED-2026-05-27.md)
+- [Linux/WSL2 personality and Lima test harness](docs/LINUX-WSL2.md)

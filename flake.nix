@@ -149,6 +149,37 @@
         };
       };
 
+      # Standalone Home Manager configurations for the Linux (Ubuntu 24.04 /
+      # WSL2) personality. There is no nix-darwin/NixOS equivalent here - just
+      # `home-manager.lib.homeManagerConfiguration` running on top of a plain
+      # Ubuntu userland. See docs/LINUX-WSL2.md for usage and the Lima-based
+      # test harness (scripts/linux-test-harness.sh) for validating this from
+      # macOS without a real WSL2 machine.
+      homeConfigurations =
+        nixpkgs.lib.genAttrs
+          [
+            "x86_64-linux" # Standard WSL2 on Windows/Intel & AMD hosts
+            "aarch64-linux" # WSL2 on Windows-on-ARM hosts
+          ]
+          (
+            system:
+            let
+              pkgs = import nixpkgs {
+                inherit system;
+                config.allowUnfree = true;
+              };
+            in
+            home-manager.lib.homeManagerConfiguration {
+              inherit pkgs;
+              modules = [ ./home/linux ];
+            }
+          )
+        // {
+          # Friendly aliases matching `home-manager switch --flake .#elw-linux`
+          elw-linux = self.homeConfigurations."x86_64-linux";
+          elw-linux-aarch64 = self.homeConfigurations."aarch64-linux";
+        };
+
       # Checks for validation
       checks = nixpkgs.lib.genAttrs [ "aarch64-darwin" ] (
         system:
@@ -180,6 +211,9 @@
 
             echo "Checking workflow modules..."
             ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/workflows/alfred.nix} > /dev/null
+
+            echo "Checking Linux modules..."
+            ${pkgs.nix}/bin/nix-instantiate --parse ${./modules/linux/packages.nix} > /dev/null
 
             echo "All modules validated successfully"
             touch $out
@@ -222,6 +256,8 @@
           home-manager-syntax = pkgs.runCommand "home-manager-syntax-check" { } ''
             echo "Validating Home Manager configuration syntax..."
             ${pkgs.nix}/bin/nix-instantiate --parse ${./home/default.nix} > /dev/null
+            ${pkgs.nix}/bin/nix-instantiate --parse ${./home/linux/default.nix} > /dev/null
+            ${pkgs.nix}/bin/nix-instantiate --parse ${./home/linux/shells.nix} > /dev/null
             echo "Home Manager configuration syntax is valid"
             touch $out
           '';

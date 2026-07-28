@@ -38,11 +38,16 @@ nix-home/
 ├── home/                   # Home Manager configuration
 │   ├── default.nix        # Main home configuration
 │   ├── shells.nix         # Shell configuration
+│   ├── linux/             # Standalone Ubuntu/WSL2 home-manager entry point
 │   └── ...
+│
+├── lima/                   # Lima VM templates for the Linux test harness
+│   └── ubuntu-2404-wsl-test.yaml
 │
 ├── scripts/                # Utility scripts
 │   ├── build.sh           # Build configuration
 │   ├── validate-config.sh # Validation script
+│   ├── linux-test-harness.sh # Lima-based Linux/WSL2 personality test harness
 │   └── ...
 │
 ├── templates/              # Templates for new modules/profiles
@@ -97,6 +102,13 @@ Automation and workflow enhancement:
 - **shell-enhancements.nix**: Enhanced shell configuration
 - **org-roam-dendron.nix**: Knowledge management workflows
 
+### Linux (`modules/linux/`)
+Package strategy for the standalone Ubuntu 24.04/WSL2 Home Manager
+personality (not a nix-darwin module - see `docs/LINUX-WSL2.md`):
+- **packages.nix**: Classifies every macOS Homebrew package into apt-native,
+  vendor-apt-repo, or Homebrew(Linux)-fallback tiers, and generates the
+  `linux-bootstrap` script that installs them in that priority order.
+
 ## Configuration Profiles
 
 The `profiles/` directory contains pre-configured combinations of modules for specific use cases:
@@ -113,6 +125,11 @@ The flake provides multiple darwin configurations:
 - **elw**: Current personalized configuration
 - **minimal**: Minimal development setup
 - **full**: All modules enabled
+
+It also provides a standalone Linux personality (not a darwin configuration)
+for Ubuntu 24.04/WSL2 via `homeConfigurations`: **elw-linux** (`x86_64-linux`)
+and **elw-linux-aarch64** (`aarch64-linux`). See `docs/LINUX-WSL2.md` for
+details, including the Lima-based test harness for exercising it from macOS.
 
 ## Benefits of This Structure
 

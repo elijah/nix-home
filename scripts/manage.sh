@@ -50,6 +50,7 @@ Commands:
     update           Update flake inputs
     health           Check system health
     rollback         Rollback to previous generation
+    linux-test       Manage the Lima-based Linux/WSL2 test VM (up/check/switch/bootstrap/shell/down/destroy)
     help             Show this help message
 
 Examples:
@@ -62,6 +63,7 @@ Examples:
     $0 skills           # Link shared skills across agent CLIs/editors
     $0 check            # Validate configuration syntax
     $0 update           # Update all dependencies
+    $0 linux-test up    # Start the Lima Ubuntu 24.04 test VM
 EOF
 }
 
@@ -217,6 +219,10 @@ case "${1:-help}" in
         ;;
     rollback)
         rollback_config
+        ;;
+    linux-test)
+        shift
+        ./scripts/linux-test-harness.sh "$@"
         ;;
     help|--help|-h)
         show_help

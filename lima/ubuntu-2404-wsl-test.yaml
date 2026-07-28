@@ -1,0 +1,65 @@
+# Lima VM template used to test the "elw-linux" home-manager personality
+# from macOS, standing in for a real Ubuntu 24.04 WSL2 instance. WSL2 also
+# runs Linux inside a lightweight VM with host filesystem passthrough, so a
+# Lima-managed Ubuntu 24.04 VM is a reasonably faithful stand-in without
+# needing an actual Windows machine.
+#
+# Driven by scripts/linux-test-harness.sh - see docs/LINUX-WSL2.md for the
+# full workflow. Direct usage:
+#   limactl start --name=nix-home-linux-test lima/ubuntu-2404-wsl-test.yaml
+#   limactl shell nix-home-linux-test
+
+base:
+  - template:_images/ubuntu-24.04
+
+cpus: 4
+memory: "6GiB"
+disk: "60GiB"
+
+# Mount the host $HOME (which contains this repo checkout) read-write, at
+# the same absolute path inside the guest. This intentionally replaces
+# template:_default/mounts (which mounts it read-only) since we want
+# `home-manager switch` to be able to touch flake.lock / build artifacts.
+mounts:
+  - location: "~"
+    writable: true
+
+provision:
+  - mode: system
+    script: |
+      #!/bin/sh
+      set -eux
+      apt-get update
+      apt-get install -y --no-install-recommends curl xz-utils git ca-certificates
+
+      # Lima names the guest home /home/<user>.guest to avoid clashing with
+      # mounted host paths, but home/linux/default.nix (correctly, for a
+      # real WSL2/Ubuntu box) expects a plain /home/elw. Symlink it so
+      # `HOME=/home/elw home-manager switch` (see linux-test-harness.sh)
+      # resolves to the same storage. `usermod -d` isn't used here since it
+      # reliably fails while the guest agent's session is already active.
+      if id elw >/dev/null 2>&1 && [ ! -e /home/elw ]; then
+        ln -s elw.guest /home/elw
+      fi
+  - mode: user
+    script: |
+      #!/bin/sh
+      set -eux
+      if ! command -v nix >/dev/null 2>&1; then
+        curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix \
+          | sh -s -- install --no-confirm
+      fi
+
+message: |
+  Ubuntu 24.04 test VM for the nix-home "elw-linux" personality is ready.
+
+  Repo checkout is mounted read-write at the same path as on the host
+  (usually /Users/<you>/nix-home). From inside the VM:
+
+    limactl shell nix-home-linux-test
+    cd /Users/<you>/nix-home   # or wherever this repo lives on the host
+    nix run --extra-experimental-features 'nix-command flakes' \
+      home-manager/release-26.05 -- switch --flake .#elw-linux
+    linux-bootstrap   # apt / vendor-repo / homebrew(linux) fallback packages
+
+  Prefer `./scripts/linux-test-harness.sh switch` to do this automatically.

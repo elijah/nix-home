@@ -28,6 +28,25 @@ sudo env NIXPKGS_ALLOW_UNFREE=1 darwin-rebuild switch --flake .#minimal --impure
 sudo env NIXPKGS_ALLOW_UNFREE=1 darwin-rebuild switch --flake .#full --impure
 ```
 
+### Linux / WSL2 Personality
+
+This repo also ships a standalone Ubuntu 24.04/WSL2 Home Manager personality
+(no nix-darwin, no macOS assumptions). See
+[docs/LINUX-WSL2.md](LINUX-WSL2.md) for the full package strategy and Lima
+test harness usage; quick reference:
+
+```bash
+# On a real Ubuntu 24.04/WSL2 host:
+nix run home-manager -- switch --flake .#elw-linux          # x86_64-linux
+nix run home-manager -- switch --flake .#elw-linux-aarch64  # aarch64-linux
+linux-bootstrap   # installs apt/vendor-repo/Homebrew-fallback packages
+
+# From macOS, using the Lima-based test harness:
+./scripts/manage.sh linux-test up
+./scripts/manage.sh linux-test switch
+./scripts/manage.sh linux-test bootstrap
+```
+
 ## Working with Modules
 
 ### Enable a New Module

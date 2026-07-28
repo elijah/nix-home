@@ -3,10 +3,10 @@ let
   # Make symlink from source out of Nix stores
   inherit (config.lib.file) mkOutOfStoreSymlink;
 
-  # Local nixpkgs working directory
-  # FIXME: Find a way to access the home directory without hardcoding it
-  # Because we will need it once we want to serve WSL system
-  nixConfigDirectory = "/Users/elw/Code/GitHub/elijah/nix-home";
+  # Path to this flake checkout on the target machine. Derived from
+  # home.homeDirectory (rather than hardcoded) so it resolves correctly on
+  # both macOS (/Users/elw/...) and Linux/WSL2 (/home/elw/...).
+  nixConfigDirectory = "${config.home.homeDirectory}/Code/GitHub/elijah/nix-home";
 in
 {
   # Symlink scripts directory altogether
